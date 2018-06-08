@@ -19,10 +19,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Account account = accountService.findByUsername(username);
-
 		if (account == null) {
 			throw new UsernameNotFoundException("Username " + username + " not found");
 		}
+		System.out.println(account.getUsername() + account.getPassword());
+		System.out.println(account.getUsername() + account.getPassword() + account.getRole().getRoleName());
 		return new AuthenticatedUser(account);
 	}
 

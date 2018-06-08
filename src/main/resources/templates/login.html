@@ -13,11 +13,10 @@
 				<a href="#"><b>Login</b></a>
 			</div>
 			<div class="login-box-body">
-				<p class="login-box-msg" th:text="#{label_login_header}">Sign in
-					to start your session</p>
+				<p class="login-box-msg">Sign in to start your session</p>
 				<form action="home" th:action="@{/login}" method="post">
 					<div class="form-group has-feedback">
-						<input type="email" class="form-control" name="username"
+						<input type="text" class="form-control" name="username"
 							placeholder="Email" required /> <span
 							class="glyphicon glyphicon-envelope form-control-feedback"></span>
 					</div>
@@ -28,8 +27,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-xs-offset-8 col-xs-4">
-							<button type="submit" class="btn btn-primary btn-block btn-flat"
-								th:text="#{label.login}">LogIn</button>
+							<button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
 						</div>
 					</div>
 					<div class="row">
@@ -61,8 +59,7 @@
 					</div>
 				</form>
 
-				<a href="forgotPwd" th:href="@{/forgotPwd}"
-					th:text="#{label.forgot_password}">I forgot my password</a>
+				<a href="forgotPwd" th:href="@{/forgotPwd}">I forgot my password</a>
 				<p>
 					New customer? <a href="register" th:href="@{/register}">Register</a>
 				</p>
