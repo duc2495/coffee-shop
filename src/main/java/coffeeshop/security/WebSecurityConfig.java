@@ -28,14 +28,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
-				.antMatchers("/resources/**", "/webjars/**", "/assets/**").permitAll()
-				.antMatchers("/", "/home", "/register", "/forgotPwd", "/resetPwd").permitAll().anyRequest()
-				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/home")
-				.failureUrl("/login?error").permitAll().and().logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				// .logoutUrl("/logout")
-				.permitAll().and().exceptionHandling().accessDeniedPage("/403");
+//		http.csrf().disable().authorizeRequests().antMatchers("/admin/**").access("hasAnyRole('ROLE_ADMIN')")
+//				.antMatchers("/resources/**", "/webjars/**", "/assets/**").permitAll()
+//				.antMatchers("/", "/home", "/register", "/forgotPwd", "/resetPwd").permitAll().anyRequest()
+//				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/home")
+//				.failureUrl("/login?error").permitAll().and().logout()
+//				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//				// .logoutUrl("/logout")
+//				.permitAll().and().exceptionHandling().accessDeniedPage("/403");
 	}
 
 	@Autowired
