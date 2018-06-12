@@ -16,9 +16,10 @@ public interface AccountMapper {
 	@Select("SELECT * FROM account WHERE username = #{username}")
 	@Results(value = { @Result(property = "username", column = "username"),
 			@Result(property = "password", column = "password"), @Result(property = "enabled", column = "enabled"),
-			@Result(property = "roleName", column = "role_name", one=@One(select = "getRoleName")) })
+			@Result(property = "role", javaType = Role.class, column = "role", one = @One(select = "getRole")) })
 	Account findByUsername(String username);
-	
-	@Select("SELECT role_name FROM role WHERE role_name = #{roleName}")
-    Role getRoleName(String roleName);
+
+	@Select("SELECT * FROM role WHERE role_name = #{roleName}")
+	@Results(value = { @Result(property = "roleName", column = "role_name") })
+	Role getRole(String roleName);
 }

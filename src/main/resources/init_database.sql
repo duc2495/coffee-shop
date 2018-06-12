@@ -11,14 +11,14 @@ CREATE TABLE "product"(
 	product_id integer PRIMARY KEY DEFAULT NEXTVAL('product_id_seq'),
 	product_name varchar(30) NOT NULL,
 	product_type varchar(20) REFERENCES "product_type"(type_name),
-	price integer NOT NULL,
+	price integer NOT NULL CHECK (price > 0),
 	image_url varchar(100) NOT NULL,
 	description varchar(100) NOT NULL
 );
 
 DROP TABLE IF EXISTS "role" CASCADE;
 CREATE TABLE "role"(
-	role_name varchar(10) PRIMARY KEY
+	role_name varchar(20) PRIMARY KEY
 );
 
 DROP TABLE IF EXISTS "account" CASCADE;
@@ -26,7 +26,7 @@ CREATE TABLE "account"(
 	username varchar(20) PRIMARY KEY,
 	password varchar(100) NOT NULL,
 	enabled boolean default false,
-	role varchar(10) REFERENCES "role"(role_name) 
+	role varchar(20) REFERENCES "role"(role_name) 
 );
 
 DROP TABLE IF EXISTS "user" CASCADE;
@@ -58,5 +58,21 @@ CREATE TABLE "order"(
 	finished_time date,
 	status varchar(10) REFERENCES "status"(status_name),
 	note varchar(200)
-)
+);
 
+DROP TABLE IF EXISTS "order_product" CASCADE;
+CREATE TABLE "order_product"(
+	order_id integer REFERENCES "order"(order_id),
+	product_id integer REFERENCES "product"(product_id),
+	quantity integer NOT NULL CHECK (quantity > 0)
+);
+
+INSERT INTO "product_type"(type_name)
+VALUES ('PURE_COFFEE'), ('FROM_COFFEE'), ('NON_COFFEE');
+
+INSERT INTO "role"(role_name)
+VALUES ('ROLE_ADMIN'), ('ROLE_CUSTOMER');
+
+INSERT INTO "account"(username, password, enabled, role)
+VALUES ('user1', '$2a$10$0k9NtZeU9PPsoFW4GOlq/.VGWHzZhVImw4jZCWh6NPTHB37JHrIrO', true, 'ROLE_CUSTOMER'), 
+('admin', '$2a$10$17laWpqOFKYZJWwc1FBd.eYL6uQ62Dfw8U3ElX03nABl1D.L.EBZC', true, 'ROLE_ADMIN');

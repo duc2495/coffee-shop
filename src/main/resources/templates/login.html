@@ -35,17 +35,15 @@
 							<div th:if="${param.error}"
 								class="alert alert-danger alert-dismissable">
 								<p>
-									<i class="icon fa fa-ban"></i> <span
-										th:text="#{error.login_failed}">Invalid Email and
-										Password.</span>
+									<i class="icon fa fa-ban"></i> <span>Invalid
+										Email and Password.</span>
 								</p>
 							</div>
 							<div th:if="${param.logout}"
 								class="alert alert-info alert-dismissable">
 								<p>
-									<i class="icon fa fa-info"></i> <span
-										th:text="#{info.logout_success}">You have been logged
-										out.</span>
+									<i class="icon fa fa-info"></i> <span>You
+										have been logged out.</span>
 								</p>
 							</div>
 							<div th:if="${msg!=null}"
