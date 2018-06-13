@@ -3,9 +3,9 @@ package coffeeshop.service;
 import coffeeshop.model.User;
 
 public interface UserService {
-	User findUserByUsername(String username);
+	public User findUserByUsername(String username);
 
-	User findUserByEmail(String email);
+	public User findUserByEmail(String email);
 
 	public String resetPassword(String email);
 
