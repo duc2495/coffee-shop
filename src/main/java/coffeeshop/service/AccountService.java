@@ -3,7 +3,7 @@ package coffeeshop.service;
 import coffeeshop.model.Account;
 
 public interface AccountService {
-	Account findByUsername(String username);
+	public Account findByUsername(String username);
 
 	public String resetPassword(String username);
 
