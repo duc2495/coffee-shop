@@ -11,4 +11,11 @@ public class Role {
 		this.roleName = roleName;
 	}
 
+	public Role() {
+
+	}
+
+	public Role(String roleName) {
+		this.roleName = roleName;
+	}
 }

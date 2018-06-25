@@ -1,10 +1,7 @@
 package coffeeshop.service.impl;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import coffeeshop.mapper.AccountMapper;
 import coffeeshop.model.Account;
@@ -16,43 +13,22 @@ public class AccountServiceImpl implements AccountService {
 	private AccountMapper accountMapper;
 
 	@Override
-	public Account findByUsername(String username) {
-		return accountMapper.findByUsername(username);
+	public void createAccount(Account account) {
+		accountMapper.insert(account);
 	}
 	
 	@Override
-	public String resetPassword(String username) {
-		Account account = findByUsername(username);
-		if (account == null) {
-			System.out.println();
-		}
-		String uuid = UUID.randomUUID().toString();
-		account.setPasswordResetToken(uuid);
-		return uuid;
+	public Account findByUsername(String username) {
+		return accountMapper.findByUsername(username);
 	}
 
 	@Override
-	public boolean verifyPasswordResetToken(String username, String token) {
-		Account account = findByUsername(username);
-		if (account == null) {
-			System.out.println();
-		}
-		if (!StringUtils.hasText(token) || !token.equals(account.getPasswordResetToken())) {
-			return false;
-		}
-		return true;
+	public void updatePassword(String username, String password) {
+
 	}
 
 	@Override
-	public void updatePassword(String username, String token, String password) {
-		Account account = findByUsername(username);
-		if (account == null) {
-			System.out.println();
-		}
-		if (!StringUtils.hasText(token) || !token.equals(account.getPasswordResetToken())) {
-			System.out.println();
-		}
-		account.setPassword(password);
-		account.setPasswordResetToken(null);
+	public void updateEnabled(String username, boolean enabled) {
+		
 	}
 }

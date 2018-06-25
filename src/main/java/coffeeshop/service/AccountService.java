@@ -3,11 +3,11 @@ package coffeeshop.service;
 import coffeeshop.model.Account;
 
 public interface AccountService {
+	public void createAccount(Account account);
+	
 	public Account findByUsername(String username);
 
-	public String resetPassword(String username);
-
-	public boolean verifyPasswordResetToken(String username, String token);
-
-	public void updatePassword(String username, String token, String password);
+	public void updatePassword(String username, String password);
+	
+	public void updateEnabled(String username, boolean enabled);
 }

@@ -6,7 +6,6 @@ import javax.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,18 +21,17 @@ public class EmailServiceImpl implements EmailService {
 	@Autowired
 	public JavaMailSender javaMailSender;
 
-	@Value("${support.email}")
-	String supportEmail;
+	String supportEmail = "vuongtrungduong1995@gmail.com";
 
 	@Override
-	public void sendEmail(String to, String subject, String content) {
+	public void sendEmail(String toEmail, String subject, String content) {
 		try {
 			// Prepare message using a Spring helper
 			final MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
 			final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
 			message.setSubject(subject);
 			message.setFrom(supportEmail);
-			message.setTo(to);
+			message.setTo(toEmail);
 			message.setText(content, true /* isHtml */);
 
 			javaMailSender.send(message.getMimeMessage());

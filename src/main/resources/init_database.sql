@@ -35,7 +35,8 @@ CREATE TABLE "user"(
 	fullname varchar(50) NOT NULL,
 	address varchar(100) NOT NULL,
 	phone_number varchar(20) NOT NULL,
-	email varchar(30) NOT NULL
+	email varchar(30) NOT NULL,
+	token varchar(100) NOT NULL,
 );
 
 DROP TABLE IF EXISTS "status" CASCADE;
@@ -74,5 +75,4 @@ INSERT INTO "role"(role_name)
 VALUES ('ROLE_ADMIN'), ('ROLE_CUSTOMER');
 
 INSERT INTO "account"(username, password, enabled, role)
-VALUES ('user1', '$2a$10$0k9NtZeU9PPsoFW4GOlq/.VGWHzZhVImw4jZCWh6NPTHB37JHrIrO', true, 'ROLE_CUSTOMER'), 
-('admin', '$2a$10$17laWpqOFKYZJWwc1FBd.eYL6uQ62Dfw8U3ElX03nABl1D.L.EBZC', true, 'ROLE_ADMIN');
+VALUES ('admin', '$2a$10$17laWpqOFKYZJWwc1FBd.eYL6uQ62Dfw8U3ElX03nABl1D.L.EBZC', true, 'ROLE_ADMIN');

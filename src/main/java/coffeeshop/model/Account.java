@@ -4,9 +4,13 @@ public class Account {
 	private String username;
 	private String password;
 	private String passwordConfirm;
-	private String passwordResetToken;
 	boolean enabled;
 	private Role role;
+
+	public Account() {
+		super();
+		this.enabled = false;
+	}
 
 	public String getUsername() {
 		return username;
@@ -30,14 +34,6 @@ public class Account {
 
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
-	}
-
-	public String getPasswordResetToken() {
-		return passwordResetToken;
-	}
-
-	public void setPasswordResetToken(String passwordResetToken) {
-		this.passwordResetToken = passwordResetToken;
 	}
 
 	public boolean isEnabled() {
