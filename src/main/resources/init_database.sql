@@ -37,6 +37,9 @@ CREATE TABLE "user"(
 	phone_number varchar(20) NOT NULL,
 	email varchar(30) NOT NULL,
 	token varchar(100) NOT NULL,
+	expiry_date timestamp with time zone NOT NULL,
+	unique (email),
+	unique (token)
 );
 
 DROP TABLE IF EXISTS "status" CASCADE;

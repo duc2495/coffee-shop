@@ -1,11 +1,14 @@
 package coffeeshop.model;
 
+import java.util.Date;
+
 public class User {
 	private String fullName;
 	private String address;
 	private String phoneNumber;
 	private String email;
 	private String token;
+	private Date expiryDate;
 	private Account account;
 
 	public String getFullName() {
@@ -55,4 +58,13 @@ public class User {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
 }

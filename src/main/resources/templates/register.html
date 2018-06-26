@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/mainLayout}">
 
 <head>
-<title>Home</title>
+<title>Register</title>
 </head>
 <body class="hold-transition register-page">
 	<div layout:fragment="content">
@@ -17,19 +17,21 @@
 				<p class="login-box-msg">Register a new membership</p>
 
 				<form th:action="@{/register}" th:object="${user}" method="post">
-
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}" />
 					<div class="form-group has-feedback">
 						<input type="text" name="username" th:field="*{account.username}"
 							class="form-control" placeholder="Username" required> <span
-							class="glyphicon glyphicon-lock form-control-feedback"></span>
+							class="glyphicon glyphicon-user form-control-feedback"></span>
 						<p th:if="${#fields.hasErrors('account.username')}"
 							th:errors="*{account.username}" th:errorclass="text-danger">Incorrect
 							data</p>
 					</div>
 
 					<div class="form-group has-feedback">
-						<input type="password" name="password" th:field="*{account.password}"
-							class="form-control" placeholder="Password" required> <span
+						<input type="password" name="password"
+							th:field="*{account.password}" class="form-control"
+							placeholder="Password" required> <span
 							class="glyphicon glyphicon-lock form-control-feedback"></span>
 						<p th:if="${#fields.hasErrors('account.password')}"
 							th:errors="*{account.password}" th:errorclass="text-danger">Incorrect
@@ -42,8 +44,8 @@
 							placeholder="Confirm password" required> <span
 							class="glyphicon glyphicon-lock form-control-feedback"></span>
 						<p th:if="${#fields.hasErrors('account.passwordConfirm')}"
-							th:errors="*{account.passwordConfirm}" th:errorclass="text-danger">Incorrect
-							data</p>
+							th:errors="*{account.passwordConfirm}"
+							th:errorclass="text-danger">Incorrect data</p>
 					</div>
 
 					<div class="form-group has-feedback">
@@ -65,17 +67,18 @@
 					<div class="form-group has-feedback">
 						<input type="text" name="address" th:field="*{address}"
 							class="form-control" placeholder="Address" required> <span
-							class="glyphicon glyphicon-envelope form-control-feedback"></span>
+							class="glyphicon glyphicon-home form-control-feedback"></span>
 						<p th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
 							th:errorclass="text-danger">Incorrect data</p>
 					</div>
 
 					<div class="form-group has-feedback">
-						<input type="number" name="phoneNumer" th:field="*{phoneNumber}"
-							class="form-control" placeholder="Email" required> <span
-							class="glyphicon glyphicon-envelope form-control-feedback"></span>
-						<p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"
-							th:errorclass="text-danger">Incorrect data</p>
+						<input type="number" name="phoneNumber" th:field="*{phoneNumber}"
+							class="form-control" placeholder="Phone Number" required>
+						<span class="glyphicon glyphicon-phone-alt form-control-feedback"></span>
+						<p th:if="${#fields.hasErrors('phoneNumber')}"
+							th:errors="*{phoneNumber}" th:errorclass="text-danger">Incorrect
+							data</p>
 					</div>
 
 					<div class="row">

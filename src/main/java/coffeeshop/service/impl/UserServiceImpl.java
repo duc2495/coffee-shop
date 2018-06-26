@@ -1,10 +1,11 @@
 package coffeeshop.service.impl;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import coffeeshop.mapper.UserMapper;
 import coffeeshop.model.Account;
@@ -26,7 +27,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createUser(User user) {
+		// Create new token and expire after 24h
 		String token = UUID.randomUUID().toString();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, 1);
+
+		user.setExpiryDate(cal.getTime());
 		user.setToken(token);
 		Account account = user.getAccount();
 		Role role = new Role("ROLE_CUSTOMER");
@@ -34,7 +40,7 @@ public class UserServiceImpl implements UserService {
 		account.setEnabled(false);
 		accountService.createAccount(account);
 		userMapper.create(user);
-		confirmRegistration(user);
+		this.sendRegistrationToken(user);
 	}
 
 	@Override
@@ -54,23 +60,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String resetToken(String email) {
+		// Create new token and expire after 24h
 		String token = UUID.randomUUID().toString();
-		userMapper.updateToken(email, token);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DAY_OF_YEAR, 1);
+		Date date = cal.getTime();
+		userMapper.resetToken(email, token, date);
 		return token;
-	}
-
-	@Override
-	public boolean verifyToken(String email, String token) {
-		User user = findUserByEmail(email);
-		if (user == null) {
-			System.out.println("User not exist");
-			return false;
-		}
-		if (!StringUtils.hasText(token) || !token.equals(user.getToken())) {
-			System.out.println("Invalid Token: '" + user.getToken() + "'.");
-			return false;
-		}
-		return true;
 	}
 
 	@Override
@@ -79,9 +75,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void confirmRegistration(User user) {
+	public void sendRegistrationToken(User user) {
 		// Send email confirm
 		String subject = "Registration Confirmation";
+		String content = "Message: " + "http://localhost:8080" + "/registerConfirm?token=" + user.getToken();
+		emailService.sendEmail(user.getEmail(), subject, content);
+	}
+	
+	@Override
+	public void resendRegistrationToken(User user) {
+		// Send email confirm
+		String subject = "Resend Registration Token";
 		String content = "Message: " + "http://localhost:8080" + "/registerConfirm?token=" + user.getToken();
 		emailService.sendEmail(user.getEmail(), subject, content);
 	}

@@ -13,9 +13,9 @@ public interface UserService {
 
 	public String resetToken(String email);
 	
-	public void confirmRegistration(User user);
-
-	public boolean verifyToken(String email, String token);
+	public void sendRegistrationToken(User user);
+	
+	public void resendRegistrationToken(User user);
 
 	public void updatePassword(String username, String password);
 	

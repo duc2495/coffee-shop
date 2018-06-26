@@ -21,6 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService customUserDetailsService;
 
+	@Autowired
+	private CustomAuthenticationFailureHandler authenticationFailureHandler;
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -32,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**", "/webjars/**", "/assets/**").permitAll()
 				.antMatchers("/**", "/home", "/register", "/forgotPwd", "/resetPwd").permitAll().anyRequest()
 				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/home")
-				.failureUrl("/login?error").permitAll().and().logout()
+				.failureHandler(authenticationFailureHandler).permitAll().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				// .logoutUrl("/logout")
 				.permitAll().and().exceptionHandling().accessDeniedPage("/403");

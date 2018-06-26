@@ -19,16 +19,16 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	public Account findByUsername(String username) {
-		return accountMapper.findByUsername(username);
+		return accountMapper.findAccountByUsername(username);
 	}
 
 	@Override
 	public void updatePassword(String username, String password) {
-
+		accountMapper.updatePassword(username, password);
 	}
 
 	@Override
 	public void updateEnabled(String username, boolean enabled) {
-		
+		accountMapper.updateEnabled(username, enabled);
 	}
 }
