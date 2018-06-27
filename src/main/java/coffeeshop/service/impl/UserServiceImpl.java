@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 		account.setRole(role);
 		account.setEnabled(false);
 		accountService.createAccount(account);
-		userMapper.create(user);
+		userMapper.insertUser(user);
 		this.sendRegistrationToken(user);
 	}
 
