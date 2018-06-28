@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import coffeeshop.mapper.UserMapper;
 import coffeeshop.model.Account;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private EmailService emailService;
 
+	@Transactional
 	@Override
 	public void createUser(User user) {
 		// Create new token and expire after 24h
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findByToken(token);
 	}
 
+	@Transactional
 	@Override
 	public String resetToken(String email) {
 		// Create new token and expire after 24h

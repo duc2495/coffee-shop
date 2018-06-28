@@ -29,8 +29,8 @@ CREATE TABLE "account"(
 	role varchar(20) REFERENCES "role"(role_name) 
 );
 
-DROP TABLE IF EXISTS "user" CASCADE;
-CREATE TABLE "user"(
+DROP TABLE IF EXISTS "users" CASCADE;
+CREATE TABLE "users"(
 	username varchar(20) PRIMARY KEY REFERENCES "account"(username),
 	fullname varchar(50) NOT NULL,
 	address varchar(100) NOT NULL,

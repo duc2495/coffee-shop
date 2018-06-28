@@ -3,10 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coffeeshop.mapper.AccountMapper">
-	<resultMap id="AccountResult" type="Account">
-		<result column="username" property="username" />
-		<result column="password" property="password" />
-		<result column="enabled" property="enabled" />
+	<resultMap id="AccountResult" type="Account" autoMapping="true">
 		<association property="role" javaType="Role" column="role"
 			select="coffeeshop.mapper.RoleMapper.findRoleByName">
 		</association>
@@ -14,23 +11,45 @@
 
 	<select id="findAccountByUsername" parameterType="String"
 		resultMap="AccountResult">
-		SELECT * FROM "account" WHERE username = #{username}
+		SELECT * 
+		
+		FROM account
+		
+		WHERE
+			username = #{username}
 	</select>
 
 	<insert id="insert" parameterType="Account">
-		INSERT INTO
-		"account"(username,password,enabled,role) VALUES(#{username},
-		#{password}, #{enabled}, #{role.roleName})
+		INSERT INTO account
+			( username
+			, password
+			, enabled
+			, role ) 
+		VALUES
+			( #{username}
+			, #{password}
+			, #{enabled}
+			, #{role.roleName} )
 	</insert>
 
 	<update id="updateEnabled" parameterType="map">
-		UPDATE "account" SET
-		enabled =#{enabled} WHERE username =#{username}
+		UPDATE account
+		
+		SET
+			enabled = #{enabled}
+			
+		WHERE 
+			username = #{username}
 	</update>
 
 	<update id="updatePassword" parameterType="map">
-		UPDATE "account" SET
-		password =#{password} WHERE username =#{username}
+		UPDATE account
+		
+		SET
+			password = #{password}
+			
+		WHERE 
+			username = #{username}
 	</update>
 
 </mapper>
