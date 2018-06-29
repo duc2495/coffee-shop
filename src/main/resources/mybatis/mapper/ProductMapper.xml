@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.mapper.ProductMapper">
+	<resultMap id="ProductResult" type="Product" autoMapping="true">
+	</resultMap>
+	
+	<!-- ten parameter trung voi ten bien trong interface -->
+	<select id="selectByKey" resultMap="ProductResult">
+		SELECT * 
+		
+		FROM product
+		
+		WHERE
+			product_id = #{key} 
+	</select>
+	
+	<insert id="insert" parameterType="Product">
+		INSERT INTO product
+		(product_name
+		,product_type
+		,price
+		,description
+		,image_uri)
+		VALUES
+		(#{productName}
+		,#{productType}
+		,#{price}
+		,#{description}
+		,#{imageURI})
+	</insert>
+	
+	<update id="update" parameterType="Product">
+		UPDATE product
+		SET
+			product_name = #{productName},
+			product_type = #{productType},
+			price = #{price},
+			description = #{description},
+			image_uri = #{imageURI}
+		WHERE
+			product_id = #{productId}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM	product
+		WHERE product_id = #{productId}
+	</delete>
+</mapper>

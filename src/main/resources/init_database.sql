@@ -12,8 +12,9 @@ CREATE TABLE "product"(
 	product_name varchar(30) NOT NULL,
 	product_type varchar(20) REFERENCES "product_type"(type_name),
 	price integer NOT NULL CHECK (price > 0),
-	image_url varchar(100) NOT NULL,
-	description varchar(100) NOT NULL
+	image_uri varchar(100) NOT NULL,
+	description varchar(100) NOT NULL,
+	created_at Date NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS "role" CASCADE;
