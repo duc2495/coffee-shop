@@ -1,4 +1,4 @@
-package coffeeshop.service.impl;
+package coffeeshop.service.product;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import coffeeshop.model.product.Product;
-import coffeeshop.service.impl.ProductService;
+import coffeeshop.service.product.ProductService;
 
 @Controller
 @RequestMapping("/products")
