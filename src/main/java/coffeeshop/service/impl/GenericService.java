@@ -1,7 +1,6 @@
 package coffeeshop.service.impl;
 
 import java.util.List;
-
 import coffeeshop.mapper.GenericMapper;
 
 public class GenericService<T, K> implements coffeeshop.service.GenericService<T, K> {

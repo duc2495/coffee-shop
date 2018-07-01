@@ -2,7 +2,6 @@ package coffeeshop.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import coffeeshop.mapper.RoleMapper;
 import coffeeshop.model.Role;
 import coffeeshop.service.RoleService;
