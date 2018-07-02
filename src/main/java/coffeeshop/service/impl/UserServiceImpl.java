@@ -7,10 +7,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import coffeeshop.mapper.UserMapper;
+
 import coffeeshop.model.Account;
 import coffeeshop.model.Role;
 import coffeeshop.model.User;
+import coffeeshop.repository.UserRepository;
 import coffeeshop.service.AccountService;
 import coffeeshop.service.EmailService;
 import coffeeshop.service.UserService;
@@ -19,7 +20,7 @@ import coffeeshop.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserMapper userMapper;
+	private UserRepository userRepository;
 	@Autowired
 	private AccountService accountService;
 	@Autowired
@@ -40,23 +41,23 @@ public class UserServiceImpl implements UserService {
 		account.setRole(role);
 		account.setEnabled(false);
 		accountService.createAccount(account);
-		userMapper.insertUser(user);
+		userRepository.insertUser(user);
 		this.sendRegistrationToken(user);
 	}
 
 	@Override
 	public User findUserByEmail(String email) {
-		return userMapper.findByEmail(email);
+		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public User findUserByUsername(String username) {
-		return userMapper.findByUsername(username);
+		return userRepository.findByUsername(username);
 	}
 
 	@Override
 	public User findUserByToken(String token) {
-		return userMapper.findByToken(token);
+		return userRepository.findByToken(token);
 	}
 
 	@Transactional
@@ -67,13 +68,8 @@ public class UserServiceImpl implements UserService {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, 1);
 		Date date = cal.getTime();
-		userMapper.resetToken(email, token, date);
+		userRepository.resetToken(email, token, date);
 		return token;
-	}
-
-	@Override
-	public void updatePassword(String username, String password) {
-		accountService.updatePassword(username, password);
 	}
 
 	@Override
@@ -92,9 +88,15 @@ public class UserServiceImpl implements UserService {
 		emailService.sendEmail(user.getEmail(), subject, content);
 	}
 
+
 	@Override
-	public void activeUser(String username) {
-		accountService.updateEnabled(username, true);
+	public void updatePassword(Account account) {
+		accountService.updateAccount(account);
+	}
+	
+	@Override
+	public void activeUser(Account account) {
+		accountService.updateAccount(account);
 	}
 
 }

@@ -1,4 +1,4 @@
-package coffeeshop.mapper;
+package coffeeshop.repository;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;

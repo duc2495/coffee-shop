@@ -1,11 +1,12 @@
-package coffeeshop.mapper;
+package coffeeshop.repository;
 
 import java.util.Date;
 import org.apache.ibatis.annotations.Param;
-
+import org.springframework.stereotype.Repository;
 import coffeeshop.model.User;
 
-public interface UserMapper {
+@Repository
+public interface UserRepository {
 
 	void insertUser(User user);
 

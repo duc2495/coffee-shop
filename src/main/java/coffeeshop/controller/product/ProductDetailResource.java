@@ -3,45 +3,63 @@ package coffeeshop.controller.product;
 import coffeeshop.model.product.ProductType;
 
 public class ProductDetailResource {
-    private String productName;
-    private ProductType productType;
-    private Integer price;
-    private String description;
+	private int productId;
+	private String productName;
+	private ProductType productType;
+	private Integer price;
+	private String imageUrl;
+	private String description;
 
-    public String getProductName() {
-        return productName;
-    }
+	public int getProductId() {
+		return productId;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
-    public ProductType getProductType() {
-        return productType;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    public void setProductType(ProductType productType) {
-        this.productType = productType;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
+	public ProductType getProductType() {
+		return productType;
+	}
 
-    public int getPrice() {
-        return price;
-    }
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
+	}
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public int getPrice() {
+		return price;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }
