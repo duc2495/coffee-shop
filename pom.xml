@@ -82,6 +82,12 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		    <groupId>com.github.rozidan</groupId>
+		    <artifactId>modelmapper-spring-boot-starter</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+				
 	</dependencies>
 
 	<build>

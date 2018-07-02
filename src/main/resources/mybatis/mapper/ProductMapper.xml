@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.mapper.ProductRepository">
+	<resultMap id="ProductResult"  type="coffeeshop.model.product.Product" autoMapping="true">
+	</resultMap>
+	
+	<select id="getListProduct" resultMap="ProductResult">
+		SELECT *
+		FROM product
+		ORDER BY product_id;
+	</select>
+	
+	<select id="getProductById" resultMap="ProductResult">
+		SELECT *
+		FROM product
+		WHERE product_id = #{productId}
+	</select>
+		
+	<insert id="insertProduct" parameterType="coffeeshop.model.product.Product">
+		INSERT 
+		INTO product(
+			product_id
+			, product_name
+			, product_type
+			, price
+			, image_url
+			, description
+		)
+		VALUES(
+			#{productId}
+			, #{productName}
+			, #{productType}
+			, #{price}
+			, #{imageUrl}
+			, #{description}
+		)
+	</insert>
+	
+	<!-- 商品IDを予約する -->
+	<select id="getNewProductId" resultType="int">
+		SELECT nextval('product_id')
+	</select>
+
+	<!-- check product exist or not -->
+	<select id="hasProduct" resultType="boolean">
+		SELECT 
+			CASE WHEN count(*) > 0 THEN TRUE
+				ELSE FALSE
+			END
+		FROM product
+		WHERE product_id = #{productId}
+	</select>
+	
+	<update id="updateProduct" parameterType="coffeeshop.model.product.Product">
+		UPDATE product
+		SET
+			product_name = #{productName}
+			, product_type = #{productType}
+			, price = #{price}
+			, image_url = #{imageUrl}
+			, description = #{description}
+			, updated_at = now()
+		WHERE 
+			product_id = #{productId}
+	</update>
+	
+</mapper>
