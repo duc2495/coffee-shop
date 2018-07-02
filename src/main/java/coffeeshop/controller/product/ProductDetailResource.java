@@ -6,6 +6,7 @@ public class ProductDetailResource {
     private String productName;
     private ProductType productType;
     private Integer price;
+    private String imageUrl;
     private String description;
 
     public String getProductName() {
@@ -36,7 +37,15 @@ public class ProductDetailResource {
         this.price = price;
     }
 
-    public String getDescription() {
+    public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getDescription() {
         return description;
     }
 

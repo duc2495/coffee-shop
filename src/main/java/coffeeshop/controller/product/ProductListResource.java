@@ -3,12 +3,21 @@ package coffeeshop.controller.product;
 import coffeeshop.model.product.ProductType;
 
 public class ProductListResource {
+	private int productId;
     private String productName;
     private ProductType productType;
     private Integer price;
-    private String description;
 
-    public String getProductName() {
+    
+    public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
         return productName;
     }
 
@@ -34,14 +43,6 @@ public class ProductListResource {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
 }

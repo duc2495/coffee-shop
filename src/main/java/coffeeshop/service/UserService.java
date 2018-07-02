@@ -1,5 +1,6 @@
 package coffeeshop.service;
 
+import coffeeshop.model.Account;
 import coffeeshop.model.User;
 
 public interface UserService {
@@ -17,7 +18,7 @@ public interface UserService {
 	
 	public void resendRegistrationToken(User user);
 
-	public void updatePassword(String username, String password);
+	public void updatePassword(Account account);
 	
-	public void activeUser(String username);
+	public void activeUser(Account account);
 }
