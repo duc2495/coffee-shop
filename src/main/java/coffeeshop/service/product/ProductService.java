@@ -4,8 +4,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import coffeeshop.mapper.ProductRepository;
+
 import coffeeshop.model.product.Product;
+import coffeeshop.repository.ProductRepository;
 
 @Service
 @Transactional(readOnly = true)

@@ -7,7 +7,5 @@ public interface AccountService {
 	
 	public Account findByUsername(String username);
 
-	public void updatePassword(String username, String password);
-	
-	public void updateEnabled(String username, boolean enabled);
+	public void updateAccount(Account account);
 }
