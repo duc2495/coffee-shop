@@ -17,7 +17,7 @@ CREATE TABLE "product"(
 	product_type varchar(20) REFERENCES "product_type"(type_name),
 	price integer NOT NULL CHECK (price > 0),
 	image_url varchar(100) NOT NULL,
-	description varchar(100) NOT NULL,
+	description varchar(1000) NOT NULL,
 	created_at Date NOT NULL DEFAULT now(),
 	updated_at Date NOT NULL DEFAULT now()
 );

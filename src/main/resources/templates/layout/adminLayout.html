@@ -21,6 +21,9 @@
 	th:href="@{https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css}" />
 <link rel="stylesheet" href="assets/dist/css/select2.min.css"
 	th:href="@{/assets/dist/css/select2.min.css}" />
+<link rel="stylesheet"
+	href="assets/dist/css/dataTables.bootstrap.min.css"
+	th:href="@{/assets/dist/css/dataTables.bootstrap.min.css}" />
 <link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css"
 	th:href="@{/assets/dist/css/AdminLTE.min.css}" />
 <link rel="stylesheet" href="assets/dist/css/skins/skin-blue.min.css"
@@ -43,7 +46,7 @@
 			<!-- Header Navbar -->
 			<nav class="navbar navbar-static-top" role="navigation">
 				<!-- Sidebar toggle button-->
-				<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
 					role="button"> <span class="sr-only">Toggle navigation</span>
 				</a>
 				<!-- Navbar Right Menu -->
@@ -113,7 +116,8 @@
 					<!-- <li class="header">HEADER</li> -->
 					<!-- Optionally, you can add icons to the links -->
 					<li th:class="${CURRENT_MENU == 'Dashboard'}? 'active' : ''"><a
-						href="#" th:href="@{'/admin/dashboard'}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
+						href="#" th:href="@{'/admin/dashboard'}"><i class="fa fa-home"></i>
+							<span>Dashboard</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Categories'}? 'active' : ''"><a
 						href="#" th:href="@{'/categories'}"><i
 							class="fa fa-folder-open"></i> <span>Categories</span></a></li>
@@ -137,29 +141,12 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<div layout:fragment="pageHeader">
-				<section class="content-header">
-					<h1 th:text="${headerTitle}">Manage Roles</h1>
-					<div th:if="${info}"
-						class="col-md-3 alert alert-info alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-hidden="true">&times;</button>
-						<p>
-							<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
-						</p>
-					</div>
 
-					<div th:if="${error}"
-						class="col-md-3 alert alert-danger alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-hidden="true">&times;</button>
-						<p>
-							<i class="icon fa fa-ban"></i> <span th:text="${error}">Error</span>
-						</p>
-					</div>
-				</section>
-			</div>
+			<!-- Content Header (Page header) -->
+			<section class="content-header" layout:fragment="content-header">
+				<!-- Your Page Content Header Here -->
+
+			</section>
 
 			<!-- Main content -->
 			<section class="content">
@@ -176,10 +163,10 @@
 		<footer class="main-footer">
 			<!-- To the right -->
 			<div class="pull-right hidden-xs">
-				<strong><a href="http://google.com" target="_blank">http://google.com</a></strong>
+				<strong><a href="https://adminlte.io/" target="_blank">https://adminlte.io/</a></strong>
 			</div>
 			<!-- Default to the left -->
-			<strong>Copyright &copy; 2018 <a href="#">AdminLTE</a>.
+			<strong>Copyright &copy; 2018 <a href="https://adminlte.io/">AdminLTE</a>.
 			</strong> All rights reserved.
 		</footer>
 
@@ -189,7 +176,10 @@
 	<script th:src="@{'/assets/jquery/jquery.min.js'}"></script>
 	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/select2.full.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/jquery.dataTables.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/dataTables.bootstrap.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/adminlte.min.js'}"></script>
+	<th:block layout:fragment="script"></th:block>
 	<script>
 		$(function() {
 			//Initialize Select2 Elements

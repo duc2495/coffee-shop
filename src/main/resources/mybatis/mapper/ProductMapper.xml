@@ -66,4 +66,10 @@
 			product_id = #{productId}
 	</update>
 	
+	<delete id="deleteProduct">
+		DELETE 
+		FROM product
+		WHERE product_id = #{productId}
+	</delete>
+	
 </mapper>

@@ -1,56 +1,35 @@
 package coffeeshop.controller.product;
 
-import coffeeshop.model.product.ProductType;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ProductListResource {
-	private int productId;
-	private String productName;
-	private ProductType productType;
-	private Integer price;
-	private String description;
+	private List<ProductResource> pureCoffeeList = new LinkedList<ProductResource>();
+	private List<ProductResource> fromCoffeeList = new LinkedList<ProductResource>();
+	private List<ProductResource> nonCoffeeList = new LinkedList<ProductResource>();
 
-	public int getProductId() {
-		return productId;
+	public List<ProductResource> getPureCoffeeList() {
+		return pureCoffeeList;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setPureCoffeeList(List<ProductResource> pureCoffeeList) {
+		this.pureCoffeeList = pureCoffeeList;
 	}
 
-	public String getProductName() {
-		return productName;
+	public List<ProductResource> getFromCoffeeList() {
+		return fromCoffeeList;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setFromCoffeeList(List<ProductResource> fromCoffeeList) {
+		this.fromCoffeeList = fromCoffeeList;
 	}
 
-	public ProductType getProductType() {
-		return productType;
+	public List<ProductResource> getNonCoffeeList() {
+		return nonCoffeeList;
 	}
 
-	public void setProductType(ProductType productType) {
-		this.productType = productType;
-	}
-
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNonCoffeeList(List<ProductResource> nonCoffeeList) {
+		this.nonCoffeeList = nonCoffeeList;
 	}
 
 }

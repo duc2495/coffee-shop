@@ -1,7 +1,5 @@
 package coffeeshop.controller.product;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,23 +26,6 @@ public class ProductHelper {
     }
 
     /**
-     * 商品一覧のmodel→resource変換
-     * 
-     * @param models
-     * @return
-     */
-    public List<ProductListResource> createProductListResource(List<Product> models) {
-        // 商品情報をマッピング
-        List<ProductListResource> resources =
-                models.stream().map(product -> modelMapper.map(product, ProductListResource.class))
-                        .collect(Collectors.toList());
-
-        // その他をマッピング nếu có
-
-        return resources;
-    }
-
-    /**
      * 商品詳細のmodel→resource変換
      * 
      * @param models
@@ -53,6 +34,21 @@ public class ProductHelper {
     public ProductDetailResource createProductDetailResource(Product model) {
         // 商品情報をマッピング
         ProductDetailResource resource = modelMapper.map(model, ProductDetailResource.class);
+
+        // その他をマッピング nếu có
+
+        return resource;
+    }
+    
+    /**
+     * 商品詳細のmodel→resource変換
+     * 
+     * @param models
+     * @return
+     */
+    public ProductResource createProductResource(Product model) {
+        // 商品情報をマッピング
+    	ProductResource resource = modelMapper.map(model, ProductResource.class);
 
         // その他をマッピング nếu có
 
