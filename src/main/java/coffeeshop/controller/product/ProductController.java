@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import coffeeshop.controller.BaseController;
 import coffeeshop.model.product.Product;
+import coffeeshop.model.product.ProductType;
 import coffeeshop.service.product.ProductService;
 
 @Controller
@@ -46,14 +48,32 @@ public class ProductController extends BaseController {
 	@GetMapping
 	public String getProductList(Model model) {
 		List<Product> productList = productService.getProductList();
+
 		if (productList.isEmpty()) {
 			// return 404 view
 			return "error";
 		}
 
 		// resourceに変換
-		List<ProductListResource> resources = productHelper.createProductListResource(productList);
-		model.addAttribute("products", resources);
+		List<ProductResource> pureCoffeeList = new LinkedList<ProductResource>();
+		List<ProductResource> fromCoffeeList = new LinkedList<ProductResource>();
+		List<ProductResource> nonCoffeeList = new LinkedList<ProductResource>();
+		ProductListResource resources = new ProductListResource();
+
+		for (Product p : productList) {
+			ProductResource product = productHelper.createProductResource(p);
+			if (product.getProductType().equals(ProductType.FROM_COFFEE))
+				fromCoffeeList.add(product);
+			else if (p.getProductType().equals(ProductType.NON_COFFEE))
+				nonCoffeeList.add(product);
+			else
+				pureCoffeeList.add(product);
+		}
+
+		resources.setFromCoffeeList(fromCoffeeList);
+		resources.setNonCoffeeList(nonCoffeeList);
+		resources.setPureCoffeeList(pureCoffeeList);
+		model.addAttribute("resources", resources);
 		// return list product view
 		return viewPrefix + "products";
 	}
@@ -86,7 +106,7 @@ public class ProductController extends BaseController {
 			IOUtils.copy(file.getInputStream(), response.getOutputStream());
 			response.flushBuffer();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Error read file: {}", image);
 		}
 	}
 
@@ -106,12 +126,12 @@ public class ProductController extends BaseController {
 	public String registProduct(@Valid @ModelAttribute("product") ProductRegistResource resource, BindingResult result,
 			Model model) {
 		/* service/repo layer can not access request data of web layer */
-		
+
 		// Validate
 		if (result.hasErrors()) {
 			return viewPrefix + "create_product";
 		}
-		
+
 		String imageUrl = this.doUploadFile(resource);
 		if (imageUrl == null) {
 			System.out.println("Failed image upload");
@@ -120,7 +140,7 @@ public class ProductController extends BaseController {
 		// 商品modelを作成
 		Product product = productHelper.createProductModel(resource);
 		product.setImageUrl(imageUrl);
-		
+
 		// DBにインサート
 		productService.registProduct(product);
 
@@ -159,8 +179,7 @@ public class ProductController extends BaseController {
 	}
 
 	@DeleteMapping("/{productId}")
-	public String deleteProduct(@PathVariable("productId") Integer productId,
-			@Valid @RequestBody ProductRegistResource resource, Model model) {
+	public String deleteProduct(@PathVariable("productId") Integer productId, Model model) {
 
 		// 商品のアクセス権限をチェック
 		if (!productService.existProduct(productId)) {
