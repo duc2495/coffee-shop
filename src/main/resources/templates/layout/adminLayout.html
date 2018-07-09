@@ -118,19 +118,16 @@
 					<li th:class="${CURRENT_MENU == 'Dashboard'}? 'active' : ''"><a
 						href="#" th:href="@{'/admin/dashboard'}"><i class="fa fa-home"></i>
 							<span>Dashboard</span></a></li>
-					<li th:class="${CURRENT_MENU == 'Categories'}? 'active' : ''"><a
-						href="#" th:href="@{'/categories'}"><i
-							class="fa fa-folder-open"></i> <span>Categories</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Products'}? 'active' : ''"><a
-						href="#" th:href="@{'/products'}"><i class="fa fa-file"></i> <span>Products</span></a></li>
+						href="#" th:href="@{'/admin/products'}"><i class="fa fa-file"></i> <span>Products</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Orders'}? 'active' : ''"><a
-						href="#" th:href="@{'/orders'}"><i
+						href="#" th:href="@{'/admin/orders'}"><i
 							class="fa fa-cart-arrow-down"></i> <span>Orders</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Customers'}? 'active' : ''"><a
-						href="#" th:href="@{'/customers'}"><i class="fa fa-smile-o"></i>
+						href="#" th:href="@{'/admin/customers'}"><i class="fa fa-smile-o"></i>
 							<span>Customers</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Users'}? 'active' : ''"><a
-						href="#" th:href="@{'/users'}"><i class="fa fa-users"></i>
+						href="#" th:href="@{'/admin/users'}"><i class="fa fa-users"></i>
 							Users</a></li>
 
 				</ul>
@@ -179,6 +176,8 @@
 	<script th:src="@{'/assets/dist/js/jquery.dataTables.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/dataTables.bootstrap.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/adminlte.min.js'}"></script>
+	<script th:src="@{'/assets/custom/js/bootstrap-imageupload.js'}"></script>
+	<script th:src="@{'/assets/custom/js/main.js'}"></script>
 	<th:block layout:fragment="script"></th:block>
 	<script>
 		$(function() {

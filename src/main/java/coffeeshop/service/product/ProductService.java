@@ -67,8 +67,18 @@ public class ProductService {
 	 * @param product
 	 */
 	@Transactional(readOnly = false)
-	public void updateProduct(Product product) {
-		productRepository.updateProduct(product);
+	public void updateProductInfo(Product product) {
+		productRepository.updateProductInfo(product);
+	}
+	
+	/**
+	 * 商品のイメージを更新する
+	 * 
+	 * @param product
+	 */
+	@Transactional(readOnly = false)
+	public void updateProductImage(Product product) {
+		productRepository.updateProductImage(product);
 	}
 
 	/**

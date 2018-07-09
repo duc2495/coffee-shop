@@ -18,7 +18,9 @@ public interface ProductRepository {
 
     public boolean hasProduct(@Param("productId") Integer productId);
 
-    public void updateProduct(Product product);
+    public void updateProductInfo(Product product);
+    
+    public void updateProductImage(Product product);
     
     public void deleteProduct(Integer productId);
 

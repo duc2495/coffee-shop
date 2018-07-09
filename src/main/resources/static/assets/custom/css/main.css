@@ -51,7 +51,35 @@
 }
 /* End of set error page style */
 
+.product-content {
+	padding-top: 10vh;	
+}
+
 .img-product {
-	width: 400px;
-	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.imageupload {
+	margin-bottom: 15px;
+	border-radius: unset;
+}
+
+.imageupload .file-tab .thumbnail {
+	margin-bottom: 10px;
+}
+
+.modal-content {
+	top: 20px;
+}
+
+.alert {
+	position: absolute;
+	right: 15px;
+	margin-top: 10px;
+	z-index: 5;
+}
+
+.message {
+	display: none;
 }
