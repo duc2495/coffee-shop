@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,9 @@ import javax.validation.Valid;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,10 +26,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import coffeeshop.controller.BaseController;
 import coffeeshop.model.product.Product;
@@ -48,11 +53,6 @@ public class ProductController extends BaseController {
 	@GetMapping
 	public String getProductList(Model model) {
 		List<Product> productList = productService.getProductList();
-
-		if (productList.isEmpty()) {
-			// return 404 view
-			return "error";
-		}
 
 		// resourceに変換
 		List<ProductResource> pureCoffeeList = new LinkedList<ProductResource>();
@@ -88,7 +88,8 @@ public class ProductController extends BaseController {
 
 		// resourceに変換
 		ProductDetailResource resource = productHelper.createProductDetailResource(product);
-		model.addAttribute("resource", resource);
+		model.addAttribute("product", resource);
+
 		// return product detail view
 		return viewPrefix + "product";
 	}
@@ -101,7 +102,7 @@ public class ProductController extends BaseController {
 	@GetMapping("/images")
 	public void getImages(@RequestParam("image") String image, HttpServletResponse response) {
 		try {
-			FileSystemResource file = new FileSystemResource(image);
+			FileSystemResource file = new FileSystemResource(UPLOAD_DIR + image);
 			response.setContentType("image/gif");
 			IOUtils.copy(file.getInputStream(), response.getOutputStream());
 			response.flushBuffer();
@@ -111,7 +112,7 @@ public class ProductController extends BaseController {
 	}
 
 	@GetMapping("/new")
-	public String createProductFrom(Model model) {
+	public String createProductForm(Model model) {
 		ProductRegistResource product = new ProductRegistResource();
 		model.addAttribute("product", product);
 		return viewPrefix + "create_product";
@@ -124,19 +125,23 @@ public class ProductController extends BaseController {
 	 */
 	@PostMapping
 	public String registProduct(@Valid @ModelAttribute("product") ProductRegistResource resource, BindingResult result,
-			Model model) {
+			Model model, RedirectAttributes redirectAttributes) {
 		/* service/repo layer can not access request data of web layer */
 
 		// Validate
 		if (result.hasErrors()) {
+			redirectAttributes.addFlashAttribute("error", "Error ...");
+			return viewPrefix + "create_product";
+		}
+		String imageUrl;
+
+		try {
+			imageUrl = this.doUploadFile(resource.getImage());
+		} catch (IOException e) {
+			redirectAttributes.addFlashAttribute("error", "Error ...");
 			return viewPrefix + "create_product";
 		}
 
-		String imageUrl = this.doUploadFile(resource);
-		if (imageUrl == null) {
-			System.out.println("Failed image upload");
-			return viewPrefix + "create_product";
-		}
 		// 商品modelを作成
 		Product product = productHelper.createProductModel(resource);
 		product.setImageUrl(imageUrl);
@@ -145,14 +150,33 @@ public class ProductController extends BaseController {
 		productService.registProduct(product);
 
 		// return view
+		redirectAttributes.addFlashAttribute("info", "Product created successfully");
 		return "redirect:/" + viewPrefix;
 	}
 
 	/**
-	 * <pre>
-	 * vì resource của update giống với regist nên anh dùng chung class ProductRegistResource.
-	 * trường hợp có khác nhau thì tạo class ProductEditResource riêng
-	 * </pre>
+	 * 
+	 * @param productId
+	 * @param model
+	 */
+	@GetMapping("/{productId}/update")
+	public String updateProductForm(@PathVariable("productId") Integer productId, Model model) {
+		Product product = productService.getProductDetail(productId);
+		if (product == null) {
+			// return 404 view
+			return "error";
+		}
+
+		// resourceに変換
+		ProductUpdateResource resource = productHelper.createProductUpdateResource(product);
+
+		model.addAttribute("product", resource);
+
+		// return product update form
+		return viewPrefix + "update_product";
+	}
+
+	/**
 	 * 
 	 * @param productId
 	 * @param resource
@@ -160,26 +184,36 @@ public class ProductController extends BaseController {
 	 */
 	@PatchMapping("/{productId}")
 	public String updateProduct(@PathVariable("productId") Integer productId,
-			@Valid @RequestBody ProductRegistResource resource, Model model) {
+			@Valid @ModelAttribute("product") ProductUpdateResource resource, BindingResult result, Model model,
+			RedirectAttributes redirectAttributes) {
+
+		// Validate
+		if (result.hasErrors()) {
+			return viewPrefix + "update_product";
+		}
 
 		// 商品のアクセス権限をチェック
 		if (!productService.existProduct(productId)) {
 			// return forbidden view
 			return "403";
 		}
+		resource.setProductId(productId);
 
 		// 商品modelを作成
 		Product product = productHelper.createProductModel(resource);
 
 		// DBにを更新
-		productService.updateProduct(product);
+		productService.updateProductInfo(product);
 
 		// return view
-		return "redirect:/" + viewPrefix + "/" + productId;
+		redirectAttributes.addAttribute("productId", productId);
+		redirectAttributes.addFlashAttribute("info", "Product updated successfully");
+		return "redirect:/" + viewPrefix + "{productId}";
 	}
 
 	@DeleteMapping("/{productId}")
-	public String deleteProduct(@PathVariable("productId") Integer productId, Model model) {
+	public String deleteProduct(@PathVariable("productId") Integer productId, Model model,
+			RedirectAttributes redirectAttributes) {
 
 		// 商品のアクセス権限をチェック
 		if (!productService.existProduct(productId)) {
@@ -191,34 +225,68 @@ public class ProductController extends BaseController {
 		productService.deleteProduct(productId);
 
 		// return view
+		redirectAttributes.addFlashAttribute("info", "Product deleted successfully");
 		return "redirect:/" + viewPrefix;
 	}
 
-	private String doUploadFile(ProductRegistResource resource) {
+	@PatchMapping("/{productId}/updateImage")
+	@ResponseBody
+	public ResponseEntity<?> uploadFile(@PathVariable("productId") Integer productId,
+			@RequestParam("image") MultipartFile image) {
+
+		if (image.isEmpty()) {
+			return new ResponseEntity<>("Please select a image!", HttpStatus.BAD_REQUEST);
+		}
+
+		// 商品のアクセス権限をチェック
+		if (!productService.existProduct(productId)) {
+			// return forbidden view
+			return new ResponseEntity<>("Product not exist!", HttpStatus.BAD_REQUEST);
+		}
+		try {
+			String imageUrl = this.doUploadFile(image);
+
+			// 商品modelを作成
+			Product product = new Product();
+			product.setProductId(productId);
+			product.setImageUrl(imageUrl);
+
+			// DBにを更新
+			productService.updateProductImage(product);
+		} catch (IOException e) {
+			return new ResponseEntity<>("Error update image!", HttpStatus.BAD_REQUEST);
+		}
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("imageUrl", image.getOriginalFilename());
+		resultMap.put("message", "Product image updated successfully");
+		return new ResponseEntity<HashMap<String, Object>>(resultMap, new HttpHeaders(), HttpStatus.OK);
+	}
+
+	private String doUploadFile(MultipartFile multipartFile) throws IOException {
 
 		// Tạo thư mục gốc upload nếu chưa tồn tại.
 		File uploadRootDir = new File(UPLOAD_DIR);
 		if (!uploadRootDir.exists()) {
 			uploadRootDir.mkdirs();
 		}
-		MultipartFile image = resource.getImage();
-		if (image == null) {
+		if (multipartFile == null) {
 			return null;
 		}
 		// Tên file gốc tại Client.
-		String name = image.getOriginalFilename();
-		if (name != null && name.length() > 0) {
+		String name = multipartFile.getOriginalFilename();
+		if (name.length() > 0) {
 			try {
 				// Tạo file tại Server.
 				File serverFile = new File(UPLOAD_DIR + name);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(image.getBytes());
+				stream.write(multipartFile.getBytes());
 				stream.close();
 				//
-				logger.debug("Write file: {}", serverFile);
+				logger.info("Write file: {}", serverFile);
 				return name;
-			} catch (Exception e) {
+			} catch (IOException e) {
 				logger.error("Error write file: {}", name);
+				throw e;
 			}
 		}
 		return null;

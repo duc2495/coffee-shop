@@ -6,12 +6,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.web.multipart.MultipartFile;
 import coffeeshop.model.product.ProductType;
 
-public class ProductRegistResource {
+public class ProductUpdateResource {
+	private int productId;
 	@NotBlank(message = "{error.required}")
-	@Size(max = 100)
+	@Size(max = 100, message = "{error.maxLength}")
 	private String productName;
 	@NotNull(message = "{error.required}")
 	private ProductType productType;
@@ -19,9 +19,15 @@ public class ProductRegistResource {
 	@Min(value = 0, message = "{error.min}")
 	@Max(value = 100000, message = "{error.max}")
 	private Integer price;
-	@NotNull(message = "{error.required}")
-	private MultipartFile image;
 	private String description;
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
 	public String getProductName() {
 		return productName;
@@ -39,20 +45,12 @@ public class ProductRegistResource {
 		this.productType = productType;
 	}
 
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-
 	public Integer getPrice() {
 		return price;
 	}
 
-	public MultipartFile getImage() {
-		return image;
-	}
-
-	public void setImage(MultipartFile image) {
-		this.image = image;
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 
 	public String getDescription() {

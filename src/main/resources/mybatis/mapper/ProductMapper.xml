@@ -53,17 +53,20 @@
 		WHERE product_id = #{productId}
 	</select>
 	
-	<update id="updateProduct" parameterType="Product">
+	<update id="updateProductInfo" parameterType="Product">
 		UPDATE product
-		SET
-			product_name = #{productName}
+		SET product_name = #{productName}
 			, product_type = #{productType}
 			, price = #{price}
-			, image_url = #{imageUrl}
 			, description = #{description}
 			, updated_at = now()
-		WHERE 
-			product_id = #{productId}
+		WHERE product_id = #{productId}
+	</update>
+	
+	<update id="updateProductImage" parameterType="Product">
+		UPDATE product
+		SET image_url = #{imageUrl}
+		WHERE product_id = #{productId}
 	</update>
 	
 	<delete id="deleteProduct">

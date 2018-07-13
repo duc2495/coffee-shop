@@ -9,13 +9,15 @@
 </head>
 <body>
 	<section layout:fragment="content-header">
-		<h1>Products</h1>
+		<h1>
+			Products <small>List of Products</small>
+		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li class="active">Products</li>
 		</ol>
 		<div th:if="${info}"
-			class="col-md-3 alert alert-info alert-dismissable">
+			class="col-md-3 alert alert-info alert-dismissable alert-hide">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			<p>
@@ -34,19 +36,12 @@
 	</section>
 
 	<div layout:fragment="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box">
-					<div class="box-header">
-						<h3 class="box-title">List of Products</h3>
-						<div class="box-tools">
-							<div class="input-group" style="width: 150px;">
-								<a class="btn btn-sm btn-primary"
-									th:href="@{/admin/products/new}"><i
-									class="fa fa-plus-circle"></i> New Product</a>
-							</div>
-						</div>
-					</div>
+		<div class="row" style="margin-bottom: 15px;">
+			<div class="col-md-4">
+				<div class="input-group" style="width: 150px;">
+					<a class="btn btn-primary" th:href="@{/admin/products/new}"
+						th:text="#{button.new_product}"><i class="fa fa-plus-circle"></i>
+						New Product</a>
 				</div>
 			</div>
 		</div>
@@ -57,6 +52,14 @@
 				<div class="box box-info">
 					<div class="box-header">
 						<h3 class="box-title">PURE_COFFEE</h3>
+
+						<div class="box-tools pull-right">
+							<!-- Collapse Button -->
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body">
@@ -64,9 +67,9 @@
 							<thead>
 								<tr>
 									<th style="width: 10px">#</th>
-									<th>Name</th>
-									<th>Price</th>
-									<th>Action</th>
+									<th th:text="#{label.product_name}">Name</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.action}">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -76,8 +79,8 @@
 									<td th:text="${product.price}">Product Price</td>
 									<td><a
 										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-sm btn-default"><i class="fa fa-info"></i>
-											Info</a></td>
+										class="btn btn-default" th:text="#{button.info}"><i
+											class="fa fa-info"></i> Info</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -94,6 +97,14 @@
 				<div class="box box-info">
 					<div class="box-header">
 						<h3 class="box-title">FROM_COFFEE</h3>
+
+						<div class="box-tools pull-right">
+							<!-- Collapse Button -->
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body">
@@ -101,9 +112,9 @@
 							<thead>
 								<tr>
 									<th style="width: 10px">#</th>
-									<th>Name</th>
-									<th>Price</th>
-									<th>Action</th>
+									<th th:text="#{label.product_name}">Name</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.action}">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -113,8 +124,8 @@
 									<td th:text="${product.price}">Product Price</td>
 									<td><a
 										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-sm btn-default"><i class="fa fa-info"></i>
-											Info</a></td>
+										class="btn btn-sm btn-default" th:text="#{button.info}"><i
+											class="fa fa-info"></i> Info</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -131,6 +142,14 @@
 				<div class="box box-info">
 					<div class="box-header">
 						<h3 class="box-title">NON_COFFEE</h3>
+
+						<div class="box-tools pull-right">
+							<!-- Collapse Button -->
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body">
@@ -138,9 +157,9 @@
 							<thead>
 								<tr>
 									<th style="width: 10px">#</th>
-									<th>Name</th>
-									<th>Price</th>
-									<th>Action</th>
+									<th th:text="#{label.product_name}">Name</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.action}">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -150,8 +169,8 @@
 									<td th:text="${product.price}">Product Price</td>
 									<td><a
 										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-sm btn-default"><i class="fa fa-info"></i>
-											Info</a></td>
+										class="btn btn-sm btn-default" th:text="#{button.info}"><i
+											class="fa fa-info"></i> Info</a></td>
 								</tr>
 							</tbody>
 						</table>

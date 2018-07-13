@@ -5,17 +5,17 @@
 	layout:decorate="~{layout/adminLayout}">
 
 <head>
-<title>Admin - New Product</title>
+<title>Admin - Update Product</title>
 </head>
 <body>
 	<section layout:fragment="content-header">
 		<h1>
-			Products <small>New Product</small>
+			Products <small>Update Product</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
 			<li><a href="#" th:href="@{/admin/products}">Products</a></li>
-			<li class="active">New</li>
+			<li class="active">Update</li>
 		</ol>
 		<div th:if="${info}"
 			class="col-md-3 alert alert-info alert-dismissable">
@@ -42,20 +42,22 @@
 			<div class="col-md-6">
 				<div class="box box-primary">
 					<div class="box-header with-border">
-						<h3 class="box-title" th:text="#{title.new_product}">Create
-							New Product</h3>
+						<h3 class="box-title" th:text="#{title.update_product}">Update
+							Product</h3>
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body">
-						<form role="form" th:action="@{/admin/products}"
-							th:object="${product}" enctype="multipart/form-data"
-							method="post">
+						<form role="form"
+							th:action="@{/admin/products/{productId}(productId=${product.productId})}"
+							th:object="${product}" th:method="patch">
 							<!-- <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}"
 								th:class="text-red">Incorrect data</p> -->
-							<!-- text input -->
+
+							<!-- hidden csrf -->
 							<input type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}" />
 
+							<!-- text input -->
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('productName')}? 'has-error'">
 								<label th:text="#{label.product_name}">Name</label> <input
@@ -86,26 +88,7 @@
 									data</p>
 							</div>
 
-							<!-- bootstrap-imageupload. -->
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('image')}? 'has-error'">
-								<label for="image" th:text="#{label.product_image}">Image</label>
-								<div class="imageupload panel panel-default">
-									<div class="file-tab panel-body">
-										<label class="btn btn-primary btn-file"> <span
-											th:text="#{button.search}" class="span-search">Browse</span>
-											<input type="file" class="form-control" name="image"
-											th:field="*{image}" required />
-										</label> <span th:text="#{button.change}" class="span-change"
-											style="display: none;">change</span>
-										<button type="button" class="btn btn-danger"
-											th:text="#{button.delete}">Remove</button>
-									</div>
-								</div>
-								<p th:if="${#fields.hasErrors('image')}" th:errors="*{image}"
-									th:class="text-red">Incorrect data</p>
-							</div>
-
+							<!-- select box -->
 							<div class="form-group"
 								th:classappend="${#fields.hasErrors('productType')}? 'has-error'">
 								<label th:text="#{label.product_type}">Type</label> <select
@@ -124,6 +107,9 @@
 							<div class="box-footer">
 								<button type="submit" class="btn btn-primary"
 									th:text="#{button.submit}">Submit</button>
+									<a
+										th:href="@{/admin/products/{productId}(productId=${product.productId})}"
+										class="btn btn-default" th:text="#{button.cancel}">Cancel</a>
 							</div>
 						</form>
 					</div>
@@ -135,11 +121,6 @@
 		</div>
 
 	</div>
-	<th:block layout:fragment="script">
-		<script>
-			$('.imageupload').imageupload();
-		</script>
-	</th:block>
 
 </body>
 
