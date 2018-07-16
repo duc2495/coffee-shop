@@ -2,12 +2,11 @@ package coffeeshop.controller.product;
 
 import coffeeshop.model.product.ProductType;
 
-public class ProductDetailResource {
+public class ProductResource {
 	private int productId;
 	private String productName;
 	private ProductType productType;
 	private Integer price;
-	private String imageUrl;
 	private String description;
 
 	public int getProductId() {
@@ -34,24 +33,12 @@ public class ProductDetailResource {
 		this.productType = productType;
 	}
 
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public String getDescription() {

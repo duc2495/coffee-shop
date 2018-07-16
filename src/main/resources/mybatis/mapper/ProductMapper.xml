@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="coffeeshop.mapper.ProductRepository">
-	<resultMap id="ProductResult"  type="coffeeshop.model.product.Product" autoMapping="true">
+<mapper namespace="coffeeshop.repository.ProductRepository">
+	<resultMap id="ProductResult" type="Product" autoMapping="true">
 	</resultMap>
 	
 	<select id="getListProduct" resultMap="ProductResult">
 		SELECT *
 		FROM product
-		ORDER BY product_id;
+		ORDER BY product_id
 	</select>
 	
 	<select id="getProductById" resultMap="ProductResult">
@@ -18,7 +18,7 @@
 		WHERE product_id = #{productId}
 	</select>
 		
-	<insert id="insertProduct" parameterType="coffeeshop.model.product.Product">
+	<insert id="insertProduct" parameterType="Product">
 		INSERT 
 		INTO product(
 			product_id
@@ -40,7 +40,7 @@
 	
 	<!-- 商品IDを予約する -->
 	<select id="getNewProductId" resultType="int">
-		SELECT nextval('product_id')
+		SELECT nextval('product_id_seq')
 	</select>
 
 	<!-- check product exist or not -->
@@ -53,17 +53,26 @@
 		WHERE product_id = #{productId}
 	</select>
 	
-	<update id="updateProduct" parameterType="coffeeshop.model.product.Product">
+	<update id="updateProductInfo" parameterType="Product">
 		UPDATE product
-		SET
-			product_name = #{productName}
+		SET product_name = #{productName}
 			, product_type = #{productType}
 			, price = #{price}
-			, image_url = #{imageUrl}
 			, description = #{description}
 			, updated_at = now()
-		WHERE 
-			product_id = #{productId}
+		WHERE product_id = #{productId}
 	</update>
+	
+	<update id="updateProductImage" parameterType="Product">
+		UPDATE product
+		SET image_url = #{imageUrl}
+		WHERE product_id = #{productId}
+	</update>
+	
+	<delete id="deleteProduct">
+		DELETE 
+		FROM product
+		WHERE product_id = #{productId}
+	</delete>
 	
 </mapper>

@@ -83,7 +83,7 @@ public class UserController {
 			return "user/badUser";
 		}
 
-		userService.activeUser(user.getAccount().getUsername());
+		// userService.activeUser(user.getAccount().getUsername());
 		userService.resetToken(user.getEmail());
 		redirectAttributes.addFlashAttribute("msg", "User activated successfully");
 		return "redirect:/login";

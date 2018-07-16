@@ -83,11 +83,19 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>com.github.rozidan</groupId>
-		    <artifactId>modelmapper-spring-boot-starter</artifactId>
-		    <version>1.0.0</version>
+			<groupId>com.github.rozidan</groupId>
+			<artifactId>modelmapper-spring-boot-starter</artifactId>
+			<version>1.0.0</version>
 		</dependency>
-				
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

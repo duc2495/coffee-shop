@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("coffeeshop.mapper")
+@MapperScan("coffeeshop.repository")
 public class CoffeeShopApplication {
 
 	public static void main(String[] args) {

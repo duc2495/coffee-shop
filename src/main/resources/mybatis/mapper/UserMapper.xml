@@ -2,67 +2,60 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="coffeeshop.mapper.UserMapper">
+<mapper namespace="coffeeshop.repository.UserRepository">
 	<resultMap id="UserResult" type="User" autoMapping="true">
-		<result column="fullname" property="fullName" />
 		<association column="username" property="account"
-			javaType="Account" select="coffeeshop.mapper.AccountMapper.findAccountByUsername">
+			javaType="Account" select="coffeeshop.repository.AccountRepository.findAccountByUsername">
 		</association>
 	</resultMap>
 
 	<select id="findByUsername" resultMap="UserResult">
 		SELECT * 
-		
 		FROM users
-		
 		WHERE 
-			username =#{username}
-		
+			username = #{username}
 	</select>
 	<select id="findByEmail" resultMap="UserResult">
 		SELECT * 
-		
 		FROM users
-		
 		WHERE 
-			email =#{email}
+			email = #{email}
 	</select>
 	<select id="findByToken" resultMap="UserResult">
 		SELECT * 
-		
 		FROM users
-		
 		WHERE 
-			token =#{token}
+			token = #{token}
 	</select>
 
 	<insert id="insertUser" parameterType="User">
-		INSERT INTO users
-			( username
+		INSERT 
+		INTO users (
+			username
 			, fullname
 			, address
 			, phone_number
 			, email
 			, token
-			, expiry_date)
-			
-		VALUES
-			( #{account.username}
+			, expiry_date
+		)
+		VALUES( 
+			#{account.username}
 			, #{fullName}
 			, #{address}
 			, #{phoneNumber}
 			, #{email}
 			, #{token}
-			, #{expiryDate})
+			, #{expiryDate}
+		)
 	</insert>
 
 	<update id="resetToken" parameterType="map">
 		UPDATE users
-		
-		SET token=#{token}
-			, expiry_date =#{date}
-			
+		SET 
+			token=#{token}
+			, expiry_date = #{date}
 		WHERE 
-			email =#{email}
+			email = #{email}
 	</update>
 </mapper>
