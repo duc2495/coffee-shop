@@ -30,4 +30,18 @@ public class DBController {
 			e.printStackTrace();
 		}
 	}
+	
+	@GetMapping("/addMockingDB")
+	private void addMockingDB() {
+		EncodedResource script = new EncodedResource(new ClassPathResource("data.sql"));
+		try {
+			ScriptUtils.executeSqlScript(datasource.getConnection(), script);
+		} catch (ScriptException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
