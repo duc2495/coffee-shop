@@ -10,7 +10,8 @@
 <body>
 	<section layout:fragment="content-header">
 		<h1>
-			Products <small>List of Products</small>
+			[[#{label.product}]]
+			<small th:text="#{label.product_list}">List of Products</small>
 		</h1>
 		<ol class="breadcrumb">
 			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -79,7 +80,7 @@
 									<td th:text="${product.price}">Product Price</td>
 									<td><a
 										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-default" th:text="#{button.info}"><i
+										class="btn btn-sm btn-default" th:text="#{button.info}"><i
 											class="fa fa-info"></i> Info</a></td>
 								</tr>
 							</tbody>

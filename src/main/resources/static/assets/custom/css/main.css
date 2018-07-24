@@ -78,8 +78,13 @@
 	right: 15px;
 	margin-top: 10px;
 	z-index: 5;
+	width:252px;
 }
 
 .message {
 	display: none;
+}
+
+.table{
+	table-layout: fixed;
 }

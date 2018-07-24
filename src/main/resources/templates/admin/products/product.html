@@ -53,10 +53,7 @@
 							<div class="col-md-6">
 								<img alt="Product Image" id="productImage" class="img-product"
 									th:src="@{/admin/products/images(image=${product.imageUrl})}" />
-								<div></div>
-								<button type="button" class="btn btn-default"
-									data-toggle="modal" data-target="#modal-update-image"
-									th:text="#{button.update_product_image}">Update Image</button>
+								
 							</div>
 							<div class="col-md-6">
 								<div>
@@ -83,7 +80,11 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-6"></div>
+							<div class="col-md-6 align-items-center justify-content-center" >
+								<button type="button" class="btn btn-default" 
+									data-toggle="modal" data-target="#modal-update-image"
+									th:text="#{button.update_product_image}">Update Image</button>
+							</div>
 							<div class="col-md-3">
 								<div class="input-group">
 									<a class="btn btn-primary"

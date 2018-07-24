@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,9 @@ public class ProductController extends BaseController {
 
 	private static String UPLOAD_DIR = System.getProperty("user.home") + "/coffee-shop/images/products/";
 	private static final String viewPrefix = "admin/products/";
-
+	
+	@Autowired
+	private MessageSource messageSource;
 	@Autowired
 	private ProductService productService;
 
@@ -125,7 +129,7 @@ public class ProductController extends BaseController {
 	 */
 	@PostMapping
 	public String registProduct(@Valid @ModelAttribute("product") ProductRegistResource resource, BindingResult result,
-			Model model, RedirectAttributes redirectAttributes) {
+			Model model, RedirectAttributes redirectAttributes, Locale locale) {
 		/* service/repo layer can not access request data of web layer */
 
 		// Validate
@@ -150,7 +154,7 @@ public class ProductController extends BaseController {
 		productService.registProduct(product);
 
 		// return view
-		redirectAttributes.addFlashAttribute("info", "Product created successfully");
+		redirectAttributes.addFlashAttribute("info", messageSource.getMessage("info.product.added", null, locale));
 		return "redirect:/" + viewPrefix;
 	}
 
