@@ -39,9 +39,12 @@ CREATE TABLE "account"(
 	updated_at timestamp NOT NULL DEFAULT now()
 );
 
-DROP TABLE IF EXISTS "users" CASCADE;
-CREATE TABLE "users"(
-	username varchar(20) PRIMARY KEY REFERENCES "account"(username),
+DROP SEQUENCE IF EXISTS "customer_id_seq" CASCADE;
+
+CREATE SEQUENCE customer_id_seq;
+DROP TABLE IF EXISTS "customer_info" CASCADE;
+CREATE TABLE "customer_info"(
+	customer_id integer PRIMARY KEY DEFAULT NEXTVAL('customer_id_seq'),
 	full_name varchar(50) NOT NULL,
 	address varchar(100) NOT NULL,
 	phone_number varchar(20) NOT NULL,
@@ -62,15 +65,8 @@ CREATE TABLE "status"(
 );
 
 DROP TABLE IF EXISTS "order" CASCADE;
-DROP SEQUENCE IF EXISTS "order_id_seq" CASCADE;
-
-CREATE SEQUENCE order_id_seq;
 CREATE TABLE "order"(
-	order_id integer PRIMARY KEY DEFAULT NEXTVAL('order_id_seq'),
-	username varchar(20) REFERENCES "users"(username),
-	customer_phone_number varchar(20) NOT NULL,
-	customer_address varchar(100) NOT NULL,
-	customer_full_name varchar(50) NOT NULL,
+	order_id integer PRIMARY KEY REFERENCES "customer_info"(customer_id),
 	net_price integer NOT NULL,
 	status varchar(10) REFERENCES "status"(status_name),
 	note varchar(200),
@@ -100,43 +96,50 @@ END;'
 LANGUAGE plpgsql;
 /* create trigger */
 
-
+DROP TRIGGER IF EXISTS set_timestamp_product_type ON product_type;
 CREATE TRIGGER set_timestamp_product_type
 BEFORE UPDATE ON product_type
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
+DROP TRIGGER IF EXISTS set_timestamp_product ON product;
 CREATE TRIGGER set_timestamp_product
 BEFORE UPDATE ON product
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp_users
-BEFORE UPDATE ON users
+DROP TRIGGER IF EXISTS set_timestamp_customer ON customer_info;
+CREATE TRIGGER set_timestamp_customer
+BEFORE UPDATE ON customer_info
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp_
+DROP TRIGGER IF EXISTS set_timestamp_role ON role;
+CREATE TRIGGER set_timestamp_role
 BEFORE UPDATE ON role
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp
+DROP TRIGGER IF EXISTS set_timestamp_account ON account;
+CREATE TRIGGER set_timestamp_account
 BEFORE UPDATE ON account
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp
+DROP TRIGGER IF EXISTS set_timestamp_oder ON "order";
+CREATE TRIGGER set_timestamp_oder
 BEFORE UPDATE ON "order"
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp
+DROP TRIGGER IF EXISTS set_timestamp_order_product ON order_product;
+CREATE TRIGGER set_timestamp_order_product
 BEFORE UPDATE ON order_product
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
-CREATE TRIGGER set_timestamp_product
+DROP TRIGGER IF EXISTS set_timestamp_status ON status;
+CREATE TRIGGER set_timestamp_status
 BEFORE UPDATE ON status
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
