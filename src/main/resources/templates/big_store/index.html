@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/big_store_template}">
+
+<head>
+
+</head>
+<body>
+
+	<!--content-->
+	<div layout:fragment="content">
+		<div class="product">
+			<div>
+				<div class="container" id="content" >
+					<div class="spec">
+						<h3>Pure Coffee</h3>
+						<div class="ser-t">
+							<b></b> <span><i></i></span> <b class="line"></b>
+						</div>
+					</div>
+					<div>
+						<div class="col-md-3 pro-1"
+							th:each="product,iterStat : ${pureCoffeeList}">
+							<div class="col-m">
+								<a href="#" data-toggle="modal"
+									th:data-target="@{#pureCoffee}+${product.productId}"
+									class="offer-img"> <img
+									th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+								</a>
+								<div class="mid-1">
+									<div class="women">
+										<h6
+											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+											<a href="single.html" th:text="${product.productName}">Product
+												Name</a>
+										</h6>
+									</div>
+									<div class="mid-2">
+										<p>
+											<em class="item_price" th:text="${product.price}">Product
+												Price</em>
+										</p>
+										<div class="block">
+											<div class="starbox small ghosting"></div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+									<div class="add">
+										<button class="btn btn-danger my-cart-btn my-cart-b"
+											th:data-id="${product.productId}"
+											th:data-name="${product.productName}"
+											data-summary="summary 1" th:data-price="${product.price}"
+											data-quantity="1"
+											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="spec ">
+						<h3>From coffee</h3>
+						<div class="ser-t">
+							<b></b> <span><i></i></span> <b class="line"></b>
+						</div>
+					</div>
+					<div class=" con-w3l">
+						<div class="col-md-3 pro-1"
+							th:each="product,iterStat : ${fromCoffeeList}">
+							<div class="col-m">
+								<a href="#" data-toggle="modal"
+									th:data-target="@{#pureCoffee}+${product.productId}"
+									class="offer-img"> <img
+									th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+								</a>
+								<div class="mid-1">
+									<div class="women">
+										<h6
+											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+											<a href="single.html" th:text="${product.productName}">Product
+												Name</a>
+										</h6>
+									</div>
+									<div class="mid-2">
+										<p>
+											<em class="item_price" th:text="${product.price}">$0.80</em>
+										</p>
+										<div class="block">
+											<div class="starbox small ghosting"></div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+									<div class="add">
+										<button class="btn btn-danger my-cart-btn my-cart-b"
+											th:data-id="${product.productId}"
+											th:data-name="${product.productName}"
+											data-summary="summary 1" th:data-price="${product.price}"
+											data-quantity="1"
+											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<div class="spec ">
+						<h3>Non coffee</h3>
+						<div class="ser-t">
+							<b></b> <span><i></i></span> <b class="line"></b>
+						</div>
+					</div>
+					<div class=" con-w3l">
+						<div class="col-md-3 pro-1"
+							th:each="product,iterStat : ${nonCoffeeList}">
+							<div class="col-m">
+								<a href="#" data-toggle="modal"
+									th:data-target="@{#pureCoffee}+${product.productId}"
+									class="offer-img"> <img
+									th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+								</a>
+								<div class="mid-1">
+									<div class="women">
+										<h6
+											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+											<a href="single.html" th:text="${product.productName}">Product
+												Name</a>
+										</h6>
+									</div>
+									<div class="mid-2">
+										<p>
+											<em class="item_price" th:text="${product.price}">$0.80</em>
+										</p>
+										<div class="block">
+											<div class="starbox small ghosting"></div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+									<div class="add">
+										<button class="btn btn-danger my-cart-btn my-cart-b"
+											th:data-id="${product.productId}"
+											th:data-name="${product.productName}"
+											data-summary="summary 1" th:data-price="${product.price}"
+											data-quantity="1"
+											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+
+
+
+		<!-- product -->
+
+		<div class="modal fade"
+			th:each="product,iterStat : ${pureCoffeeList}"
+			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content modal-info">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body modal-spa">
+						<div class="col-md-5 span-2">
+							<div class="item">
+								<img th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+							</div>
+						</div>
+						<div class="col-md-7 span-1 ">
+							<h3 th:text="${product.productName}">Product Name</h3>
+							<p class="in-para">There are many variations of passages of
+								Lorem Ipsum.</p>
+							<div class="price_single">
+								<span class="reducedfrom "><del>$1.00</del>$0.80</span>
+
+								<div class="clearfix"></div>
+							</div>
+							<h4 class="quick">Quick Overview:</h4>
+							<p class="quick_desc" th:text="${product.description}">Product
+								Description es</p>
+
+							<div class="add">
+								<button class="btn btn-danger my-cart-btn my-cart-b"
+									th:data-id="${product.productId}"
+									th:data-name="${product.productName}" data-summary="summary 1"
+									th:data-price="${product.price}" data-quantity="1"
+									th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade"
+			th:each="product,iterStat : ${fromCoffeeList}"
+			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content modal-info">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body modal-spa">
+						<div class="col-md-5 span-2">
+							<div class="item">
+								<img th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+							</div>
+						</div>
+						<div class="col-md-7 span-1 ">
+							<h3 th:text="${product.productName}">Product Name</h3>
+							<p class="in-para">There are many variations of passages of
+								Lorem Ipsum.</p>
+							<div class="price_single">
+								<span class="reducedfrom "><del>$1.00</del>$0.80</span>
+
+								<div class="clearfix"></div>
+							</div>
+							<h4 class="quick">Quick Overview:</h4>
+							<p class="quick_desc" th:text="${product.description}">Product
+								Description es</p>
+							<div class="add">
+								<button class="btn btn-danger my-cart-btn my-cart-b"
+									th:data-id="${product.productId}"
+									th:data-name="${product.productName}" data-summary="summary 1"
+									th:data-price="${product.price}" data-quantity="1"
+									th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade"
+			th:each="product,iterStat : ${nonCoffeeList}"
+			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content modal-info">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body modal-spa">
+						<div class="col-md-5 span-2">
+							<div class="item">
+								<img th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+							</div>
+						</div>
+						<div class="col-md-7 span-1 ">
+							<h3 th:text="${product.productName}">Product Name</h3>
+							<p class="in-para">There are many variations of passages of
+								Lorem Ipsum.</p>
+							<div class="price_single">
+								<span class="reducedfrom "><del>$1.00</del>$0.80</span>
+
+								<div class="clearfix"></div>
+							</div>
+							<h4 class="quick">Quick Overview:</h4>
+							<p class="quick_desc" th:text="${product.description}">Product
+								Description es</p>
+							<div class="add">
+								<button class="btn btn-danger my-cart-btn my-cart-b"
+									th:data-id="${product.productId}"
+									th:data-name="${product.productName}" data-summary="summary 1"
+									th:data-price="${product.price}" data-quantity="1"
+									th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+		<script>
+			function submit() {
+				var reqRow = [];
+				var products = JSON.parse(localStorage.products);
+				for (var i = 0; i < products.length; i++) {
+					var productId = products[i].id;
+					var quantity = products[i].quantity;
+					var entry = {
+						"productId" : productId,
+						"quantity" : quantity
+					}
+					reqRow.push(entry);
+				}
+
+						$.ajax({
+							type : "Post",
+							contentType : "application/json",
+							url : "/order",
+							data : JSON.stringify({
+								productList : reqRow
+							}),
+							success : function(result) {
+								// clear customer body
+								console.log(result)
+								alert("Success!");
+								$("#content").html(result);
+							},
+							error : function(e) {
+								alert("Error!"), console.log("ERROR: ", e);
+							}
+						});
+			}
+		</script>
+	</div>
+</body>
+</html>

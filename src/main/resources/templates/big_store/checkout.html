@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/big_store_template}">
+
+<head>
+
+</head>
+<body>
+
+	<!--content-->
+
+	<div th:fragment="content" >
+		<!-- Cart info -->
+		<div class="col-sm-3">
+		<table class="table table-responsive" id="cardtable">
+			<thead >
+			<tr>
+          	<td >Product Name</td>
+          	<td >Product Price</td>
+          	<td >Product Quantity</td>
+          	<td >Total</td>
+          	</tr>
+			</thead>
+			<tr th:each="product,iterStat : ${orderProductDetailList}">
+          	<td title="Product Name" th:text=${product.productName}>Product Name</td>
+          	<td title="Unit Price" th:text=${product.price}>Product Price</td>
+          	<td title="Quantity" th:text=${product.quantity}>Product Quantity</td>
+          	<td title="Total" th:text="${product.quantity*product.price}">Total</td>
+          	</tr>
+          	<tr >
+          	<td></td>
+          	<td></td>
+          	<td></td>
+          	<td title="Total" th:text="${total_check}">Total</td>
+          	</tr>
+		</table></div>
+		<div class="col-sm-9">
+			<form th:action=${submit_order} th:object="${orderResource}">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Name"></input>
+					<input type="text" class="form-control" placeholder="Phone Number"></input>
+					<input type="text" class="form-control" placeholder="Address"></input>
+					<input type="text" class="form-control" placeholder="Name"></input>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
