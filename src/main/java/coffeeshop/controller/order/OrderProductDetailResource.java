@@ -1,6 +1,7 @@
-package coffeeshop.controller.product;
+package coffeeshop.controller.order;
 
 public class OrderProductDetailResource {
+	private Integer productId;
 	private String productName;
 	private Integer price;
 	private Integer quantity;
@@ -22,4 +23,11 @@ public class OrderProductDetailResource {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	public Integer getProductId() {
+		return productId;
+	}
+	public void setProductId(Integer productId) {
+		this.productId = productId;
+	}
+	
 }

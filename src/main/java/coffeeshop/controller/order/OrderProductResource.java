@@ -1,8 +1,6 @@
-package coffeeshop.controller.product;
+package coffeeshop.controller.order;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderProductResource {
 	private String productId;
 	private String quantity;

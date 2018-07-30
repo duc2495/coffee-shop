@@ -14,7 +14,7 @@
 	<div layout:fragment="content">
 		<div class="product">
 			<div>
-				<div class="container" id="content" >
+				<div class="container" id="content">
 					<div class="spec">
 						<h3>Pure Coffee</h3>
 						<div class="ser-t">
@@ -163,8 +163,7 @@
 
 		<!-- product -->
 
-		<div class="modal fade"
-			th:each="product,iterStat : ${pureCoffeeList}"
+		<div class="modal fade" th:each="product,iterStat : ${pureCoffeeList}"
 			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
 			role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -208,8 +207,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade"
-			th:each="product,iterStat : ${fromCoffeeList}"
+		<div class="modal fade" th:each="product,iterStat : ${fromCoffeeList}"
 			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
 			role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -252,8 +250,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade"
-			th:each="product,iterStat : ${nonCoffeeList}"
+		<div class="modal fade" th:each="product,iterStat : ${nonCoffeeList}"
 			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
 			role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -296,7 +293,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 
 		<script>
 			function submit() {
@@ -312,23 +309,24 @@
 					reqRow.push(entry);
 				}
 
-						$.ajax({
-							type : "Post",
-							contentType : "application/json",
-							url : "/order",
-							data : JSON.stringify({
-								productList : reqRow
-							}),
-							success : function(result) {
-								// clear customer body
-								console.log(result)
-								alert("Success!");
-								$("#content").html(result);
-							},
-							error : function(e) {
-								alert("Error!"), console.log("ERROR: ", e);
-							}
-						});
+				$.ajax({
+					type : "Post",
+					contentType : "application/json",
+					url : "/order",
+					data : JSON.stringify({
+						productList : reqRow
+					}),
+					success : function(result) {
+						// clear customer body
+						$("#content").html(result);
+					},
+					error : function(e) {
+						alert("Error!"), console.log("ERROR: ", e);
+					}
+				});
+				$('html, body').animate({
+					scrollTop : $('#content').offset().top
+				}, 1000);
 			}
 		</script>
 	</div>

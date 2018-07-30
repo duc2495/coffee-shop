@@ -193,7 +193,7 @@
         '<table class="table table-hover table-responsive" id="' + idCartTable + '"></table>' +
         '</div>' +
         '<div class="modal-footer">' +
-        '<button type="button" class="btn btn-info" onclick="submit()">Submit</button>' +
+        '<button type="button" id="sumitbutton" class="btn btn-info" onclick="submit()" data-dismiss="modal">Submit</button>' +
         '<button type="button" class="btn btn-danger '+classRemoveAllProduct+'">Clear all</button>' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
 
