@@ -1,21 +1,17 @@
 package coffeeshop.model.order;
-import java.util.Map;
+import java.util.List;
 
-public class Order {
+public class Order{
 
-	private Map<Integer, Integer> orderProductMap;
 	private Integer orderId;
 	private String customerName;
 	private String customerAddress;
 	private String customerPhone;
+	private String note;
+	private Integer netPrice;
 	private OrderStatus status;
-
-	public Map<Integer, Integer> getOrderProductMap() {
-		return orderProductMap;
-	}
-	public void setOrderProductSet(Map<Integer, Integer> orderProductSet) {
-		this.orderProductMap = orderProductSet;
-	}
+	private List<OrderProduct> orderProductList;
+	
 	public Integer getOrderId() {
 		return orderId;
 	}
@@ -45,6 +41,24 @@ public class Order {
 	}
 	public void setStatus(OrderStatus status) {
 		this.status = status;
+	}
+	public List<OrderProduct> getOrderProductList() {
+		return orderProductList;
+	}
+	public void setOrderProductList(List<OrderProduct> orderProductList) {
+		this.orderProductList = orderProductList;
+	}
+	public Integer getNetPrice() {
+		return netPrice;
+	}
+	public void setNetPrice(Integer netPrice) {
+		this.netPrice = netPrice;
+	}
+	public String getNote() {
+		return note;
+	}
+	public void setNote(String note) {
+		this.note = note;
 	}
 	
 }

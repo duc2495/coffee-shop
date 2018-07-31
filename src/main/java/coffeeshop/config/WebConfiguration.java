@@ -30,7 +30,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/assets/**").addResourceLocations("classpath:/static/assets/");
-		registry.addResourceHandler("/big_store/**").addResourceLocations("classpath:/templates/big_store/");
+		registry.addResourceHandler("/big_store/**").addResourceLocations("classpath:/static/assets/big_store/");
 	}
 
 	@Override

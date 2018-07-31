@@ -17,7 +17,6 @@
       classProductQuantity: 'my-product-quantity',
       classProductRemove: 'my-product-remove',
       classCheckoutCart: 'my-cart-checkout',
-      classRemoveAllProduct: 'remove-all-product',
       affixCartIcon: true,
       showCheckoutModal: true,
       clickOnAddToCart: function($addTocart) { },
@@ -165,7 +164,6 @@
     var options = OptionManager.getOptions(userOptions);
     var $cartIcon = $("." + options.classCartIcon);
     var $cartBadge = $("." + options.classCartBadge);
-    var classRemoveAllProduct = options.removeAllProduct;
     var classProductQuantity = options.classProductQuantity;
     var classProductRemove = options.classProductRemove;
     var classCheckoutCart = options.classCheckoutCart;
@@ -193,8 +191,7 @@
         '<table class="table table-hover table-responsive" id="' + idCartTable + '"></table>' +
         '</div>' +
         '<div class="modal-footer">' +
-        '<button type="button" id="sumitbutton" class="btn btn-info" onclick="submit()" data-dismiss="modal">Submit</button>' +
-        '<button type="button" class="btn btn-danger '+classRemoveAllProduct+'">Clear all</button>' +
+        '<button onclick="submit()" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
 
         '</div>' +
@@ -307,13 +304,7 @@
       }
       evt.preventDefault();
     });
-    
-    $(document).on('click', "." + classRemoveAllProduct, function(){
-    	ProductManager.clearProduct();
-    	drawTable();
-    	$cartBadge.text(ProductManager.getTotalQuantity());
-    });
-    
+
     $(document).on('click', "." + classProductRemove, function(){
       var $tr = $(this).closest("tr");
       var id = $tr.data("id");
@@ -376,6 +367,5 @@
     });
   }
 
- 
 
 })(jQuery);

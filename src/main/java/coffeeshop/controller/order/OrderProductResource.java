@@ -1,19 +1,30 @@
 package coffeeshop.controller.order;
 
+import javax.validation.constraints.Min;
 
 public class OrderProductResource {
+	private String orderId;
 	private String productId;
-	private String quantity;
+	
+	@Min(value=1)
+	private Integer quantity;
 	public String getProductId() {
 		return productId;
 	}
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
-	public String getQuantity() {
+
+	public Integer getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(String quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 }

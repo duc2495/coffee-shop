@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.repository.OrderRepository">
+	<resultMap id="OrderResult" type="Order" autoMapping="true">
+		<collection property="orderProductList" ofType="OrderProduct"
+			resultMap="OrderProductResult" autoMapping="true">
+		</collection>
+	</resultMap>
+
+	<resultMap id="OrderProductResult" type="OrderProduct"
+		autoMapping="true">
+		<association property="product" resultMap="ProductResult"></association>
+	</resultMap>
+
+	<select id="getAllOrder" resultMap="OrderResult">
+		SELECT *
+		FROM order
+		ORDER BY order_id
+	</select>
+
+	<select id="findOrderById" resultMap="OrderResult">
+		SELECT *
+		FROM order
+		WHERE
+		order_id = #{orderId}
+	</select>
+
+	<select id="findOrderByPhone" resultMap="OrderResult">
+		SELECT *
+		FROM order
+		WHERE
+		customer_phone = #{customerPhone}
+	</select>
+
+	<insert id="insertOrder" parameterType="Order" useGeneratedKeys="true"
+		keyProperty="orderId" keyColumn="order_id">
+		INSERT
+		INTO "order" (
+		net_price
+		, status
+		, note
+		, customer_name
+		, customer_phone
+		, customer_address
+		)
+		VALUES(
+		#{netPrice}
+		, #{status}
+		, #{note}
+		, #{customerName}
+		, #{customerPhone}
+		, #{customerAddress}
+		)
+	</insert>
+	
+	<insert id="insertOrderProduct" parameterType="map">
+		INSERT
+		INTO order_product (
+		order_id
+		, product_id
+		, quantity
+		)
+		VALUES(
+		#{order.orderId}
+		, #{orderProduct.product.productId}
+		, #{orderProduct.quantity}
+		)
+	</insert>
+	
+</mapper>

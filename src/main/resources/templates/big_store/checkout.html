@@ -11,49 +11,126 @@
 <body>
 
 	<!--content-->
+	<div layout:fragment="content">
+		<div class="product">
+			<div>
+				<div class="container" th:fragment="content">
+					<!-- Cart info -->
+					<div class="col-sm-1"></div>
+					<div class="col-sm-5">
+						<table class="table table-responsive" id="cardtable">
+							<thead>
+								<tr>
+									<td>Product Name</td>
+									<td>Product Price</td>
+									<td>Product Quantity</td>
+									<td>Total</td>
+								</tr>
+							</thead>
+							<tr th:each="product,iterStat : ${orderProductDetailList}">
+								<td title="Product Name" th:text=${product.productName}>Product
+									Name</td>
+								<td title="Unit Price" th:text=${product.price}>Product
+									Price</td>
+								<td title="Quantity" th:text=${product.quantity}>Product
+									Quantity</td>
+								<td title="Total" th:text="${product.quantity*product.price}">Total</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td title="Total" th:text="${total_check}">Total</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-sm-5">
+						<form th:action=@{/order/submit_order}
+							th:object="${orderResource}" th:method="POST">
+							<div class="input-group">
+								<div th:each="product, count : ${orderProductDetailList}">
+									<input th:type="@{hidden}"
+										th:id="*{orderList[__${count.index}__].productId}"
+										th:name="*{orderList[__${count.index}__].productId}"
+										th:value="${product.productId}"> <input
+										th:type="@{hidden}"
+										th:id="*{orderList[__${count.index}__].quantity}"
+										th:name="*{orderList[__${count.index}__].quantity}"
+										th:value="${product.quantity}">
+								</div>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('customerName')}? 'has-error'">
+									<input type="text" class="form-control" placeholder="Name"
+										th:field="*{customerName}"></input>
+										<p th:if="${#fields.hasErrors('customerName')}"
+									th:errors="*{customerName}" th:class="text-red">Incorrect
+									data</p>
+								</div>
 
-	<div th:fragment="content">
-		<!-- Cart info -->
-		<div class="col-sm-1"></div>
-		<div class="col-sm-5">
-			<table class="table table-responsive" id="cardtable">
-				<thead>
-					<tr>
-						<td>Product Name</td>
-						<td>Product Price</td>
-						<td>Product Quantity</td>
-						<td>Total</td>
-					</tr>
-				</thead>
-				<tr th:each="product,iterStat : ${orderProductDetailList}">
-					<td title="Product Name" th:text=${product.productName}>Product
-						Name</td>
-					<td title="Unit Price" th:text=${product.price}>Product Price</td>
-					<td title="Quantity" th:text=${product.quantity}>Product
-						Quantity</td>
-					<td title="Total" th:text="${product.quantity*product.price}">Total</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td title="Total" th:text="${total_check}">Total</td>
-				</tr>
-			</table>
-		</div>
-		<div class="col-sm-5">
-			<form th:action=@{submit_order} th:object="${orderResource}">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Name"></input>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('customerPhone')}? 'has-error'">
+									<input type="text" class="form-control"
+										placeholder="Phone Number" th:field="*{customerPhone}"></input>
+										<p th:if="${#fields.hasErrors('customerPhone')}"
+									th:errors="*{customerPhone}" th:class="text-red">Incorrect
+									data</p>
+								</div>
 
-					<input type="text" class="form-control" placeholder="Phone Number"></input>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('customerAddress')}? 'has-error'">
+									<input type="text" class="form-control" placeholder="Address"
+										th:field="*{customerAddress}"></input>
+										<span th:if="${#fields.hasErrors('customerAddress')}"
+									th:errors="*{customerAddress}" th:class="text-red">Incorrect
+									data</span>
+								</div>
 
-					<input type="text" class="form-control" placeholder="Address"></input>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('note')}? 'has-error'">
+									<input type="text" class="form-control" placeholder="Note"
+										th:field="*{note}"></input>
+								</div>
+							
+							</div>
+							<input type="submit" value="Submit"></input>
+						</form>
+					</div>
+					<script>
+						function submit_order() {
+							var reqRow = [];
+							var products = JSON.parse(localStorage.products);
+							for (var i = 0; i < products.length; i++) {
+								var productId = products[i].id;
+								var quantity = products[i].quantity;
+								var entry = {
+									"productId" : productId,
+									"quantity" : quantity
+								}
+								reqRow.push(entry);
+							}
 
-					<input type="text" class="form-control" placeholder="Note"></input>
+							$.ajax({
+								type : "Post",
+								contentType : "application/json",
+								url : "/order",
+								data : JSON.stringify({
+									productList : reqRow
+								}),
+								success : function(result) {
+									// clear customer body
+									$("#content").html(result);
+								},
+								error : function(e) {
+									alert("Error!"), console.log("ERROR: ", e);
+								}
+							});
+							$('html, body').animate({
+								scrollTop : $('#content').offset().top
+							}, 1000);
+						}
+					</script>
 				</div>
-				<input type="submit" value="Submit"></input>
-			</form>
+			</div>
 		</div>
 	</div>
 </body>

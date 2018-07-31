@@ -3,8 +3,11 @@ package coffeeshop.controller.product;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProductListResource<T> {
-	private List<T> productList = new LinkedList<T>();
+import javax.validation.Valid;
+
+public class ListResource<T> {
+	
+	private List<@Valid T> productList = new LinkedList<T>();
 
 	public List<T> getProductList() {
 		return productList;
