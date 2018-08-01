@@ -12,17 +12,16 @@ import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import coffeeshop.controller.product.ProductHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.controller.product.ListResource;
@@ -69,9 +68,21 @@ public class OrderController {
 		return "big_store/checkout";
 	}
 
-	@GetMapping("/order_detail")
-	public String orderDetail(){
-		return "";
+	
+	@GetMapping("/{orderId}")
+	public String orderDetail(@PathVariable("orderId") Integer orderId, Model model){
+		Order order = orderService.findOrderById(orderId);
+		if (order == null) {
+			// return 404 view
+			return "error";
+		}
+
+		// resourceに変換
+		OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
+		model.addAttribute("order", resource);
+
+		// return product detail view
+		return "big_store/order";
 	}
 
 	@PostMapping("/submit_order")
@@ -124,5 +135,20 @@ public class OrderController {
 		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);
 		return "big_store/checkout";
+	}
+	
+	@PatchMapping("/{orderId}")
+	public String cancelOrder(@PathVariable("orderId") Integer orderId, Model model){
+		Order order = orderService.findOrderById(orderId);
+		if (order == null) {
+			// return 404 view
+			return "error";
+		}
+		// Order modelを作成
+		
+		// DBにを更新
+		
+		// return view
+		return "";
 	}
 }
