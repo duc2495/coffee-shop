@@ -50,5 +50,24 @@ public class OrderHelper {
 		model.setProduct(productService.getProductDetail(Integer.parseInt(resource.getProductId())));
 		return model;
 	}
-
+	
+	public OrderProductDetailResource createOrderProductDetailResource(OrderProduct model){
+		OrderProductDetailResource opdr = modelMapper.map(model, OrderProductDetailResource.class);
+		opdr.setProductId(model.getProduct().getProductId());
+		opdr.setPrice(model.getProduct().getPrice()*opdr.getQuantity());
+		opdr.setProductName(model.getProduct().getProductName());
+		return opdr;
+	}
+	
+	public OrderDetailResource createOrderDetailResource(Order model){
+		OrderDetailResource orderDetailResource = modelMapper.map(model, OrderDetailResource.class);
+		List<OrderProductDetailResource> orderProductDetailList = new LinkedList<OrderProductDetailResource>();
+		for(OrderProduct op : model.getOrderProductList()){
+			orderProductDetailList.add(createOrderProductDetailResource(op));
+		}
+		System.out.println(model.getOrderProductList().size());
+		orderDetailResource.setOrderProductDetailList(orderProductDetailList);
+		return orderDetailResource;
+		
+	}
 }

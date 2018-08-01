@@ -5,6 +5,7 @@ public class OrderProductDetailResource {
 	private String productName;
 	private Integer price;
 	private Integer quantity;
+	
 	public String getProductName() {
 		return productName;
 	}

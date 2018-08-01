@@ -48,15 +48,20 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public void insertOrder(OrderResource orderResource) {
+	public int insertOrder(OrderResource orderResource) {
 		Order order = orderHelper.createOrderModel(orderResource);
 		order.setStatus(OrderStatus.ORDERED);
-		System.out.println(order.getCustomerAddress()+order.getCustomerName()+order.getCustomerPhone()+order.getNetPrice());
-		order.getOrderProductList().forEach(e->System.out.println(e.getProduct().getProductName()+":"+e.getQuantity()));
 		this.insertOrder(order);
 		for(OrderProduct orderProduct : order.getOrderProductList()){
 			insertOrderProduct(order, orderProduct);
 		}
+		return order.getOrderId();
+	}
+
+	@Override
+	public Order findOrderById(Integer id) {
+		Order order = orderRepository.findOrderById(id);
+		return order;
 	}
 
 }

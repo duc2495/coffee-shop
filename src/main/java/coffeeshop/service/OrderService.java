@@ -8,7 +8,8 @@ import coffeeshop.model.order.OrderProduct;
 
 public interface OrderService {
 
-	public void insertOrder(OrderResource orderResource);
+	public int insertOrder(OrderResource orderResource);
+	public Order findOrderById(Integer id);
 	public List<Order> getAllOrder();
 	public List<OrderProduct> getAllOrderProduct(Order order);
 }

@@ -15,6 +15,6 @@ public interface OrderRepository {
 	public List<Order> findOrderByPhone(String phone);
 	public List<Order> findOrderByCustomerName(String name);
 	public boolean hasOrder(@Param("orderId") Integer id);
-	public Integer insertOrder(Order order);
+	public Integer insertOrder(@Param("order") Order order);
 	public Integer insertOrderProduct(@Param("order") Order order, @Param("orderProduct") OrderProduct orderProduct);
 }
