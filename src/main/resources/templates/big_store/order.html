@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/big_store_template}">
+
+<head>
+
+</head>
+<body>
+
+	<!--content-->
+	<div layout:fragment="content">
+		<div th:if="${info}"
+			class="col-md-3 alert alert-info alert-dismissable alert-hide">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			<p>
+				<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
+			</p>
+		</div>
+		<div class="product">
+			<div>
+				<div class="container" th:fragment="content">
+					<!-- Order status -->
+					<div class="row order-status">
+						<div th:switch="${order.status.value}">
+							<h4>Order Status</h4>
+
+							<ol th:case="'1'" class="progtrckr" data-progtrckr-steps="3">
+								<li class="progtrckr-done">Ordered</li>
+								<li class="progtrckr-todo">Shipping</li>
+								<li class="progtrckr-todo">Finished</li>
+							</ol>
+
+							<ol th:case="'2'" class="progtrckr" data-progtrckr-steps="3">
+								<li class="progtrckr-done">Ordered</li>
+								<li class="progtrckr-done">Shipping</li>
+								<li class="progtrckr-todo">Finished</li>
+							</ol>
+
+
+							<ol th:case="'3'" class="progtrckr" data-progtrckr-steps="3">
+								<li class="progtrckr-done">Ordered</li>
+								<li class="progtrckr-done">Shipping</li>
+								<li class="progtrckr-done">Finished</li>
+							</ol>
+							<p th:case="*" th:text=${order.status}>Canceled</p>
+						</div>
+					</div>
+
+					<!-- Order info -->
+					<div class="row">
+						<h4>Order Info</h4>
+						<div class="col-sm-6">
+							<table class="table table-responsive" id="cardtable">
+
+								<tr>
+									<td title="Order Id" th:text="@{Order Id}">Order Id</td>
+									<td title="Order Id" th:text=${order.orderId}>Order Id</td>
+								</tr>
+								<tr>
+									<td title="Customer Name" th:text="@{Customer Name}">Customer
+										Name</td>
+									<td title="Customer Name" th:text=${order.customerName}>Customer
+										Name</td>
+								</tr>
+								<tr>
+									<td title="Phone Number" th:text="@{Phone Number}">Phone
+										Number</td>
+									<td title="Phone Number" th:text=${order.customerPhone}>Phone
+										Number</td>
+								</tr>
+								<tr>
+									<td title="Customer Address" th:text="@{Customer Address}">Customer
+										Address</td>
+									<td title="Customer Address" th:text=${order.customerAddress}>Customer
+										Address</td>
+								</tr>
+								<tr>
+									<td title="Note" th:text="@{Note}">Note</td>
+									<td title="Note" th:text=${order.note}>Note</td>
+								</tr>
+
+							</table>
+						</div>
+
+						<div class="col-sm-6">
+							<table class="table table-responsive" id="cardtable">
+								<thead>
+									<tr>
+										<td>Product Name</td>
+										<td>Product Price</td>
+										<td>Product Quantity</td>
+										<td>Total</td>
+									</tr>
+								</thead>
+								<tr th:each="product,iterStat : ${order.orderProductDetailList}">
+									<td title="Product Name" th:text=${product.productName}>Product
+										Name</td>
+									<td title="Unit Price" th:text=${product.price}>Product
+										Price</td>
+									<td title="Quantity" th:text=${product.quantity}>Product
+										Quantity</td>
+									<td title="Total" th:text="${product.quantity*product.price}">Total</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td title="Total" th:text="${total_check}">Total</td>
+								</tr>
+							</table>
+						</div>
+
+					</div>
+					<div th:if="${order.status.value} == 1">
+						<form role="form"
+							th:action="@{/order/{orderId}(orderId=${order.orderId})}"
+							th:method="delete">
+							<div>
+								<button type="submit" class="btn btn-danger">
+									<i class="fa fa-delete"></i> Cancel
+								</button>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
