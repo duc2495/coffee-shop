@@ -21,10 +21,10 @@
 						<table class="table table-responsive" id="cardtable">
 							<thead>
 								<tr>
-									<td>Product Name</td>
-									<td>Product Price</td>
-									<td>Product Quantity</td>
-									<td>Total</td>
+									<td>品名</td>
+									<td>値段</td>
+									<td>数</td>
+									<td>全部</td>
 								</tr>
 							</thead>
 							<tr th:each="product,iterStat : ${orderProductDetailList}">
@@ -42,7 +42,14 @@
 								<td></td>
 								<td title="Total" th:text="${total_check}">Total</td>
 							</tr>
+
 						</table>
+						<div th:object="${orderResource}">
+							<div th:classappend="${#fields.hasErrors('orderList')}? 'has-error'">
+								<p th:if="${#fields.errors('orderList')}"
+									th:errors="*{orderList}" th:class="text-red">Incorrect data</p>
+							</div>
+						</div>
 					</div>
 					<div class="col-sm-5">
 						<form th:action=@{/order/submit_order}
@@ -60,39 +67,39 @@
 								</div>
 								<div class="form-group"
 									th:classappend="${#fields.hasErrors('customerName')}? 'has-error'">
-									<input type="text" class="form-control" placeholder="Name"
+									<input type="text" class="form-control" placeholder="名前"
 										th:field="*{customerName}"></input>
-										<p th:if="${#fields.hasErrors('customerName')}"
-									th:errors="*{customerName}" th:class="text-red">Incorrect
-									data</p>
+									<p th:if="${#fields.hasErrors('customerName')}"
+										th:errors="*{customerName}" th:class="text-red">Incorrect
+										data</p>
 								</div>
 
 								<div class="form-group"
 									th:classappend="${#fields.hasErrors('customerPhone')}? 'has-error'">
 									<input type="text" class="form-control"
-										placeholder="Phone Number" th:field="*{customerPhone}"></input>
-										<p th:if="${#fields.hasErrors('customerPhone')}"
-									th:errors="*{customerPhone}" th:class="text-red">Incorrect
-									data</p>
+										placeholder="電話番号" th:field="*{customerPhone}"></input>
+									<p th:if="${#fields.hasErrors('customerPhone')}"
+										th:errors="*{customerPhone}" th:class="text-red">Incorrect
+										data</p>
 								</div>
 
 								<div class="form-group"
 									th:classappend="${#fields.hasErrors('customerAddress')}? 'has-error'">
-									<input type="text" class="form-control" placeholder="Address"
-										th:field="*{customerAddress}"></input>
-										<span th:if="${#fields.hasErrors('customerAddress')}"
-									th:errors="*{customerAddress}" th:class="text-red">Incorrect
-									data</span>
+									<input type="text" class="form-control" placeholder="住所"
+										th:field="*{customerAddress}"></input> <span
+										th:if="${#fields.hasErrors('customerAddress')}"
+										th:errors="*{customerAddress}" th:class="text-red">Incorrect
+										data</span>
 								</div>
 
 								<div class="form-group"
 									th:classappend="${#fields.hasErrors('note')}? 'has-error'">
-									<input type="text" class="form-control" placeholder="Note"
+									<input type="text" class="form-control" placeholder="メーモ"
 										th:field="*{note}"></input>
 								</div>
-							
+
 							</div>
-							<input type="submit" value="Submit"></input>
+							<input type="submit" value="提出"></input>
 						</form>
 					</div>
 					<script>

@@ -186,11 +186,11 @@
 							<p class="in-para" th:text=${product.productType}>There are many variations of passages of
 								Lorem Ipsum.</p>
 							<div class="price_single">
-								<span class="reducedfrom "><del>$1.00</del>$0.80</span>
+								<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
 
 								<div class="clearfix"></div>
 							</div>
-							<h4 class="quick">Quick Overview:</h4>
+							<h4 class="quick" th:text="@{デスクリプション}">Quick Overview:</h4>
 							<p class="quick_desc" th:text="${product.description}">Product
 								Description es</p>
 
@@ -227,16 +227,17 @@
 						</div>
 						<div class="col-md-7 span-1 ">
 							<h3 th:text="${product.productName}">Product Name</h3>
-							<p class="in-para">There are many variations of passages of
+							<p class="in-para" th:text=${product.productType}>There are many variations of passages of
 								Lorem Ipsum.</p>
 							<div class="price_single">
-								<span class="reducedfrom "><del>$1.00</del>$0.80</span>
+								<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
 
 								<div class="clearfix"></div>
 							</div>
 							<h4 class="quick">Quick Overview:</h4>
 							<p class="quick_desc" th:text="${product.description}">Product
 								Description es</p>
+
 							<div class="add">
 								<button class="btn btn-danger my-cart-btn my-cart-b"
 									th:data-id="${product.productId}"
@@ -270,16 +271,17 @@
 						</div>
 						<div class="col-md-7 span-1 ">
 							<h3 th:text="${product.productName}">Product Name</h3>
-							<p class="in-para">There are many variations of passages of
+							<p class="in-para" th:text=${product.productType}>There are many variations of passages of
 								Lorem Ipsum.</p>
 							<div class="price_single">
-								<span class="reducedfrom "><del>$1.00</del>$0.80</span>
+								<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
 
 								<div class="clearfix"></div>
 							</div>
 							<h4 class="quick">Quick Overview:</h4>
 							<p class="quick_desc" th:text="${product.description}">Product
 								Description es</p>
+
 							<div class="add">
 								<button class="btn btn-danger my-cart-btn my-cart-b"
 									th:data-id="${product.productId}"

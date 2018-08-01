@@ -4,8 +4,9 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coffeeshop.repository.OrderRepository">
 	<resultMap id="OrderResult" type="Order" autoMapping="true" >
-		<collection property="orderProductList" resultMap="OrderProductResult" autoMapping="true" column="product_id">
-			<association property="product" autoMapping="true" ></association>
+	<id column="order_id" property="orderId"/>
+		<collection property="orderProductList" resultMap="OrderProductResult" autoMapping="true">
+			<association property="product" autoMapping="true" columnPrefix="product_"></association>
 		</collection>
 	</resultMap>
 

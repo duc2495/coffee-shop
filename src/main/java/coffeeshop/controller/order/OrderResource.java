@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.context.MessageSource;
 
 public class OrderResource {
 
+	@NotEmpty(message = "{error.required}")
 	private List<OrderProductResource> orderList = new LinkedList<OrderProductResource>();
 	@NotBlank(message = "{error.required}")
 	private String customerName;

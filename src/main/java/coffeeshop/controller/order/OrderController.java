@@ -2,10 +2,12 @@ package coffeeshop.controller.order;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +43,9 @@ public class OrderController {
 	@Autowired
 	private OrderHelper orderHelper;
 
+	@Autowired
+	private MessageSource messageSource;
+	
 	@ModelAttribute("orderResource")
 	private OrderResource orderResource() {
 		return new OrderResource();
@@ -71,7 +76,7 @@ public class OrderController {
 
 	@PostMapping("/submit_order")
 	public String receiveListOrderProduct(@Valid @ModelAttribute("orderResource") OrderResource orderResource,
-			BindingResult result, RedirectAttributes redirectAttributes, Model model) throws ParseException {
+			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale) throws ParseException {
 
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
@@ -85,13 +90,15 @@ public class OrderController {
 		model.addAttribute("orderResource", orderResource);
 		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);
-		if (result.hasErrors()) {
+		if (result.hasErrors()){
+			result.getAllErrors().forEach(e->{for(Object s: e.getArguments()){System.out.println(s);}});
 			return "big_store/checkout";
 		}
 		// add order to db
 		int id = orderService.insertOrder(orderResource);
 		Order order = orderService.findOrderById(id);
 		model.addAttribute("order", orderHelper.createOrderDetailResource(order));
+		model.addAttribute("info", messageSource.getMessage("info.order.success", new Object[]{order.getOrderId()}, locale));
 		return "/big_store/order_detail";
 	}
 

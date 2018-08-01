@@ -191,8 +191,8 @@
         '<table class="table table-hover table-responsive" id="' + idCartTable + '"></table>' +
         '</div>' +
         '<div class="modal-footer">' +
-        '<button onclick="submit()" type="button" class="btn btn-default" data-dismiss="modal">Submit</button>' +
-        '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+        '<button id="submit_order" onclick="submit()" type="button" class="btn btn-default" data-dismiss="modal">発注</button>' +
+        '<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>' +
 
         '</div>' +
         '</div>' +
@@ -212,10 +212,10 @@
           '<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
           '<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="' + this.image + '"/></td>' +
           '<td>' + this.name + '</td>' +
-          '<td title="Unit Price">$' + this.price + '</td>' +
-          '<td title="Quantity"><input type="number" min="1" style="width: 70px;" class="' + classProductQuantity + '" value="' + this.quantity + '"/></td>' +
-          '<td title="Total" class="' + classProductTotal + '">$' + total + '</td>' +
-          '<td title="Remove from Cart" class="text-center" style="width: 30px;"><a href="javascript:void(0);" class="btn btn-xs btn-danger ' + classProductRemove + '">X</a></td>' +
+          '<td title="値段">$' + this.price + '</td>' +
+          '<td title="数値"><input type="number" min="1" style="width: 70px;" class="' + classProductQuantity + '" value="' + this.quantity + '"/></td>' +
+          '<td title="全部" class="' + classProductTotal + '">$' + total + '</td>' +
+          '<td title="抜き" class="text-center" style="width: 30px;"><a href="javascript:void(0);" class="btn btn-xs btn-danger ' + classProductRemove + '">X</a></td>' +
           '</tr>'
         );
       });
@@ -248,6 +248,16 @@
 
       showGrandTotal();
       showDiscountPrice();
+      if(!products.length){
+    	  if(document.getElementById('submit_order')){
+    	  document.getElementById('submit_order').style.visibility='hidden';
+    	  }
+      }
+      if(products.length){
+    	  if(document.getElementById('submit_order')){
+        	  document.getElementById('submit_order').style.visibility='visible';
+        	  }
+      }
     }
     var showModal = function(){
       drawTable();
