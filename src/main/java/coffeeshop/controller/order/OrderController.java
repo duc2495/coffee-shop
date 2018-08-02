@@ -44,7 +44,8 @@ public class OrderController {
 
 	@Autowired
 	private MessageSource messageSource;
-	
+
+	// Session attribute
 	@ModelAttribute("orderResource")
 	private OrderResource orderResource() {
 		return new OrderResource();
@@ -68,13 +69,35 @@ public class OrderController {
 		return "big_store/checkout";
 	}
 
-	
-	@GetMapping("/{orderId}")
-	public String orderDetail(@PathVariable("orderId") Integer orderId, Model model){
-		Order order = orderService.findOrderById(orderId);
+	@GetMapping(value = "/find_order")
+	public String getFindOder(Model model, OrderRequestResource orderRequestResource) {
+		model.addAttribute("orderRequestResource", orderRequestResource);
+		return "big_store/find_order";
+	}
+
+	@PostMapping("/find_order")
+	public String postFindOrder(
+			@Valid @ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource,
+			BindingResult result, RedirectAttributes redirectAttribute) {
+		redirectAttribute.addFlashAttribute("orderRequestResource", orderRequestResource);
+		return "redirect:/order/order_detail";
+	}
+
+	@GetMapping("/order_detail")
+	public String orderDetail(@ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource, Model model) {
+		if (orderRequestResource.getOrderId() == null) {
+			// return 404 view
+			return "big_store/find_order";
+		}
+		Order order = orderService.findOrderById(orderRequestResource.getOrderId());
+		
 		if (order == null) {
 			// return 404 view
 			return "error";
+		}
+		else if(!order.getCustomerPhone().equals(orderRequestResource.getCustomerPhone())){
+			model.addAttribute("info", "結果がありません");
+			return "big_store/find_order";
 		}
 
 		// resourceに変換
@@ -87,7 +110,8 @@ public class OrderController {
 
 	@PostMapping("/submit_order")
 	public String receiveListOrderProduct(@Valid @ModelAttribute("orderResource") OrderResource orderResource,
-			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale) throws ParseException {
+			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale)
+			throws ParseException {
 
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
@@ -101,16 +125,19 @@ public class OrderController {
 		model.addAttribute("orderResource", orderResource);
 		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);
-		if (result.hasErrors()){
-			result.getAllErrors().forEach(e->{for(Object s: e.getArguments()){System.out.println(s);}});
+		if (result.hasErrors()) {
 			return "big_store/checkout";
 		}
 		// add order to db
 		int id = orderService.insertOrder(orderResource);
 		Order order = orderService.findOrderById(id);
-		model.addAttribute("order", orderHelper.createOrderDetailResource(order));
-		model.addAttribute("info", messageSource.getMessage("info.order.success", new Object[]{order.getOrderId()}, locale));
-		return "/big_store/order_detail";
+		OrderRequestResource orr = new OrderRequestResource();
+		orr.setCustomerPhone(order.getCustomerPhone());
+		orr.setOrderId(order.getOrderId());
+		redirectAttributes.addFlashAttribute("orderRequestResource", orr);
+		redirectAttributes.addFlashAttribute("info",
+				messageSource.getMessage("info.order.success", new Object[] { order.getOrderId() }, locale));
+		return "redirect:/order/order_detail";
 	}
 
 	@PostMapping("")
@@ -136,18 +163,18 @@ public class OrderController {
 		model.addAttribute("total_check", total_check);
 		return "big_store/checkout";
 	}
-	
+
 	@PatchMapping("/{orderId}")
-	public String cancelOrder(@PathVariable("orderId") Integer orderId, Model model){
+	public String cancelOrder(@PathVariable("orderId") Integer orderId, Model model) {
 		Order order = orderService.findOrderById(orderId);
 		if (order == null) {
 			// return 404 view
 			return "error";
 		}
 		// Order modelを作成
-		
+
 		// DBにを更新
-		
+
 		// return view
 		return "";
 	}

@@ -12,13 +12,17 @@
 
 	<!--content-->
 	<div layout:fragment="content">
-		<div th:if="${info}"
-			class="col-md-3 alert alert-info alert-dismissable alert-hide">
-			<button type="button" class="close" data-dismiss="alert"
-				aria-hidden="true">&times;</button>
-			<p>
-				<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
-			</p>
+		
+		<div th:if="${info}">
+			<div class="col-md-4"></div>
+			<div class="col-md-4"></div>
+			<div class="col-md-4 alert alert-info alert-dismissable alert-hide">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-hidden="true">&times;</button>
+				<p>
+					<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
+				</p>
+			</div>
 		</div>
 		<div class="product">
 			<div>
@@ -109,7 +113,7 @@
 									<td></td>
 									<td></td>
 									<td></td>
-									<td title="Total" th:text="${total_check}">Total</td>
+									<td title="Total" th:text="${order.netPrice}">Total</td>
 								</tr>
 							</table>
 						</div>
