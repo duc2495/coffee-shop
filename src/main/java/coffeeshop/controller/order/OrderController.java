@@ -84,18 +84,18 @@ public class OrderController {
 	}
 
 	@GetMapping("/order_detail")
-	public String orderDetail(@ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource, Model model) {
+	public String orderDetail(@ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource,
+			Model model) {
 		if (orderRequestResource.getOrderId() == null) {
 			// return 404 view
 			return "big_store/find_order";
 		}
 		Order order = orderService.findOrderById(orderRequestResource.getOrderId());
-		
+
 		if (order == null) {
 			// return 404 view
 			return "error";
-		}
-		else if(!order.getCustomerPhone().equals(orderRequestResource.getCustomerPhone())){
+		} else if (!order.getCustomerPhone().equals(orderRequestResource.getCustomerPhone())) {
 			model.addAttribute("info", "結果がありません");
 			return "big_store/find_order";
 		}

@@ -17,6 +17,7 @@ public class OrderHelper {
 	private ModelMapper modelMapper;
 	@Autowired
 	private ProductService productService;
+
 	/**
 	 * 商品のresource→model変換
 	 * 
@@ -28,16 +29,16 @@ public class OrderHelper {
 		Order model = modelMapper.map(resource, Order.class);
 		Integer net_price = 0;
 		List<OrderProduct> orderProductList = new LinkedList<OrderProduct>();
-		for (OrderProductResource op : resource.getOrderList()){
+		for (OrderProductResource op : resource.getOrderList()) {
 			OrderProduct orderProduct = createOrderProductModel(op);
 			orderProductList.add(orderProduct);
-			net_price+=orderProduct.getProduct().getPrice()*orderProduct.getQuantity();
+			net_price += orderProduct.getProduct().getPrice() * orderProduct.getQuantity();
 		}
 		model.setNetPrice(net_price);
 		model.setOrderProductList(orderProductList);
 		return model;
 	}
-	
+
 	/**
 	 * 商品のupdateResource→model変換
 	 * 
@@ -50,24 +51,34 @@ public class OrderHelper {
 		model.setProduct(productService.getProductDetail(Integer.parseInt(resource.getProductId())));
 		return model;
 	}
-	
-	public OrderProductDetailResource createOrderProductDetailResource(OrderProduct model){
+
+	public OrderProductDetailResource createOrderProductDetailResource(OrderProduct model) {
 		OrderProductDetailResource opdr = modelMapper.map(model, OrderProductDetailResource.class);
 		opdr.setProductId(model.getProduct().getProductId());
-		opdr.setPrice(model.getProduct().getPrice()*opdr.getQuantity());
+		opdr.setPrice(model.getProduct().getPrice() * opdr.getQuantity());
 		opdr.setProductName(model.getProduct().getProductName());
 		return opdr;
 	}
-	
-	public OrderDetailResource createOrderDetailResource(Order model){
+
+	public OrderDetailResource createOrderDetailResource(Order model) {
 		OrderDetailResource orderDetailResource = modelMapper.map(model, OrderDetailResource.class);
 		List<OrderProductDetailResource> orderProductDetailList = new LinkedList<OrderProductDetailResource>();
-		for(OrderProduct op : model.getOrderProductList()){
+		for (OrderProduct op : model.getOrderProductList()) {
 			orderProductDetailList.add(createOrderProductDetailResource(op));
 		}
 		System.out.println(model.getOrderProductList().size());
 		orderDetailResource.setOrderProductDetailList(orderProductDetailList);
 		return orderDetailResource;
-		
+	}
+
+	/**
+	 * 発注詳細のmodel→resource変換
+	 * 
+	 * @param model
+	 * @return
+	 */
+	public OrderListResource createOrderListResource(Order model) {
+		OrderListResource orderListResource = modelMapper.map(model, OrderListResource.class);
+		return orderListResource;
 	}
 }
