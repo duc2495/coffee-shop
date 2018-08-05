@@ -17,19 +17,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	
 	
 	
+	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 function hideURLbar(){ window.scrollTo(0,1); } 
 
 
 
-</script>
 
-<link href="/big_store/css/bootstrap.css" rel='stylesheet' type='text/css' />
+</script>
+<link rel="stylesheet"
+	href="assets/dist/css/dataTables.bootstrap.min.css"
+	th:href="@{/assets/dist/css/dataTables.bootstrap.min.css}" />
+<link href="/big_store/css/bootstrap.css" rel='stylesheet'
+	type='text/css' />
 <!-- Custom Theme files -->
 <link href="/big_store/css/style.css" rel='stylesheet' type='text/css' />
+
 <!-- js -->
 <script src="/big_store/js/jquery-1.11.1.min.js"></script>
 <script src="/assets/custom/js/main.js"></script>
+<script th:src="@{'/assets/dist/js/select2.full.min.js'}"></script>
+<script th:src="@{'/assets/dist/js/jquery.dataTables.min.js'}"></script>
+<script th:src="@{'/assets/dist/js/dataTables.bootstrap.min.js'}"></script>
 <!-- //js -->
 <!-- start-smoth-scrolling -->
 <script type="text/javascript" src="/big_store/js/move-top.js"></script>
@@ -50,10 +59,11 @@ function hideURLbar(){ window.scrollTo(0,1); }
 	rel='stylesheet' type='text/css'>
 <link href='//fonts.googleapis.com/css?family=Noto+Sans:400,700'
 	rel='stylesheet' type='text/css'>
-
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
-<a href="offer.html"><img src="/big_store/images/download.png"
+	<a href="offer.html"><img src="/big_store/images/download.png"
 		class="img-head" alt=""></a>
 	<div class="header">
 
@@ -228,7 +238,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 		</div>
 	</div>
 	<!-- //footer-->
-		<!-- smooth scrolling -->
+	<!-- smooth scrolling -->
 	<script type="text/javascript">
 		$(document).ready(function() {
 			/*
@@ -295,7 +305,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 
 		});
 	</script>
-	
-</body>
+
+</body><link href="/big_store/custom/css/main.css" rel='stylesheet' type='text/css' />
 
 </html>

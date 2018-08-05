@@ -23,10 +23,8 @@ public class DBController {
 		try {
 			ScriptUtils.executeSqlScript(datasource.getConnection(), script);
 		} catch (ScriptException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -37,10 +35,8 @@ public class DBController {
 		try {
 			ScriptUtils.executeSqlScript(datasource.getConnection(), script);
 		} catch (ScriptException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

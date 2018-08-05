@@ -22,6 +22,46 @@
 						</div>
 					</div>
 					<div>
+						<div th:fragment="pureCoffeeListPaginated">
+						<div class="col-md-3 pro-1"
+							th:each="product,iterStat : ${pureCoffeeList}">
+							<div class="col-m">
+								<a href="#" data-toggle="modal"
+									th:data-target="@{#pureCoffee}+${product.productId}"
+									class="offer-img"> <img
+									th:src="@{/product/images(image=${product.imageUrl})}"
+									class="img-responsive" alt="">
+								</a>
+								<div class="mid-1">
+									<div class="women">
+										<h6
+											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+											<a href="single.html" th:text="${product.productName}">Product
+												Name</a>
+										</h6>
+									</div>
+									<div class="mid-2">
+										<p>
+											<em class="item_price" th:text="${product.price}">Product
+												Price</em>
+										</p>
+										<div class="block">
+											<div class="starbox small ghosting"></div>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+									<div class="add">
+										<button class="btn btn-danger my-cart-btn my-cart-b"
+											th:data-id="${product.productId}"
+											th:data-name="${product.productName}"
+											data-summary="summary 1" th:data-price="${product.price}"
+											data-quantity="1"
+											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
 						<div class="col-md-3 pro-1"
 							th:each="product,iterStat : ${pureCoffeeList}">
 							<div class="col-m">
@@ -183,8 +223,8 @@
 						</div>
 						<div class="col-md-7 span-1 ">
 							<h3 th:text="${product.productName}">Product Name</h3>
-							<p class="in-para" th:text=${product.productType}>There are many variations of passages of
-								Lorem Ipsum.</p>
+							<p class="in-para" th:text=${product.productType}>There are
+								many variations of passages of Lorem Ipsum.</p>
 							<div class="price_single">
 								<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
 
@@ -227,8 +267,8 @@
 						</div>
 						<div class="col-md-7 span-1 ">
 							<h3 th:text="${product.productName}">Product Name</h3>
-							<p class="in-para" th:text=${product.productType}>There are many variations of passages of
-								Lorem Ipsum.</p>
+							<p class="in-para" th:text=${product.productType}>There are
+								many variations of passages of Lorem Ipsum.</p>
 							<div class="price_single">
 								<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
 
@@ -271,8 +311,8 @@
 						</div>
 						<div class="col-md-7 span-1 ">
 							<h3 th:text="${product.productName}">Product Name</h3>
-							<p class="in-para" th:text=${product.productType}>There are many variations of passages of
-								Lorem Ipsum.</p>
+							<p class="in-para" th:text=${product.productType}>There are
+								many variations of passages of Lorem Ipsum.</p>
 							<div class="price_single">
 								<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
 
@@ -298,7 +338,17 @@
 
 
 		<script>
-			
+			$(function() {
+				//Initialize DataTable Elements
+				$('#dataTable1').DataTable({
+					"pageLength" : 2,
+					"bLengthChange": false,
+					"ordering" : false,
+					"info" : false
+				});
+				$('#dataTable2').DataTable()
+				$('#dataTable3').DataTable()
+			})
 		</script>
 	</div>
 </body>

@@ -5,6 +5,7 @@ $(document).ready(function() {
 	}, 3000);
 });
 
+//function for cart's submit button
 function submit() {
 	var reqRow = [];
 	var products = JSON.parse(localStorage.products);
@@ -17,6 +18,13 @@ function submit() {
 		}
 		reqRow.push(entry);
 	}
+
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	 
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader(header, token);
+	});
 
 	$.ajax({
 		type : "Post",

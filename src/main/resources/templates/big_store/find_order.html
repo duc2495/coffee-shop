@@ -36,7 +36,7 @@
 							class="form-control" placeholder="電話番号"
 							th:field="*{customerPhone}"></input>
 					</div>
-
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<input type="submit" value="提出"></input>
 				</form>
 			</div>

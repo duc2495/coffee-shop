@@ -122,7 +122,7 @@
 					<div th:if="${order.status.value} == 1">
 						<form role="form"
 							th:action="@{/order/{orderId}(orderId=${order.orderId})}"
-							th:method="delete">
+							th:method="patch">
 							<div>
 								<button type="submit" class="btn btn-danger">
 									<i class="fa fa-delete"></i> Cancel
