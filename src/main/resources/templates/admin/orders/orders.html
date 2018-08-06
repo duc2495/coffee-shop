@@ -49,7 +49,7 @@
 				<li><a href="#tab_3" data-toggle="tab">Inactive Order</a></li>
 			</ul>
 			<div class="tab-content">
-				<div class="tab-pane active" id="tab_2">
+				<div class="tab-pane active" id="tab_1">
 					<!-- List Order -->
 					<div class="row">
 						<div class="col-md-12">
@@ -74,7 +74,15 @@
 												<td th:text="${order.orderId}">1</td>
 												<td th:text="${order.customerName}">Customer Name</td>
 												<td th:text="${order.customerPhone}">Customer Phone</td>
-												<td th:text="${order.status}">Status</td>
+												<th th:switch="${order.status.value}"><span
+													th:case="'1'" class="label label-warning"
+													th:text="${order.status}">ORDERED</span> <span
+													th:case="'2'" class="label label-info"
+													th:text="${order.status}">SHIPPING</span> <span
+													th:case="'3'" class="label label-success"
+													th:text="${order.status}">FINISHED</span> <span
+													th:case="'0'" class="label label-danger"
+													th:text="${order.status}">CANCELED</span></th>
 												<td th:text="${order.netPrice}">Price</td>
 												<td
 													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
@@ -98,11 +106,229 @@
 				</div>
 				<!-- /.tab-pane -->
 
-				<div class="tab-pane" id="tab_1">
+				<div class="tab-pane" id="tab_2">
+					<!-- List Order with status ORDERED-->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-header">
+									<h4 class="box-title label label-warning">ORDERED</h4>
+									<div class="box-tools pull-right">
+										<!-- Collapse Button -->
+										<button type="button" class="btn btn-box-tool"
+											data-widget="collapse">
+											<i class="fa fa-minus"></i>
+										</button>
+									</div>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<table id="orderedTable"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">ID</th>
+												<th>Customer Name</th>
+												<th>Customer Phone</th>
+												<th>Price</th>
+												<th>Created At</th>
+												<th>Last Updated</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="order,iterStat : ${orderedList}">
+												<td th:text="${order.orderId}">1</td>
+												<td th:text="${order.customerName}">Customer Name</td>
+												<td th:text="${order.customerPhone}">Customer Phone</td>
+												<td th:text="${order.netPrice}">Price</td>
+												<td
+													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
+													At</td>
+												<td
+													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
+													At</td>
+												<td><a
+													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /.List Order with status ORDERED -->
+
+					<!-- List Order with status SHIPPING -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-header">
+									<h4 class="box-title label label-info">SHIPPING</h4>
+									<div class="box-tools pull-right">
+										<!-- Collapse Button -->
+										<button type="button" class="btn btn-box-tool"
+											data-widget="collapse">
+											<i class="fa fa-minus"></i>
+										</button>
+									</div>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<table id="shippingTable"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">ID</th>
+												<th>Customer Name</th>
+												<th>Customer Phone</th>
+												<th>Price</th>
+												<th>Created At</th>
+												<th>Last Updated</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="order,iterStat : ${shippingList}">
+												<td th:text="${order.orderId}">1</td>
+												<td th:text="${order.customerName}">Customer Name</td>
+												<td th:text="${order.customerPhone}">Customer Phone</td>
+												<td th:text="${order.netPrice}">Price</td>
+												<td
+													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
+													At</td>
+												<td
+													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
+													At</td>
+												<td><a
+													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /.List Order with status SHIPPING -->
 				</div>
 				<!-- /.tab-pane -->
 
 				<div class="tab-pane" id="tab_3">
+					<!-- List Order with status FINISHED-->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-header">
+									<h4 class="box-title label label-success">FINISHED</h4>
+									<div class="box-tools pull-right">
+										<!-- Collapse Button -->
+										<button type="button" class="btn btn-box-tool"
+											data-widget="collapse">
+											<i class="fa fa-minus"></i>
+										</button>
+									</div>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<table id="finishedTable"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">ID</th>
+												<th>Customer Name</th>
+												<th>Customer Phone</th>
+												<th>Price</th>
+												<th>Created At</th>
+												<th>Last Updated</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="order,iterStat : ${finishedList}">
+												<td th:text="${order.orderId}">1</td>
+												<td th:text="${order.customerName}">Customer Name</td>
+												<td th:text="${order.customerPhone}">Customer Phone</td>
+												<td th:text="${order.netPrice}">Price</td>
+												<td
+													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
+													At</td>
+												<td
+													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
+													At</td>
+												<td><a
+													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /.List Order with status FINISHED -->
+
+					<!-- List Order with status CANCELED -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-header">
+									<span class="box-title label label-danger">CANCELED</span>
+									<div class="box-tools pull-right">
+										<!-- Collapse Button -->
+										<button type="button" class="btn btn-box-tool"
+											data-widget="collapse">
+											<i class="fa fa-minus"></i>
+										</button>
+									</div>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<table id="canceledTable"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">ID</th>
+												<th>Customer Name</th>
+												<th>Customer Phone</th>
+												<th>Price</th>
+												<th>Created At</th>
+												<th>Last Updated</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="order,iterStat : ${canceledList}">
+												<td th:text="${order.orderId}">1</td>
+												<td th:text="${order.customerName}">Customer Name</td>
+												<td th:text="${order.customerPhone}">Customer Phone</td>
+												<td th:text="${order.netPrice}">Price</td>
+												<td
+													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
+													At</td>
+												<td
+													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
+													At</td>
+												<td><a
+													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /.List Order with status CANCELED -->
 				</div>
 				<!-- /.tab-pane -->
 			</div>
@@ -117,6 +343,10 @@
 			$(function() {
 				//Initialize DataTable Elements
 				$('#orderTable').DataTable()
+				$('#orderedTable').DataTable()
+				$('#shippingTable').DataTable()
+				$('#finishedTable').DataTable()
+				$('#canceledTable').DataTable()
 			})
 		</script>
 	</th:block>

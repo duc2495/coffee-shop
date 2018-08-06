@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import coffeeshop.controller.order.OrderHelper;
 import coffeeshop.controller.order.OrderResource;
 import coffeeshop.model.order.Order;

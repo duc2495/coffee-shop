@@ -3,6 +3,13 @@ $(document).ready(function() {
 	setTimeout(function() {
 		$(".alert-hide").fadeOut(1000);
 	}, 3000);
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		// var target = $(e.target).attr("href"); // activated tab
+		// alert (target);
+		$($.fn.dataTable.tables(true)).css('width', '100%');
+		$($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
+	});
 });
 
 function submit() {
