@@ -50,7 +50,7 @@
 								<li class="progtrckr-done">Shipping</li>
 								<li class="progtrckr-done">Finished</li>
 							</ol>
-							<p th:case="*" th:text=${order.status}>Canceled</p>
+							<div th:case="*" ><span class="label label-danger" th:text=${order.status}>CANCELED</span></div>
 						</div>
 					</div>
 
@@ -120,21 +120,58 @@
 
 					</div>
 					<div th:if="${order.status.value} == 1">
+						<button type="button" class="btn btn-danger" data-toggle="modal"
+									data-target="#modal-cancel_order-confirm" th:text="#{button.delete}">
+									Delete</button>
+					</div>
+				<div class="modal fade" id="modal-cancel_order-confirm" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" th:text="#{title.order.cancel_order}">Delete
+							Product</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<h4 class="modal-title" th:text="#{title.order.cancel_order_confirm}">Do
+								you really want to delete this Product?</h4>
+						</div>
+						<!-- /.box-body -->
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left"
+							data-dismiss="modal" th:text="#{button.cancel}">Cancel</button>
+						<div th:if="${order.status.value} == 1">
 						<form role="form"
 							th:action="@{/order/{orderId}(orderId=${order.orderId})}"
 							th:method="patch">
 							<div>
-								<button type="submit" class="btn btn-danger">
-									<i class="fa fa-delete"></i> Cancel
+								<button type="submit" class="btn btn-danger" th:text=#{title.order.cancel_order}>
 								</button>
 							</div>
 						</form>
 					</div>
-
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
 				</div>
 			</div>
-
-		</div>
+			
+		<!-- /.modal -->
 	</div>
+	
+	<!-- Delete confirm Modal content-->
+		</div>
+		
+		
 </body>
 </html>

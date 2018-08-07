@@ -192,6 +192,7 @@
         '</div>' +
         '<div class="modal-footer">' +
         '<button id="submit_order" onclick="submit()" type="button" class="btn btn-default" data-dismiss="modal">発注</button>' +
+        '<button id="submit_order" type="button" class="btn btn-danger btn-removeAll">Remove All</button>' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>' +
 
         '</div>' +
@@ -314,7 +315,13 @@
       }
       evt.preventDefault();
     });
-
+    
+    $(document).on('click', ".btn-removeAll", function(){
+    	ProductManager.clearProduct();
+    	drawTable();
+        $cartBadge.text(ProductManager.getTotalQuantity());
+      });
+    
     $(document).on('click', "." + classProductRemove, function(){
       var $tr = $(this).closest("tr");
       var id = $tr.data("id");
@@ -353,19 +360,23 @@
     /*
     EVENT
     */
-    $target.click(function(){
-      options.clickOnAddToCart($target);
+    
+    var addToCart = function(){
+    	options.clickOnAddToCart($target);
 
-      var id = $target.data('id');
-      var name = $target.data('name');
-      var summary = $target.data('summary');
-      var price = $target.data('price');
-      var quantity = $target.data('quantity');
-      var image = $target.data('image');
+        var id = $target.data('id');
+        var name = $target.data('name');
+        var summary = $target.data('summary');
+        var price = $target.data('price');
+        var quantity = $target.data('quantity');
+        var image = $target.data('image');
 
-      ProductManager.setProduct(id, name, summary, price, quantity, image);
-      $cartBadge.text(ProductManager.getTotalQuantity());
-    });
+        ProductManager.setProduct(id, name, summary, price, quantity, image);
+        $cartBadge.text(ProductManager.getTotalQuantity());
+    }
+    
+    $target.off();
+    $target.on("click",addToCart);
 
   }
 

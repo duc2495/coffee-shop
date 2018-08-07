@@ -53,6 +53,15 @@
 		WHERE product_id = #{productId}
 	</select>
 	
+	<select id="searchByKeyWord" resultMap="ProductResult">
+	<bind name="bindedKeyWord" value="'%'+keyWord+'%'"/>
+		SELECT *
+		FROM product
+		WHERE product_name LIKE #{bindedKeyWord}
+		OR description LIKE #{bindedKeyWord}
+		ORDER BY product_id
+	</select>
+	
 	<update id="updateProductInfo" parameterType="Product">
 		UPDATE product
 		SET product_name = #{productName}

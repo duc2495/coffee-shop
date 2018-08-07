@@ -33,4 +33,10 @@ public interface OrderService {
 	public List<Order> getAllOrder();
 	
 	public List<OrderProduct> getAllOrderProduct(Order order);
+	
+	/**
+	 * オーダーを変更するサービス
+	 * @param order
+	 */
+	public void updateOrder(Order order);
 }

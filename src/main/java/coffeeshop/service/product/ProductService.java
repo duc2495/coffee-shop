@@ -1,11 +1,12 @@
 package coffeeshop.service.product;
-
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import coffeeshop.model.product.Product;
+import coffeeshop.model.product.ProductType;
 import coffeeshop.repository.ProductRepository;
 
 @Service
@@ -32,8 +33,31 @@ public class ProductService {
 	public Product getProductDetail(Integer productId) {
 		return productRepository.getProductById(productId);
 	}
+	public List<Product> getProductList(ProductType productType){
+		List<Product> list = this.getProductList();
+		list.removeIf(new Predicate<Product>() {
 
-
+			@Override
+			public boolean test(Product t) {
+				// TODO Auto-generated method stub
+				return !t.getProductType().equals(productType);
+			}
+		});
+		return list;
+	}
+	public List<Product> getProductPage(int page, int numPerPage, ProductType productType){
+		List<Product> list = this.getProductList(productType);
+		list.sort(new Comparator<Product>() {
+			@Override
+			public int compare(Product o1, Product o2) {
+				// TODO Auto-generated method stub
+				return o1.getProductId() - o2.getProductId();
+			}
+			
+		});
+		return list.subList((page-1)*numPerPage, page*numPerPage>list.size() ? list.size() :  page*numPerPage);
+	}
+	
 	/**
 	 * 商品登録
 	 * 
@@ -90,6 +114,10 @@ public class ProductService {
 	@Transactional(readOnly = false)
 	public void deleteProduct(Integer productId) {
 		productRepository.deleteProduct(productId);
+	}
+	
+	public List<Product> searchByKeyWord(String keyWord){
+		return productRepository.searchByKeyWord(keyWord);
 	}
 
 }

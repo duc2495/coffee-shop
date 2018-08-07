@@ -20,4 +20,5 @@ public interface OrderRepository {
 	public List<Order> findOrderByCustomerName(String name);
 	public Integer insertOrder(@Param("order") Order order);
 	public Integer insertOrderProduct(@Param("order") Order order, @Param("orderProduct") OrderProduct orderProduct);
+	public void updateOrder(Order order);
 }

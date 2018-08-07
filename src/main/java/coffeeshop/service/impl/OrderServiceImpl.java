@@ -84,4 +84,12 @@ public class OrderServiceImpl implements OrderService{
 		return order;
 	}
 
+	/* (non-Javadoc)
+	 * @see coffeeshop.service.OrderService#updateOrder(coffeeshop.model.order.Order)
+	 */
+	@Override
+	public void updateOrder(Order order) {
+		orderRepository.updateOrder(order);
+	}
+
 }

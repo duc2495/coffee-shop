@@ -18,8 +18,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	
 	
 	
+	
+	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 function hideURLbar(){ window.scrollTo(0,1); } 
+
+
 
 
 
@@ -67,7 +71,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 		class="img-head" alt=""></a>
 	<div class="header">
 
-		<div class="container">
+		<div class="container-fluid">
 
 			<div class="logo">
 				<h1>
@@ -76,8 +80,8 @@ function hideURLbar(){ window.scrollTo(0,1); }
 				</h1>
 			</div>
 
-			<div class="nav-top">
-				<nav class="navbar navbar-default">
+			<div class="nav-top  .sticky-top">
+				<nav class="navbar navbar-default .sticky-top">
 
 					<div class="navbar-header nav_2">
 						<button type="button"
@@ -96,7 +100,23 @@ function hideURLbar(){ window.scrollTo(0,1); }
 							<!-- <li><a href="#" onclick="submit()" class="hyper"> <span>Order</span></a></li> -->
 						</ul>
 					</div>
+
+
 				</nav>
+
+				<div class="col-sm-3 col-md-3 pull-right">
+					<div class="navbar-form" role="search">
+						<div class="input-group">
+							<input id="searchInputField" type="text" class="form-control" placeholder="Search"
+								name="srch-term">
+							<div class="input-group-btn">
+								<button id="searchButton" class="btn btn-default" onclick="searchByKeyWord()">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="cart">
 
 					<span class="fa fa-shopping-cart my-cart-icon"><span
@@ -306,6 +326,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 		});
 	</script>
 
-</body><link href="/big_store/custom/css/main.css" rel='stylesheet' type='text/css' />
+</body>
+
 
 </html>

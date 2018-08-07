@@ -23,5 +23,6 @@ public interface ProductRepository {
     public void updateProductImage(Product product);
     
     public void deleteProduct(Integer productId);
-
+    
+    public List<Product> searchByKeyWord(@Param("keyWord") String keyWord);
 }

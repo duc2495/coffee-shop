@@ -6,9 +6,53 @@
 	layout:decorate="~{layout/big_store_template}">
 
 <head>
+<script type="text/javascript">
+	function loadonstartup() {
 
+		$.ajax({
+			type : "Get",
+			url : "/productpage/purecoffee/1",
+			success : function(result) {
+				// clear customer body
+				$("#purecoffee_section").html(result);
+				reloadEvent();
+			},
+			error : function(e) {
+				alert("Error!"), console.log("ERROR: ", e);
+			}
+		})
+
+		$.ajax({
+			type : "Get",
+			url : "/productpage/fromcoffee/1",
+			success : function(result) {
+				// clear customer body
+				$("#fromcoffee_section").html(result);
+				reloadEvent();
+			},
+			error : function(e) {
+				alert("Error!"), console.log("ERROR: ", e);
+			}
+		})
+
+		$.ajax({
+			type : "Get",
+			url : "/productpage/noncoffee/1",
+			success : function(result) {
+				// clear customer body
+				$("#noncoffee_section").html(result);
+				reloadEvent();
+			},
+			error : function(e) {
+				alert("Error!"), console.log("ERROR: ", e);
+			}
+		})
+	
+	
+	};
+</script>
 </head>
-<body>
+<body onload="loadonstartup();">
 
 	<!--content-->
 	<div layout:fragment="content">
@@ -21,182 +65,32 @@
 							<b></b> <span><i></i></span> <b class="line"></b>
 						</div>
 					</div>
-					<div>
-						<div th:fragment="pureCoffeeListPaginated">
-						<div class="col-md-3 pro-1"
-							th:each="product,iterStat : ${pureCoffeeList}">
-							<div class="col-m">
-								<a href="#" data-toggle="modal"
-									th:data-target="@{#pureCoffee}+${product.productId}"
-									class="offer-img"> <img
-									th:src="@{/product/images(image=${product.imageUrl})}"
-									class="img-responsive" alt="">
-								</a>
-								<div class="mid-1">
-									<div class="women">
-										<h6
-											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-											<a href="single.html" th:text="${product.productName}">Product
-												Name</a>
-										</h6>
-									</div>
-									<div class="mid-2">
-										<p>
-											<em class="item_price" th:text="${product.price}">Product
-												Price</em>
-										</p>
-										<div class="block">
-											<div class="starbox small ghosting"></div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-									<div class="add">
-										<button class="btn btn-danger my-cart-btn my-cart-b"
-											th:data-id="${product.productId}"
-											th:data-name="${product.productName}"
-											data-summary="summary 1" th:data-price="${product.price}"
-											data-quantity="1"
-											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						</div>
-						<div class="col-md-3 pro-1"
-							th:each="product,iterStat : ${pureCoffeeList}">
-							<div class="col-m">
-								<a href="#" data-toggle="modal"
-									th:data-target="@{#pureCoffee}+${product.productId}"
-									class="offer-img"> <img
-									th:src="@{/product/images(image=${product.imageUrl})}"
-									class="img-responsive" alt="">
-								</a>
-								<div class="mid-1">
-									<div class="women">
-										<h6
-											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-											<a href="single.html" th:text="${product.productName}">Product
-												Name</a>
-										</h6>
-									</div>
-									<div class="mid-2">
-										<p>
-											<em class="item_price" th:text="${product.price}">Product
-												Price</em>
-										</p>
-										<div class="block">
-											<div class="starbox small ghosting"></div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-									<div class="add">
-										<button class="btn btn-danger my-cart-btn my-cart-b"
-											th:data-id="${product.productId}"
-											th:data-name="${product.productName}"
-											data-summary="summary 1" th:data-price="${product.price}"
-											data-quantity="1"
-											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-					</div>
+					<div class=" con-w3l" id="purecoffee_section"></div>
+					<div class="clearfix"></div>
+
 					<div class="spec ">
 						<h3>From coffee</h3>
 						<div class="ser-t">
 							<b></b> <span><i></i></span> <b class="line"></b>
 						</div>
 					</div>
-					<div class=" con-w3l">
-						<div class="col-md-3 pro-1"
-							th:each="product,iterStat : ${fromCoffeeList}">
-							<div class="col-m">
-								<a href="#" data-toggle="modal"
-									th:data-target="@{#pureCoffee}+${product.productId}"
-									class="offer-img"> <img
-									th:src="@{/product/images(image=${product.imageUrl})}"
-									class="img-responsive" alt="">
-								</a>
-								<div class="mid-1">
-									<div class="women">
-										<h6
-											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-											<a href="single.html" th:text="${product.productName}">Product
-												Name</a>
-										</h6>
-									</div>
-									<div class="mid-2">
-										<p>
-											<em class="item_price" th:text="${product.price}">$0.80</em>
-										</p>
-										<div class="block">
-											<div class="starbox small ghosting"></div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-									<div class="add">
-										<button class="btn btn-danger my-cart-btn my-cart-b"
-											th:data-id="${product.productId}"
-											th:data-name="${product.productName}"
-											data-summary="summary 1" th:data-price="${product.price}"
-											data-quantity="1"
-											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-					</div>
+					<div class=" con-w3l" id="fromcoffee_section"></div>
+					<div class="clearfix"></div>
+
 					<div class="spec ">
 						<h3>Non coffee</h3>
 						<div class="ser-t">
 							<b></b> <span><i></i></span> <b class="line"></b>
 						</div>
 					</div>
-					<div class=" con-w3l">
-						<div class="col-md-3 pro-1"
-							th:each="product,iterStat : ${nonCoffeeList}">
-							<div class="col-m">
-								<a href="#" data-toggle="modal"
-									th:data-target="@{#pureCoffee}+${product.productId}"
-									class="offer-img"> <img
-									th:src="@{/product/images(image=${product.imageUrl})}"
-									class="img-responsive" alt="">
-								</a>
-								<div class="mid-1">
-									<div class="women">
-										<h6
-											style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-											<a href="single.html" th:text="${product.productName}">Product
-												Name</a>
-										</h6>
-									</div>
-									<div class="mid-2">
-										<p>
-											<em class="item_price" th:text="${product.price}">$0.80</em>
-										</p>
-										<div class="block">
-											<div class="starbox small ghosting"></div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-									<div class="add">
-										<button class="btn btn-danger my-cart-btn my-cart-b"
-											th:data-id="${product.productId}"
-											th:data-name="${product.productName}"
-											data-summary="summary 1" th:data-price="${product.price}"
-											data-quantity="1"
-											th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class=" con-w3l" id="noncoffee_section">
+
 						<div class="clearfix"></div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div class="clearfix"></div>
 
 
@@ -204,8 +98,8 @@
 		<!-- product -->
 
 		<div class="modal fade" th:each="product,iterStat : ${pureCoffeeList}"
-			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
+			th:id="@{modal}+${product.productId}" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content modal-info">
 					<div class="modal-header">
@@ -248,8 +142,8 @@
 			</div>
 		</div>
 		<div class="modal fade" th:each="product,iterStat : ${fromCoffeeList}"
-			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
+			th:id="@{modal}+${product.productId}" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content modal-info">
 					<div class="modal-header">
@@ -292,8 +186,8 @@
 			</div>
 		</div>
 		<div class="modal fade" th:each="product,iterStat : ${nonCoffeeList}"
-			th:id="@{pureCoffee}+${product.productId}" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel">
+			th:id="@{modal}+${product.productId}" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content modal-info">
 					<div class="modal-header">
@@ -335,21 +229,6 @@
 				</div>
 			</div>
 		</div>
-
-
-		<script>
-			$(function() {
-				//Initialize DataTable Elements
-				$('#dataTable1').DataTable({
-					"pageLength" : 2,
-					"bLengthChange": false,
-					"ordering" : false,
-					"info" : false
-				});
-				$('#dataTable2').DataTable()
-				$('#dataTable3').DataTable()
-			})
-		</script>
 	</div>
 </body>
 </html>
