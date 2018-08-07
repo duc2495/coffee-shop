@@ -64,12 +64,19 @@ CREATE TABLE "status"(
 	updated_at timestamp NOT NULL DEFAULT now()
 );
 
+
+DROP SEQUENCE IF EXISTS "order_id_seq" CASCADE;
+
+CREATE SEQUENCE order_id_seq;
 DROP TABLE IF EXISTS "order" CASCADE;
 CREATE TABLE "order"(
-	order_id integer PRIMARY KEY REFERENCES "customer_info"(customer_id),
+	order_id integer PRIMARY KEY DEFAULT NEXTVAL('order_id_seq'),
 	net_price integer NOT NULL,
 	status varchar(10) REFERENCES "status"(status_name),
 	note varchar(200),
+	customer_name varchar(50) NOT NULL,
+	customer_phone varchar(20) NOT NULL,
+	customer_address varchar(100) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );
@@ -145,6 +152,9 @@ FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
 -- adding data --
+INSERT INTO "status"(status_name)
+VALUES ('ORDERED'), ('SHIPPING'), ('FINISHED'), ('CANCELED');
+
 INSERT INTO "product_type"(type_name)
 VALUES ('PURE_COFFEE'), ('FROM_COFFEE'), ('NON_COFFEE');
 

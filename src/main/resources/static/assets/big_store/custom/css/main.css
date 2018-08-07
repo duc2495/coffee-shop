@@ -1,0 +1,16 @@
+/* .productShow tr td div {
+	
+	width: 100%; or whatever width you want.
+}
+
+.productShow tr td{
+	width: 25%; or whatever width you want.
+}
+
+.productShow tr{
+	width: 100%; or whatever width you want.
+} */
+
+.productShow{
+	table-layout:fixed;
+}

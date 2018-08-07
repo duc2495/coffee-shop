@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/big_store_template}">
+
+<head>
+
+</head>
+<body>
+
+	<!--content-->
+	<div layout:fragment="content">
+		<div class="product">
+				<div class="container" th:fragment="content">
+					<!-- Cart info -->
+					<div class="col-sm-1"></div>
+					<div class="col-sm-5">
+						<table class="table table-responsive" id="cardtable">
+							<thead>
+								<tr>
+									<td>品名</td>
+									<td>値段</td>
+									<td>数</td>
+									<td>全部</td>
+								</tr>
+							</thead>
+							<tr th:each="product,iterStat : ${orderProductDetailList}">
+								<td title="Product Name" th:text=${product.productName}>Product
+									Name</td>
+								<td title="Unit Price" th:text=${product.price}>Product
+									Price</td>
+								<td title="Quantity" th:text=${product.quantity}>Product
+									Quantity</td>
+								<td title="Total" th:text="${product.quantity*product.price}">Total</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td title="Total" th:text="${total_check}">Total</td>
+							</tr>
+
+						</table>
+						<div th:object="${orderResource}">
+							<div th:classappend="${#fields.hasErrors('orderList')}? 'has-error'">
+								<p th:if="${#fields.errors('orderList')}"
+									th:errors="*{orderList}" th:class="text-red">Incorrect data</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-5">
+						<form th:action=@{/order/submit_order}
+							th:object="${orderResource}" th:method="POST">
+							<div class="input-group">
+								<div th:each="product, count : ${orderProductDetailList}">
+									<input th:type="@{hidden}"
+										th:id="*{orderList[__${count.index}__].productId}"
+										th:name="*{orderList[__${count.index}__].productId}"
+										th:value="${product.productId}"> <input
+										th:type="@{hidden}"
+										th:id="*{orderList[__${count.index}__].quantity}"
+										th:name="*{orderList[__${count.index}__].quantity}"
+										th:value="${product.quantity}">
+								</div>
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('customerName')}? 'has-error'">
+									<input type="text" class="form-control" placeholder="名前"
+										th:field="*{customerName}"></input>
+									<p th:if="${#fields.hasErrors('customerName')}"
+										th:errors="*{customerName}" th:class="text-red">Incorrect
+										data</p>
+								</div>
+
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('customerPhone')}? 'has-error'">
+									<input type="text" class="form-control"
+										placeholder="電話番号" th:field="*{customerPhone}"></input>
+									<p th:if="${#fields.hasErrors('customerPhone')}"
+										th:errors="*{customerPhone}" th:class="text-red">Incorrect
+										data</p>
+								</div>
+
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('customerAddress')}? 'has-error'">
+									<input type="text" class="form-control" placeholder="住所"
+										th:field="*{customerAddress}"></input> <span
+										th:if="${#fields.hasErrors('customerAddress')}"
+										th:errors="*{customerAddress}" th:class="text-red">Incorrect
+										data</span>
+								</div>
+
+								<div class="form-group"
+									th:classappend="${#fields.hasErrors('note')}? 'has-error'">
+									<input type="text" class="form-control" placeholder="メーモ"
+										th:field="*{note}"></input>
+								</div>
+
+							</div>
+							<input type="submit" value="提出"></input>
+						</form>
+					</div>
+					<script>
+						function submit_order() {
+							var reqRow = [];
+							var products = JSON.parse(localStorage.products);
+							for (var i = 0; i < products.length; i++) {
+								var productId = products[i].id;
+								var quantity = products[i].quantity;
+								var entry = {
+									"productId" : productId,
+									"quantity" : quantity
+								}
+								reqRow.push(entry);
+							}
+
+							$.ajax({
+								type : "Post",
+								contentType : "application/json",
+								url : "/order",
+								data : JSON.stringify({
+									productList : reqRow
+								}),
+								success : function(result) {
+									// clear customer body
+									$("#content").html(result);
+								},
+								error : function(e) {
+									alert("Error!"), console.log("ERROR: ", e);
+								}
+							});
+							$('html, body').animate({
+								scrollTop : $('#content').offset().top
+							}, 1000);
+						}
+					</script>
+				</div>
+		</div>
+	</div>
+</body>
+</html>

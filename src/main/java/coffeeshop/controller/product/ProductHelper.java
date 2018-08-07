@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import coffeeshop.controller.order.OrderProductDetailResource;
+import coffeeshop.controller.order.OrderProductResource;
 import coffeeshop.model.product.Product;
 
 @Component
@@ -70,5 +72,12 @@ public class ProductHelper {
 		ProductUpdateResource resource = modelMapper.map(model, ProductUpdateResource.class);
 		return resource;
 	}
-
+	
+	public Product createProductModel(OrderProductResource resource){
+		return modelMapper.map(resource, Product.class);
+	}
+	
+	public OrderProductDetailResource createOrderProductDetailResource(Product model){
+		return modelMapper.map(model, OrderProductDetailResource.class);
+	}
 }

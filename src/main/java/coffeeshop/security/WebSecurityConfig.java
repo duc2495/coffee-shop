@@ -33,13 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**", "/webjars/**", "/assets/**").permitAll()
-				.antMatchers("/**", "/home", "/register", "/forgotPwd", "/resetPwd").permitAll().anyRequest()
+				.antMatchers("/**", "/home", "/register", "/forgotPwd", "/resetPwd", "/order").permitAll().anyRequest()
 				//antMatchers("/home", "/register", "/forgotPwd", "/resetPwd", "/login").permitAll().anyRequest()
 				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/home")
 				.failureHandler(authenticationFailureHandler).permitAll().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				// .logoutUrl("/logout")
-				.permitAll().and().exceptionHandling().accessDeniedPage("/403");
+				.permitAll().and().exceptionHandling().accessDeniedPage("/403").and().csrf();
 	}
 
 	@Autowired

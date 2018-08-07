@@ -62,7 +62,6 @@ public class ProductController extends BaseController {
 		List<ProductResource> pureCoffeeList = new LinkedList<ProductResource>();
 		List<ProductResource> fromCoffeeList = new LinkedList<ProductResource>();
 		List<ProductResource> nonCoffeeList = new LinkedList<ProductResource>();
-		ProductListResource resources = new ProductListResource();
 
 		for (Product p : productList) {
 			ProductResource product = productHelper.createProductResource(p);
@@ -74,10 +73,9 @@ public class ProductController extends BaseController {
 				pureCoffeeList.add(product);
 		}
 
-		resources.setFromCoffeeList(fromCoffeeList);
-		resources.setNonCoffeeList(nonCoffeeList);
-		resources.setPureCoffeeList(pureCoffeeList);
-		model.addAttribute("resources", resources);
+		model.addAttribute("fromCoffeeList", fromCoffeeList);
+		model.addAttribute("nonCoffeeList", nonCoffeeList);
+		model.addAttribute("pureCoffeeList", pureCoffeeList);
 		// return list product view
 		return viewPrefix + "products";
 	}

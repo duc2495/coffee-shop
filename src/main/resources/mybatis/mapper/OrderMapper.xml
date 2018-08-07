@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.repository.OrderRepository">
+	<resultMap id="OrderResult" type="Order" autoMapping="true" >
+	<id column="order_id" property="orderId"/>
+		<collection property="orderProductList" resultMap="OrderProductResult" autoMapping="true">
+			<association property="product" autoMapping="true" columnPrefix="product_"></association>
+		</collection>
+	</resultMap>
+
+	<resultMap id="OrderProductResult" type="OrderProduct"
+		autoMapping="true">
+		<association property="product"
+			resultMap="coffeeshop.repository.ProductRepository.ProductResult" autoMapping="true">
+		</association>
+	</resultMap>
+
+	<select id="getAllOrder" resultMap="OrderResult">
+		SELECT *
+		FROM "order" inner join order_product
+		ON "order".order_id = order_product.order_id
+		ORDER BY order_id
+	</select>
+
+	<select id="findOrderById" resultMap="OrderResult">
+		SELECT *
+		FROM
+		(SELECT *
+		FROM
+		"order" inner
+		join order_product
+		ON "order".order_id =
+		order_product.order_id
+		WHERE
+		"order".order_id = #{id})
+		 AS tab1
+		INNER JOIN
+		(SELECT *
+		FROM
+		product)
+		AS tab2
+		ON tab1.product_id = tab2.product_id
+	</select>
+
+	<select id="findOrderByPhone" resultMap="OrderResult">
+		SELECT *
+		FROM "order"
+		WHERE
+		customer_phone = #{customerPhone}
+	</select>
+
+	<insert id="insertOrder" parameterType="Order" useGeneratedKeys="true"
+		keyProperty="order.orderId" keyColumn="order_id">
+		INSERT
+		INTO "order" (
+		net_price
+		,
+		status
+		, note
+		, customer_name
+		, customer_phone
+		, customer_address
+		)
+		VALUES(
+		#{order.netPrice}
+		, #{order.status}
+		, #{order.note}
+		,
+		#{order.customerName}
+		, #{order.customerPhone}
+		,
+		#{order.customerAddress}
+		)
+	</insert>
+	
+	<insert id="updateOrder" parameterType="Order"
+		keyProperty="order.orderId" keyColumn="order_id">
+		UPDATE "order" 
+		SET 
+		net_price = #{netPrice}
+		, status = #{status}
+		, note = #{note}
+		, customer_name = #{customerName}
+		, customer_phone = #{customerPhone}
+		, customer_address = #{customerAddress}
+		WHERE
+		order_id = #{orderId}
+	</insert>
+
+	<insert id="insertOrderProduct" parameterType="map">
+		INSERT
+		INTO
+		order_product (
+		order_id
+		, product_id
+		, quantity
+		)
+		VALUES(
+		#{order.orderId}
+		, #{orderProduct.product.productId}
+		, #{orderProduct.quantity}
+		)
+	</insert>
+
+</mapper>

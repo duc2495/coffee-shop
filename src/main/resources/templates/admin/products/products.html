@@ -74,7 +74,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="product,iterStat : ${resources.pureCoffeeList}">
+								<tr th:each="product,iterStat : ${pureCoffeeList}">
 									<td th:text="${iterStat.count}">1</td>
 									<td th:text="${product.productName}">Product Name</td>
 									<td th:text="${product.price}">Product Price</td>
@@ -119,7 +119,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="product,iterStat : ${resources.fromCoffeeList}">
+								<tr th:each="product,iterStat : ${fromCoffeeList}">
 									<td th:text="${iterStat.count}">1</td>
 									<td th:text="${product.productName}">Product Name</td>
 									<td th:text="${product.price}">Product Price</td>
@@ -164,7 +164,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="product,iterStat : ${resources.nonCoffeeList}">
+								<tr th:each="product,iterStat : ${nonCoffeeList}">
 									<td th:text="${iterStat.count}">1</td>
 									<td th:text="${product.productName}">Product Name</td>
 									<td th:text="${product.price}">Product Price</td>
