@@ -1,4 +1,4 @@
-package coffeeshop.controller.user.account;
+package coffeeshop.resource.user;
 
 public class AccountUpdatePassResource {
 

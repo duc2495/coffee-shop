@@ -2,9 +2,9 @@ package coffeeshop.service;
 
 import java.util.List;
 
-import coffeeshop.controller.order.OrderResource;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
+import coffeeshop.resource.order.OrderResource;
 
 /**
  * @author hoang

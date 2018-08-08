@@ -1,4 +1,4 @@
-package coffeeshop.controller.user.account;
+package coffeeshop.resource.user;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

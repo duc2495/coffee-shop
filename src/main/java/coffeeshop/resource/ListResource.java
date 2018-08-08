@@ -1,4 +1,4 @@
-package coffeeshop.controller.product;
+package coffeeshop.resource;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package coffeeshop.controller.order;
+package coffeeshop.resource.order;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

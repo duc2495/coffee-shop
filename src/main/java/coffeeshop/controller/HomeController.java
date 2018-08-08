@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import coffeeshop.config.MyLogger;
-import coffeeshop.controller.product.ProductDetailResource;
-import coffeeshop.controller.product.ProductHelper;
-import coffeeshop.controller.product.ProductResource;
+import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.product.Product;
 import coffeeshop.model.product.ProductType;
+import coffeeshop.resource.product.ProductDetailResource;
 import coffeeshop.service.product.ProductService;
 
 @Controller

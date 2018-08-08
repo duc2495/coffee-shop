@@ -1,4 +1,4 @@
-package coffeeshop.controller.product;
+package coffeeshop.resource.product;
 
 import coffeeshop.model.product.ProductType;
 

@@ -21,7 +21,7 @@
 		SELECT *
 		FROM "order" inner join order_product
 		ON "order".order_id = order_product.order_id
-		ORDER BY order_id
+		ORDER BY "order".order_id
 	</select>
 
 	<select id="findOrderById" resultMap="OrderResult">

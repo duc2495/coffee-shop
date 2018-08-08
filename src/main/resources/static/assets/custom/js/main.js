@@ -12,9 +12,12 @@ function submit() {
 	for (var i = 0; i < products.length; i++) {
 		var productId = products[i].id;
 		var quantity = products[i].quantity;
-		var entry = {
-			"productId" : productId,
-			"quantity" : quantity
+		var product = {
+			"productId" : productId
+		}
+		var entry ={
+				"product": product,
+				"quantity": quantity
 		}
 		reqRow.push(entry);
 	}

@@ -1,4 +1,4 @@
-package coffeeshop.controller.product;
+package coffeeshop.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -34,9 +34,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import coffeeshop.controller.BaseController;
+import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.product.Product;
 import coffeeshop.model.product.ProductType;
+import coffeeshop.resource.product.ProductDetailResource;
+import coffeeshop.resource.product.ProductRegistResource;
+import coffeeshop.resource.product.ProductResource;
+import coffeeshop.resource.product.ProductUpdateResource;
 import coffeeshop.service.product.ProductService;
 
 @Controller

@@ -1,4 +1,4 @@
-package coffeeshop.controller.user;
+package coffeeshop.resource.user;
 
 public class UserRegistResource {
 

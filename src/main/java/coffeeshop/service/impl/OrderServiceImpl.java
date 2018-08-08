@@ -5,13 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import coffeeshop.controller.order.OrderHelper;
-import coffeeshop.controller.order.OrderResource;
+
+import coffeeshop.helper.OrderHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.repository.OrderRepository;
+import coffeeshop.resource.order.OrderProductDetailResource;
+import coffeeshop.resource.order.OrderProductResource;
+import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
+import coffeeshop.service.product.ProductService;
 
 /**
  * @author hoang
@@ -26,6 +30,9 @@ public class OrderServiceImpl implements OrderService{
 	
 	@Autowired
 	private OrderHelper orderHelper;
+	
+	@Autowired
+	private ProductService productService;
 	
 	public Integer insertOrder(Order order) {
 		return orderRepository.insertOrder(order);
@@ -67,6 +74,11 @@ public class OrderServiceImpl implements OrderService{
 	public int insertOrder(OrderResource orderResource) {
 		Order order = orderHelper.createOrderModel(orderResource);
 		order.setStatus(OrderStatus.ORDERED);
+		int total_check = 0;
+		for(OrderProductResource opdr : orderResource.getOrderProductList()){
+			total_check += opdr.getQuantity()*(productService.getProductDetail(opdr.getProduct().getProductId()).getPrice());
+		}
+		order.setNetPrice(total_check);
 		this.insertOrder(order);
 		for(OrderProduct orderProduct : order.getOrderProductList()){
 			insertOrderProduct(order, orderProduct);

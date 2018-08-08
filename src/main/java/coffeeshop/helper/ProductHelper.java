@@ -1,12 +1,16 @@
-package coffeeshop.controller.product;
+package coffeeshop.helper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import coffeeshop.controller.order.OrderProductDetailResource;
-import coffeeshop.controller.order.OrderProductResource;
 import coffeeshop.model.product.Product;
+import coffeeshop.resource.order.OrderProductDetailResource;
+import coffeeshop.resource.order.OrderProductResource;
+import coffeeshop.resource.product.ProductDetailResource;
+import coffeeshop.resource.product.ProductRegistResource;
+import coffeeshop.resource.product.ProductResource;
+import coffeeshop.resource.product.ProductUpdateResource;
 
 @Component
 public class ProductHelper {

@@ -1,4 +1,4 @@
-package coffeeshop.controller.order;
+package coffeeshop.controller;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,10 +22,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import coffeeshop.controller.product.ProductHelper;
+import coffeeshop.helper.OrderHelper;
+import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderStatus;
-import coffeeshop.controller.product.ListResource;
+import coffeeshop.resource.ListResource;
+import coffeeshop.resource.order.OrderDetailResource;
+import coffeeshop.resource.order.OrderProductDetailResource;
+import coffeeshop.resource.order.OrderProductResource;
+import coffeeshop.resource.order.OrderRequestResource;
+import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
 import coffeeshop.service.product.ProductService;
 
@@ -56,11 +62,11 @@ public class OrderController {
 	public String orderFormPage(@ModelAttribute("orderResource") OrderResource orderResource, Model model) {
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
-		for (OrderProductResource p : orderResource.getOrderList()) {
+		for (OrderProductResource p : orderResource.getOrderProductList()) {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
-					productService.getProductDetail(Integer.parseInt(p.getProductId())));
+					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getPrice();
+			total_check += pd.getQuantity() * pd.getProduct().getPrice();
 			productList.add(pd);
 		}
 
@@ -116,11 +122,11 @@ public class OrderController {
 
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
-		for (OrderProductResource p : orderResource.getOrderList()) {
+		for (OrderProductResource p : orderResource.getOrderProductList()) {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
-					productService.getProductDetail(Integer.parseInt(p.getProductId())));
+					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getPrice();
+			total_check += pd.getQuantity() * pd.getProduct().getPrice();
 			productList.add(pd);
 		}
 		model.addAttribute("orderResource", orderResource);
@@ -143,7 +149,7 @@ public class OrderController {
 
 	@PostMapping("")
 	public String receiveOrder(@ModelAttribute("orderResource") OrderResource orderResource,
-			@Valid @RequestBody ListResource<@Valid OrderProductResource> data, BindingResult result, Model model)
+			@Valid @RequestBody ListResource<coffeeshop.resource.order.OrderProductResource> data, BindingResult result, Model model)
 			throws ParseException {
 		if (result.hasErrors()) {
 			result.getAllErrors().forEach(e -> System.out.println(e));
@@ -152,13 +158,13 @@ public class OrderController {
 		int total_check = 0;
 		for (OrderProductResource p : data.getProductList()) {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
-					productService.getProductDetail(Integer.parseInt(p.getProductId())));
+					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getPrice();
+			total_check += pd.getQuantity() * pd.getProduct().getPrice();
 			productList.add(pd);
 		}
 
-		orderResource.setOrderList(data.getProductList());
+		orderResource.setOrderProductList(data.getProductList());
 		model.addAttribute("orderResource", orderResource);
 		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);

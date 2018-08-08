@@ -1,4 +1,4 @@
-package coffeeshop.controller.order;
+package coffeeshop.resource.order;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,15 +14,8 @@ public class OrderDetailResource {
 	private Integer netPrice;
 	private OrderStatus status;
 
-	private List<OrderProductDetailResource> orderProductDetailList = new LinkedList<OrderProductDetailResource>();
+	private List<OrderProductDetailResource> orderProductList = new LinkedList<OrderProductDetailResource>();
 
-	public List<OrderProductDetailResource> getOrderProductDetailList() {
-		return orderProductDetailList;
-	}
-
-	public void setOrderProductDetailList(List<OrderProductDetailResource> orderProductDetailList) {
-		this.orderProductDetailList = orderProductDetailList;
-	}
 
 	public String getCustomerName() {
 		return customerName;
@@ -78,6 +71,14 @@ public class OrderDetailResource {
 
 	public void setStatus(OrderStatus status) {
 		this.status = status;
+	}
+
+	public List<OrderProductDetailResource> getOrderProductList() {
+		return orderProductList;
+	}
+
+	public void setOrderProductList(List<OrderProductDetailResource> orderProductList) {
+		this.orderProductList = orderProductList;
 	}
 
 }

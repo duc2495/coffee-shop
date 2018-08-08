@@ -37,10 +37,6 @@ public class Product {
 		return price;
 	}
 
-	public void setProductPrice(int productPrice) {
-		this.price = productPrice;
-	}
-
 	public String getImageUrl() {
 		return imageUrl;
 	}
