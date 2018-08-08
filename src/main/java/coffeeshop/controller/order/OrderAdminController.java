@@ -71,6 +71,7 @@ public class OrderAdminController {
 
 		// resourceに変換
 		OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
+		
 		model.addAttribute("order", resource);
 
 		// return order detail view

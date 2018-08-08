@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import coffeeshop.controller.product.ProductHelper;
 import coffeeshop.model.order.Order;
+import coffeeshop.model.order.OrderStatus;
 import coffeeshop.controller.product.ListResource;
 import coffeeshop.service.OrderService;
 import coffeeshop.service.product.ProductService;
@@ -165,17 +166,20 @@ public class OrderController {
 	}
 
 	@PatchMapping("/{orderId}")
-	public String cancelOrder(@PathVariable("orderId") Integer orderId, Model model) {
+	public String cancelOrder(@PathVariable("orderId") Integer orderId, Model model, Locale locale) {
 		Order order = orderService.findOrderById(orderId);
 		if (order == null) {
 			// return 404 view
 			return "error";
 		}
 		// Order modelを作成
-
+			order.setStatus(OrderStatus.CANCELED);
 		// DBにを更新
-
+			orderService.updateOrder(order);
 		// return view
-		return "";
+			model.addAttribute("info", messageSource.getMessage("info.order.canceled", null, locale));
+			OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
+			model.addAttribute("order", resource);
+		return "big_store/order";
 	}
 }

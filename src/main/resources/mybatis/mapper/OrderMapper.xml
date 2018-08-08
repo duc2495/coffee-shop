@@ -75,6 +75,20 @@
 		#{order.customerAddress}
 		)
 	</insert>
+	
+	<insert id="updateOrder" parameterType="Order"
+		keyProperty="order.orderId" keyColumn="order_id">
+		UPDATE "order" 
+		SET 
+		net_price = #{netPrice}
+		, status = #{status}
+		, note = #{note}
+		, customer_name = #{customerName}
+		, customer_phone = #{customerPhone}
+		, customer_address = #{customerAddress}
+		WHERE
+		order_id = #{orderId}
+	</insert>
 
 	<insert id="insertOrderProduct" parameterType="map">
 		INSERT

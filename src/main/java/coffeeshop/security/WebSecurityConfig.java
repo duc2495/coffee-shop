@@ -39,8 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureHandler(authenticationFailureHandler).permitAll().and().logout()
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				// .logoutUrl("/logout")
-				.permitAll().and().exceptionHandling().accessDeniedPage("/403");
-		http.csrf().disable();
+				.permitAll().and().exceptionHandling().accessDeniedPage("/403").and().csrf();
 	}
 
 	@Autowired

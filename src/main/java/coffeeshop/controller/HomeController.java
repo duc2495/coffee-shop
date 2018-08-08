@@ -3,6 +3,8 @@ package coffeeshop.controller;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +14,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +35,51 @@ public class HomeController {
 	@Autowired
 	private ProductHelper productHelper;
 	
+	private final Integer numPerPage=8;
+	
 	private static String UPLOAD_DIR = System.getProperty("user.home") + "/coffee-shop/images/products/";
 	protected final MyLogger logger = MyLogger.getLogger(getClass());
+	
+	@GetMapping("/search")
+	public String search(@RequestParam("keyWord") String keyWord, Model model){
+		List<ProductDetailResource> list = productService.searchByKeyWord(keyWord)
+				.stream()
+				.map(new Function<Product,ProductDetailResource>() {
+
+					@Override
+					public ProductDetailResource apply(Product t) {
+						// TODO Auto-generated method stub
+						return productHelper.createProductDetailResource(t);
+					}
+		}).collect(Collectors.toList());
+		model.addAttribute("productList", list);
+		return "big_store/product_search_page::productList";
+	}
+	
+	@GetMapping("/productpage/{productType}/{page}")
+	public String getProductPage(@PathVariable("productType") String productType, @PathVariable("page") Integer page, Model model){
+		ProductType type;
+		if(productType.equals("purecoffee")) type = ProductType.PURE_COFFEE;
+		else if(productType.equals("fromcoffee")) type = ProductType.FROM_COFFEE;
+		else type = ProductType.NON_COFFEE;
+		int totalListSize = productService.getProductList(type).size();
+		int maxPage = totalListSize%numPerPage==0 ? totalListSize/numPerPage : totalListSize/numPerPage + 1;
+		List<ProductDetailResource> list = productService.getProductPage(page, numPerPage, type)
+				.stream()
+				.map(new Function<Product,ProductDetailResource>() {
+
+					@Override
+					public ProductDetailResource apply(Product t) {
+						// TODO Auto-generated method stub
+						return productHelper.createProductDetailResource(t);
+					}
+		}).collect(Collectors.toList());
+		model.addAttribute("productList", list);
+		model.addAttribute("activePage", page);
+		model.addAttribute("maxPage", maxPage);
+		model.addAttribute("productType", productType);
+		return "big_store/product_type_page::productList";
+	}
 	
     @GetMapping(value = { "/", "/home" })
     public String home(Model model) {

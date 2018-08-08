@@ -37,15 +37,74 @@
 	</section>
 
 	<div layout:fragment="content">
+		<!-- Order info -->
+		<h4>Order Info</h4>
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-5">
+				<p>
+					<span th:text="@{Order Id : }">Order Id</span><span
+						th:text="${order.orderId}"></span>
+				</p>
+				<p>
+					<span th:text="@{Customer Name : }">Customer Name</span><span
+						th:text="${order.customerName}"></span>
+				</p>
+				<p>
+					<span th:text="@{Phone Number : }">Phone Number</span><span
+						th:text="${order.customerPhone}"></span>
+				</p>
+				<p>
+					<span th:text="@{Customer Address : }">Customer Address</span><span
+						th:text="${order.customerAddress}"></span>
+				</p>
+				<p>
+					<span th:text="@{Note : }">Note</span><span th:text="${order.note}"></span>
+				</p>
 
+				<p>
+					<span th:text="@{Total : }">Total</span><span
+						th:text="${order.netPrice}"></span>
+				</p>
+			</div>
+		</div>
+		<!-- Table row -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-body">
+						<table id="productTable"
+							class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 10px">#</th>
+									<th>Product</th>
+									<th>Qty</th>
+									<th>Subtotal</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="product,iterStat : ${order.orderProductDetailList}">
+									<td th:text="${iterStat.count}">1</td>
+									<td th:text=${product.productName}>Product</td>
+									<td th:text=${product.quantity}>Product Quantity</td>
+									<td th:text=${product.price}>Product Price</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /.row -->
 	</div>
-
 	<th:block layout:fragment="script">
 		<script>
-
+			$('#productTable').DataTable()
 		</script>
 	</th:block>
-
 </body>
 
 </html>
