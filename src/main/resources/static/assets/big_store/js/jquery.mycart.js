@@ -192,7 +192,7 @@
         '</div>' +
         '<div class="modal-footer">' +
         '<button id="submit_order" onclick="submit()" type="button" class="btn btn-default" data-dismiss="modal">発注</button>' +
-        '<button id="submit_order" type="button" class="btn btn-danger btn-removeAll">Remove All</button>' +
+        '<button id="submit_order" type="button" class="btn btn-danger btn-removeAll">クリア</button>' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>' +
 
         '</div>' +
