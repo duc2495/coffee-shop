@@ -45,7 +45,7 @@ import coffeeshop.service.product.ProductService;
 
 @Controller
 @RequestMapping("admin/products")
-public class ProductController extends BaseController {
+public class AdminProductController extends BaseController {
 
 	private static String UPLOAD_DIR = System.getProperty("user.home") + "/coffee-shop/images/products/";
 	private static final String viewPrefix = "admin/products/";

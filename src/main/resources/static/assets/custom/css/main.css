@@ -50,9 +50,8 @@
 	margin-top: 0;
 }
 /* End of set error page style */
-
 .product-content {
-	padding-top: 10vh;	
+	padding-top: 10vh;
 }
 
 .img-product {
@@ -78,14 +77,17 @@
 	right: 15px;
 	margin-top: 10px;
 	z-index: 5;
-	width:252px;
+	width: 252px;
 }
 
 .message {
 	display: none;
 }
 
-.table{
+.table {
 	table-layout: fixed;
 }
 
+.row {
+	margin-bottom: 20px;
+}

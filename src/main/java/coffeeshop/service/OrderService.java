@@ -39,4 +39,8 @@ public interface OrderService {
 	 * @param order
 	 */
 	public void updateOrder(Order order);
+	
+	public boolean hasOrder(Integer orderId);
+	
+	public void updateOrderStatus(Order order);
 }
