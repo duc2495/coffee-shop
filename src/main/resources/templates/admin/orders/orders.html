@@ -74,7 +74,7 @@
 												<td th:text="${order.orderId}">1</td>
 												<td th:text="${order.customerName}">Customer Name</td>
 												<td th:text="${order.customerPhone}">Customer Phone</td>
-												<th th:switch="${order.status.value}"><span
+												<td th:switch="${order.status.value}"><span
 													th:case="'1'" class="label label-warning"
 													th:text="${order.status}">ORDERED</span> <span
 													th:case="'2'" class="label label-info"
@@ -82,7 +82,7 @@
 													th:case="'3'" class="label label-success"
 													th:text="${order.status}">FINISHED</span> <span
 													th:case="'0'" class="label label-danger"
-													th:text="${order.status}">CANCELED</span></th>
+													th:text="${order.status}">CANCELED</span></td>
 												<td th:text="${order.netPrice}">Price</td>
 												<td
 													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created

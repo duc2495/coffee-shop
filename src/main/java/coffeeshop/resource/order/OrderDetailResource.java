@@ -1,5 +1,6 @@
 package coffeeshop.resource.order;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,9 +14,10 @@ public class OrderDetailResource {
 	private String note;
 	private Integer netPrice;
 	private OrderStatus status;
+	private Date createdAt;
+	private Date updatedAt;
 
 	private List<OrderProductDetailResource> orderProductList = new LinkedList<OrderProductDetailResource>();
-
 
 	public String getCustomerName() {
 		return customerName;
@@ -71,6 +73,22 @@ public class OrderDetailResource {
 
 	public void setStatus(OrderStatus status) {
 		this.status = status;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public List<OrderProductDetailResource> getOrderProductList() {
