@@ -118,7 +118,7 @@
 		THEN TRUE
 		ELSE FALSE
 		END
-		FROM order
+		FROM "order"
 		WHERE order_id = #{orderId}
 	</select>
 

@@ -1,20 +1,23 @@
 package coffeeshop.controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import coffeeshop.helper.OrderHelper;
 import coffeeshop.model.order.Order;
@@ -94,33 +97,29 @@ public class AdminOrderController {
 	 * @param resource
 	 * @param model
 	 */
-	@PatchMapping("/{productId}")
-	public String updateProduct(@PathVariable("orderId") Integer orderId,
-			@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, BindingResult result, Model model,
-			RedirectAttributes redirectAttributes) {
-
-		// Validate
-		if (result.hasErrors()) {
-			return viewPrefix + "update_product";
-		}
+	@PatchMapping("/{orderId}")
+	@ResponseBody
+	public ResponseEntity<?> updateProduct(@PathVariable("orderId") Integer orderId,
+			@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, Model model) {
 
 		// 商品のアクセス権限をチェック
 		if (!orderService.hasOrder(orderId)) {
 			// return forbidden view
-			return "403";
+			return new ResponseEntity<>("Order not exist!", HttpStatus.BAD_REQUEST);
 		}
 		resource.setOrderId(orderId);
 
 		// 商品modelを作成
 		Order order = orderHelper.createOrderModel(resource);
-
+		
 		// DBにを更新
 		orderService.updateOrderStatus(order);
 
 		// return view
-		redirectAttributes.addAttribute("orderId", orderId);
-		redirectAttributes.addFlashAttribute("info", "Order status updated successfully");
-		return "redirect:/" + viewPrefix + "{orderId}";
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status", order.getStatus());
+		resultMap.put("message", "Order status updated successfully");
+		return new ResponseEntity<HashMap<String, Object>>(resultMap, new HttpHeaders(), HttpStatus.OK);
 	}
 
 }

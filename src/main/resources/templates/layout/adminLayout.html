@@ -40,7 +40,7 @@
 			<!-- Logo -->
 			<a href="#" th:href="@{/admin/dashboard}" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>CA</b></span> <!-- logo for regular state and mobile devices -->
-				<span class="logo-lg"><b>CoffeeShop Admin</b></span>
+				<span class="logo-lg"><b th:text="#{logo}">CoffeeShop Admin</b></span>
 			</a>
 
 			<!-- Header Navbar -->
@@ -59,7 +59,7 @@
 							data-toggle="dropdown"> <!-- The user image in the navbar-->
 								<img th:src="@{/assets/custom/img/user.png}" class="user-image"
 								alt="User Image" /> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs">User</span>
+								<span class="hidden-xs" th:text="#{label.user}">User</span>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- The user image in the menu -->
@@ -67,21 +67,9 @@
 									th:src="@{/assets/custom/img/user.png}" class="img-circle"
 									alt="User Image" />
 									<p>
-										<span>User</span>
+										<span th:text="#{label.user}">User</span>
 										<!-- sec:authentication="principal.user.name" -->
 									</p></li>
-
-								<!-- Menu Footer-->
-								<li class="user-footer">
-									<div class="pull-left">
-										<a href="#" th:href="@{/myAccount}"
-											class="btn btn-default btn-flat">Profile</a>
-									</div>
-									<div class="pull-right">
-										<a href="logout" th:href="@{/logout}"
-											class="btn btn-default btn-flat">Sign out</a>
-									</div>
-								</li>
 							</ul>
 						</li>
 
@@ -103,11 +91,11 @@
 					</div>
 					<div class="pull-left info">
 						<p>
-							<span>Admin</span>
+							<span th:text="#{label.admin}">Admin</span>
 							<!-- sec:authentication="principal.user.name" -->
 						</p>
 						<!-- Status -->
-						<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+						<a href="#"><i class="fa fa-circle text-success" th:text="#{label.online}"> Online</i></a>
 					</div>
 				</div>
 
@@ -117,19 +105,14 @@
 					<!-- Optionally, you can add icons to the links -->
 					<li th:class="${CURRENT_MENU == 'Dashboard'}? 'active' : ''"><a
 						href="#" th:href="@{'/admin/dashboard'}"><i class="fa fa-home"></i>
-							<span>Dashboard</span></a></li>
+							<span th:text="#{title.dashboard}">Dashboard</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Products'}? 'active' : ''"><a
-						href="#" th:href="@{'/admin/products'}"><i class="fa fa-file"></i> <span>Products</span></a></li>
+						href="#" th:href="@{'/admin/products'}"><i class="fa fa-file"></i>
+							<span th:text="#{title.products}">Products</span></a></li>
 					<li th:class="${CURRENT_MENU == 'Orders'}? 'active' : ''"><a
 						href="#" th:href="@{'/admin/orders'}"><i
-							class="fa fa-cart-arrow-down"></i> <span>Orders</span></a></li>
-					<li th:class="${CURRENT_MENU == 'Customers'}? 'active' : ''"><a
-						href="#" th:href="@{'/admin/customers'}"><i class="fa fa-smile-o"></i>
-							<span>Customers</span></a></li>
-					<li th:class="${CURRENT_MENU == 'Users'}? 'active' : ''"><a
-						href="#" th:href="@{'/admin/users'}"><i class="fa fa-users"></i>
-							Users</a></li>
-
+							class="fa fa-cart-arrow-down"></i> <span
+							th:text="#{title.orders}">Orders</span></a></li>
 				</ul>
 				<!-- /.sidebar-menu -->
 			</section>
