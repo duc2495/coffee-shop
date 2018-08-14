@@ -9,7 +9,7 @@ public class OrderProduct {
 	private Integer quantity;
 	private String productName;
 	private ProductType productType;
-	private Integer productPrice;
+	private Integer price;
 
 	public Integer getQuantity() {
 		return quantity;
@@ -35,10 +35,10 @@ public class OrderProduct {
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
-	public Integer getProductPrice() {
-		return productPrice;
+	public Integer getPrice() {
+		return price;
 	}
-	public void setProductPrice(Integer productPrice) {
-		this.productPrice = productPrice;
+	public void setPrice(Integer price) {
+		this.price = price;
 	}
 }

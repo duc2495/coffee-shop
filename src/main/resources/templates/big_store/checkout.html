@@ -28,13 +28,13 @@
 						</thead>
 						<tr th:each="orderProduct,iterStat : ${orderProductDetailList}">
 							<td title="Product Name"
-								th:text=${orderProduct.product.productName}>Product Name</td>
+								th:text=${orderProduct.productName}>Product Name</td>
 							<td title="Unit Price"
-								th:text="${orderProduct.product.price}+@{円}">Product Price</td>
+								th:text="${orderProduct.productPrice}+@{円}">Product Price</td>
 							<td title="Quantity" th:text=${orderProduct.quantity}>Product
 								Quantity</td>
 							<td title="Total"
-								th:text="${orderProduct.quantity*orderProduct.product.price}+@{円}">Total</td>
+								th:text="${orderProduct.quantity*orderProduct.productPrice}+@{円}">Total</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -49,7 +49,7 @@
 						<div
 							th:if="${#fields.hasErrors('${orderResource.orderProductList[__${count.index}__].quantity}')}">
 							<p
-								th:text="${orderProductDetailList[__${count.index}__].product.productName}"></p>
+								th:text="${orderProductDetailList[__${count.index}__].productName}"></p>
 							<p
 								th:errors="${orderResource.orderProductList[__${count.index}__].quantity}"
 								th:class="text-red"></p>
@@ -65,7 +65,7 @@
 								<input th:type="@{hidden}"
 									th:id="*{orderProductList[__${count.index}__].product.productId}"
 									th:name="*{orderProductList[__${count.index}__].product.productId}"
-									th:value="${orderProduct.product.productId}"> <input
+									th:value="${orderProduct.productId}"> <input
 									th:type="@{hidden}"
 									th:id="*{orderProductList[__${count.index}__].quantity}"
 									th:name="*{orderProductList[__${count.index}__].quantity}"

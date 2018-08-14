@@ -90,7 +90,7 @@ CREATE TABLE "order_product"(
 	quantity integer NOT NULL CHECK (quantity > 0),
 	product_name varchar(30) NOT NULL,
 	product_type varchar(20) NOT NULL,
-	product_price integer NOT NULL,
+	price integer NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );

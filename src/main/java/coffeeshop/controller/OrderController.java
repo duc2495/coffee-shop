@@ -77,7 +77,7 @@ public class OrderController {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
 					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getProduct().getPrice();
+			total_check += pd.getQuantity() * pd.getProductPrice();
 			productList.add(pd);
 		}
 
@@ -167,7 +167,7 @@ public class OrderController {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
 					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getProduct().getPrice();
+			total_check += pd.getQuantity() * pd.getProductPrice();
 			productList.add(pd);
 		}
 		model.addAttribute("orderResource", orderResource);
@@ -200,7 +200,7 @@ public class OrderController {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
 					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getProduct().getPrice();
+			total_check += pd.getQuantity() * pd.getProductPrice();
 			productList.add(pd);
 		}
 

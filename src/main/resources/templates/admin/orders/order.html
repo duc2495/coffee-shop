@@ -144,10 +144,10 @@
 							<tbody>
 								<tr th:each="product,iterStat : ${order.orderProductList}">
 									<td th:text="${iterStat.count}">1</td>
-									<td th:text=${product.product.productName}>Product</td>
-									<td th:text=${product.product.price}>Price</td>
+									<td th:text=${product.productName}>Product</td>
+									<td th:text=${product.price}>Price</td>
 									<td th:text=${product.quantity}>Product Quantity</td>
-									<td th:text=${product.quantity*product.product.price}>Subtotal</td>
+									<td th:text=${product.quantity*product.price}>Subtotal</td>
 
 								</tr>
 							</tbody>

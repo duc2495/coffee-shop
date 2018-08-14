@@ -76,13 +76,13 @@
 								</thead>
 								<tr th:each="orderProduct,iterStat : ${order.orderProductList}">
 									<td title="Product Name"
-										th:text=${orderProduct.product.productName}>Product Name</td>
-									<td title="Unit Price" th:text=${orderProduct.product.price}>Product
+										th:text=${orderProduct.productName}>Product Name</td>
+									<td title="Unit Price" th:text=${orderProduct.price}>Product
 										Price</td>
 									<td title="Quantity" th:text=${orderProduct.quantity}>Product
 										Quantity</td>
 									<td title="Total"
-										th:text="${orderProduct.quantity*orderProduct.product.price}">Total</td>
+										th:text="${orderProduct.quantity*orderProduct.price}">Total</td>
 								</tr>
 								<tr>
 									<td></td>
