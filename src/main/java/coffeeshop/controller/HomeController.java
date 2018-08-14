@@ -35,11 +35,21 @@ public class HomeController {
 	@Autowired
 	private ProductHelper productHelper;
 	
+	
+	//お客さんのホームページにプロダクトの一覧をページに割れて表示します。
+	//一ページにnumPerPageのプロダクトを表示します。
 	private final Integer numPerPage=8;
 	
 	private static String UPLOAD_DIR = System.getProperty("user.home") + "/coffee-shop/images/products/";
 	protected final MyLogger logger = MyLogger.getLogger(getClass());
 	
+	/**
+	 * キーワードでプロダクトを探す機能
+	 * 品名、またはデスクリプションにキーワードがあるプロダクトを探します。
+	 * @param keyWord
+	 * @param model
+	 * @return　品名、またはデスクリプションにキーワードがあるプロダクトの一覧です。
+	 */
 	@GetMapping("/search")
 	public String search(@RequestParam("keyWord") String keyWord, Model model){
 		List<ProductDetailResource> list = productService.searchByKeyWord(keyWord)
@@ -56,6 +66,13 @@ public class HomeController {
 		return "big_store/product_search_page::productList";
 	}
 	
+	/**
+	 * プロジェクトのページを取る機能
+	 * @param productType
+	 * @param page
+	 * @param model
+	 * @return　productTypeのプロジェクトの第（page）ページ
+	 */
 	@GetMapping("/productpage/{productType}/{page}")
 	public String getProductPage(@PathVariable("productType") String productType, @PathVariable("page") Integer page, Model model){
 		ProductType type;
@@ -118,6 +135,7 @@ public class HomeController {
 			logger.error("Error read file: {}", image);
 		}
 	}
+    
     @RequestMapping(value = { "/403", }, method = RequestMethod.GET)
     public String error403(Model model) {
     	model.addAttribute("error", "You are not authorized to access this page.");

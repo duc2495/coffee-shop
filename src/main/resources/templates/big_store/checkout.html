@@ -13,7 +13,7 @@
 	<!--content-->
 	<div layout:fragment="content">
 		<div class="product">
-				<div class="container" th:fragment="content">
+				<div class="container" th:fragment="content" id="content">
 					<!-- Cart info -->
 					<div class="col-sm-1"></div>
 					<div class="col-sm-5">
@@ -92,8 +92,8 @@
 
 								<div class="form-group"
 									th:classappend="${#fields.hasErrors('note')}? 'has-error'">
-									<input type="text" class="form-control" placeholder="メーモ"
-										th:field="*{note}"></input>
+									<textarea rows="5" class="form-control" placeholder="メーモ"
+										th:field="*{note}"></textarea>
 								</div>
 
 							</div>

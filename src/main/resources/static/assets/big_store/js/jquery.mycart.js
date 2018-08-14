@@ -191,7 +191,7 @@
         '<table class="table table-hover table-responsive" id="' + idCartTable + '"></table>' +
         '</div>' +
         '<div class="modal-footer">' +
-        '<button id="submit_order" onclick="submit()" type="button" class="btn btn-default" data-dismiss="modal">発注</button>' +
+        '<button style="width:100px;" id="submit_order" onclick="submit()" type="button" class="btn btn-default btn-info btn-large" data-dismiss="modal">発注</button>' +
         '<button id="submit_order" type="button" class="btn btn-danger btn-removeAll">クリア</button>' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>' +
 
