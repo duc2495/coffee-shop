@@ -80,6 +80,7 @@ public class OrderServiceImpl implements OrderService{
 		order.setNetPrice(total_check);
 		this.insertOrder(order);
 		for(OrderProduct orderProduct : order.getOrderProductList()){
+			orderProduct.setProduct(productService.getProductDetail(orderProduct.getProduct().getProductId()));
 			insertOrderProduct(order, orderProduct);
 		}
 		return order.getOrderId();

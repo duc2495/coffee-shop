@@ -7,18 +7,14 @@
 		<id column="order_id" property="orderId" />
 		<collection property="orderProductList" resultMap="OrderProductResult"
 			autoMapping="true">
-			<association property="product" autoMapping="true"
-				columnPrefix="product_"></association>
 		</collection>
 	</resultMap>
 
 	<resultMap id="OrderProductResult" type="OrderProduct"
 		autoMapping="true">
-		<association property="product"
-			resultMap="coffeeshop.repository.ProductRepository.ProductResult"
-			autoMapping="true">
-		</association>
+		<association property="product" autoMapping="true" resultMap="coffeeshop.repository.ProductRepository.ProductResult"></association>
 	</resultMap>
+
 
 	<select id="getAllOrder" resultMap="OrderResult">
 		SELECT *
@@ -86,7 +82,8 @@
 		UPDATE "order"
 		SET status = #{status}
 		WHERE
-		order_id = #{orderId}
+		order_id =
+		#{orderId}
 	</update>
 
 	<insert id="insertOrderProduct" parameterType="map">
@@ -96,18 +93,29 @@
 		order_id
 		, product_id
 		, quantity
+		, product_name
+		,
+		product_type
+		, product_price
 		)
 		VALUES(
 		#{order.orderId}
-		, #{orderProduct.product.productId}
+		,
+		#{orderProduct.product.productId}
 		, #{orderProduct.quantity}
+		,
+		#{orderProduct.product.productName}
+		,
+		#{orderProduct.product.productType}
+		, #{orderProduct.product.price}
 		)
 	</insert>
 
 	<!-- check order exist or not -->
 	<select id="hasOrder" resultType="boolean">
 		SELECT
-		CASE WHEN count(*) > 0 THEN TRUE
+		CASE WHEN count(*) > 0
+		THEN TRUE
 		ELSE FALSE
 		END
 		FROM order
@@ -117,7 +125,8 @@
 	<update id="updateOrderStatus" parameterType="Order"
 		keyProperty="order.orderId" keyColumn="order_id">
 		UPDATE "order"
-		SET status = #{status}
+		SET status =
+		#{status}
 		WHERE
 		order_id = #{orderId}
 	</update>

@@ -47,7 +47,7 @@
 										th:data-id="${product.productId}"
 										th:data-name="${product.productName}" data-summary="summary 1"
 										th:data-price="${product.price}" data-quantity="1"
-										th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+										th:data-image="@{/product/images(image=${product.imageUrl})}">オーダー</button>
 								</div>
 							</div>
 						</div>
@@ -72,15 +72,17 @@
 										</div>
 									</div>
 									<div class="col-md-7 span-1 ">
-										<h3 th:text="${product.productName}">Product Name</h3>
-										<p class="in-para" th:text=${product.productType}>There
+										<h3 th:text="@{'品名：'}+${product.productName}">Product
+											Name</h3>
+										<p class="in-para" th:text="@{'タイプ： '}+${product.productType}">There
 											are many variations of passages of Lorem Ipsum.</p>
 										<div class="price_single">
-											<span class="reducedfrom " th:text=${product.price}><del>$1.00</del>$0.80</span>
+											<span class="reducedfrom "
+												th:text="@{値段： }+${product.price} +@{円}"></span>
 
 											<div class="clearfix"></div>
 										</div>
-										<h4 class="quick">Quick Overview:</h4>
+										<h4 class="quick" th:text="@{デスクリプション}">Quick Overview:</h4>
 										<p class="quick_desc" th:text="${product.description}">Product
 											Description es</p>
 
@@ -90,7 +92,7 @@
 												th:data-name="${product.productName}"
 												data-summary="summary 1" th:data-price="${product.price}"
 												data-quantity="1"
-												th:data-image="@{/product/images(image=${product.imageUrl})}">Buy</button>
+												th:data-image="@{/product/images(image=${product.imageUrl})}">オーダー</button>
 										</div>
 									</div>
 									<div class="clearfix"></div>
