@@ -11,12 +11,15 @@
 <body>
 	<section layout:fragment="content-header">
 		<h1>
-			Products <small>Info Product</small>
+			[[#{title.products}]] <small th:text="#{title.info_product}">Info
+				Product</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="#" th:href="@{/admin/products}">Products</a></li>
-			<li class="active">Info</li>
+			<li><a href="#" th:href="@{/admin}" th:text="#{title.home}"><i
+					class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="#" th:href="@{/admin/products}"
+				th:text="#{title.products}">Products</a></li>
+			<li class="active" th:text="#{title.info_product}">Info</li>
 		</ol>
 		<div th:if="${info}"
 			class="col-md-3 alert alert-info alert-dismissable alert-hide">
@@ -53,35 +56,38 @@
 							<div class="col-md-6">
 								<img alt="Product Image" id="productImage" class="img-product"
 									th:src="@{/admin/products/images(image=${product.imageUrl})}" />
-								
+
 							</div>
 							<div class="col-md-6">
 								<div>
 									<input id="productId" th:value="${product.productId}"
 										type="hidden" />
 								</div>
-								<div>
-									<label th:text="#{label.product_name}">Name: </label> <span
-										th:text="${product.productName}"></span>
+								<div class="box box-solid">
+									<div class="box-body">
+										<dl class="dl-horizontal">
+											<dt th:text="#{label.product_name}">Product Name</dt>
+											<dd th:text="${product.productName}"></dd>
+
+											<dt th:text="#{label.product_price}">Price</dt>
+											<dd th:text="${product.price}"></dd>
+
+											<dt th:text="#{label.product_type}">Product Type</dt>
+											<dd th:text="${product.productType}"></dd>
+
+											<dt th:text="#{label.product_description}">Description</dt>
+											<dd th:text="${product.description}"></dd>
+										</dl>
+									</div>
+									<!-- /.box-body -->
 								</div>
-								<div>
-									<label th:text="#{label.product_price}">Price: </label> <span
-										th:text="${product.price}"></span>
-								</div>
-								<div>
-									<label th:text="#{label.product_type}">Type: </label> <span
-										th:text="${product.productType}"></span>
-								</div>
-								<div>
-									<label th:text="#{label.product_description}">Description:
-									</label> <span th:text="${product.description}"></span>
-								</div>
+								<!-- /.box -->
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-6 align-items-center justify-content-center" >
-								<button type="button" class="btn btn-default" 
+							<div class="col-md-6 align-items-center justify-content-center">
+								<button type="button" class="btn btn-default"
 									data-toggle="modal" data-target="#modal-update-image"
 									th:text="#{button.update_product_image}">Update Image</button>
 							</div>

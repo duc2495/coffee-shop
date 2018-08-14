@@ -10,12 +10,14 @@
 <body>
 	<section layout:fragment="content-header">
 		<h1>
-			Products <small>New Product</small>
+			[[#{title.products}]] <small th:text="#{title.new_product}">New Product</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li><a href="#" th:href="@{/admin/products}">Products</a></li>
-			<li class="active">New</li>
+			<li><a href="#" th:href="@{/admin}" th:text="#{title.home}"><i
+					class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="#" th:href="@{/admin/products}"
+				th:text="#{title.products}">Products</a></li>
+			<li class="active" th:text="#{title.new_product}">New</li>
 		</ol>
 		<div th:if="${info}"
 			class="col-md-3 alert alert-info alert-dismissable">

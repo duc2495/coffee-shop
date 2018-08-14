@@ -10,12 +10,13 @@
 <body>
 	<section layout:fragment="content-header">
 		<h1>
-			[[#{label.order}]] <small th:text="#{label.order_list}">List
+			[[#{title.orders}]] <small th:text="#{title.list_orders}">List
 				of Orders</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Orders</li>
+			<li><a href="#" th:href="@{/admin}" th:text="#{title.home}"><i
+					class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active" th:text="#{title.orders}">Orders</li>
 		</ol>
 		<div th:if="${info}"
 			class="col-md-3 alert alert-info alert-dismissable alert-hide">
@@ -37,16 +38,15 @@
 	</section>
 
 	<div layout:fragment="content">
-
-
-
 		<!-- Custom Tabs -->
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#tab_1" data-toggle="tab">All
-						of list</a></li>
-				<li><a href="#tab_2" data-toggle="tab">Active Order</a></li>
-				<li><a href="#tab_3" data-toggle="tab">Inactive Order</a></li>
+				<li class="active"><a href="#tab_1" data-toggle="tab"
+					th:text="#{tab.all_list}">All of list</a></li>
+				<li><a href="#tab_2" data-toggle="tab"
+					th:text="#{tab.active_order}">Active Order</a></li>
+				<li><a href="#tab_3" data-toggle="tab"
+					th:text="#{tab.inactive_order}">Inactive Order</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab_1">
@@ -60,12 +60,12 @@
 										<thead>
 											<tr>
 												<th style="width: 10px">ID</th>
-												<th>Customer Name</th>
-												<th>Customer Phone</th>
-												<th>Status</th>
-												<th>Price</th>
-												<th>Created At</th>
-												<th>Last Updated</th>
+												<th th:text="#{label.customer_name}">Customer Name</th>
+												<th th:text="#{label.phone_number}">Phone Number</th>
+												<th th:text="#{label.order_status}">Order Status</th>
+												<th th:text="#{label.created_at}">Created At</th>
+												<th th:text="#{label.updated_at}">Last Updated</th>
+												<th th:text="#{label.total}">Net Price</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -83,13 +83,13 @@
 													th:text="${order.status}">FINISHED</span> <span
 													th:case="'0'" class="label label-danger"
 													th:text="${order.status}">CANCELED</span></td>
+												<td
+													th:text="${#dates.format(order.createdAt, 'yy年M月dd日 a hh時mm分')}">Created
+													At</td>
+												<td
+													th:text="${#dates.format(order.updatedAt, 'yy年M月dd日 a hh時mm分')}">Updated
+													At</td>
 												<td th:text="${order.netPrice}">Price</td>
-												<td
-													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
-													At</td>
-												<td
-													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
-													At</td>
 												<td><a
 													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -128,11 +128,12 @@
 										<thead>
 											<tr>
 												<th style="width: 10px">ID</th>
-												<th>Customer Name</th>
-												<th>Customer Phone</th>
-												<th>Price</th>
-												<th>Created At</th>
-												<th>Last Updated</th>
+												<th th:text="#{label.customer_name}">Customer Name</th>
+												<th th:text="#{label.phone_number}">Phone Number</th>
+
+												<th th:text="#{label.created_at}">Created At</th>
+												<th th:text="#{label.updated_at}">Last Updated</th>
+												<th th:text="#{label.total}">Price</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -141,13 +142,14 @@
 												<td th:text="${order.orderId}">1</td>
 												<td th:text="${order.customerName}">Customer Name</td>
 												<td th:text="${order.customerPhone}">Customer Phone</td>
-												<td th:text="${order.netPrice}">Price</td>
+
 												<td
 													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
 													At</td>
 												<td
 													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
 													At</td>
+												<td th:text="${order.netPrice}">Price</td>
 												<td><a
 													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -183,11 +185,12 @@
 										<thead>
 											<tr>
 												<th style="width: 10px">ID</th>
-												<th>Customer Name</th>
-												<th>Customer Phone</th>
-												<th>Price</th>
-												<th>Created At</th>
-												<th>Last Updated</th>
+												<th th:text="#{label.customer_name}">Customer Name</th>
+												<th th:text="#{label.phone_number}">Phone Number</th>
+
+												<th th:text="#{label.created_at}">Created At</th>
+												<th th:text="#{label.updated_at}">Last Updated</th>
+												<th th:text="#{label.total}">Price</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -196,13 +199,14 @@
 												<td th:text="${order.orderId}">1</td>
 												<td th:text="${order.customerName}">Customer Name</td>
 												<td th:text="${order.customerPhone}">Customer Phone</td>
-												<td th:text="${order.netPrice}">Price</td>
+
 												<td
 													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
 													At</td>
 												<td
 													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
 													At</td>
+												<td th:text="${order.netPrice}">Price</td>
 												<td><a
 													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -241,11 +245,12 @@
 										<thead>
 											<tr>
 												<th style="width: 10px">ID</th>
-												<th>Customer Name</th>
-												<th>Customer Phone</th>
-												<th>Price</th>
-												<th>Created At</th>
-												<th>Last Updated</th>
+												<th th:text="#{label.customer_name}">Customer Name</th>
+												<th th:text="#{label.phone_number}">Phone Number</th>
+
+												<th th:text="#{label.created_at}">Created At</th>
+												<th th:text="#{label.updated_at}">Last Updated</th>
+												<th th:text="#{label.total}">Price</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -254,13 +259,14 @@
 												<td th:text="${order.orderId}">1</td>
 												<td th:text="${order.customerName}">Customer Name</td>
 												<td th:text="${order.customerPhone}">Customer Phone</td>
-												<td th:text="${order.netPrice}">Price</td>
+
 												<td
 													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
 													At</td>
 												<td
 													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
 													At</td>
+												<td th:text="${order.netPrice}">Price</td>
 												<td><a
 													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -296,11 +302,12 @@
 										<thead>
 											<tr>
 												<th style="width: 10px">ID</th>
-												<th>Customer Name</th>
-												<th>Customer Phone</th>
-												<th>Price</th>
-												<th>Created At</th>
-												<th>Last Updated</th>
+												<th th:text="#{label.customer_name}">Customer Name</th>
+												<th th:text="#{label.phone_number}">Phone Number</th>
+
+												<th th:text="#{label.created_at}">Created At</th>
+												<th th:text="#{label.updated_at}">Last Updated</th>
+												<th th:text="#{label.total}">Price</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -309,13 +316,14 @@
 												<td th:text="${order.orderId}">1</td>
 												<td th:text="${order.customerName}">Customer Name</td>
 												<td th:text="${order.customerPhone}">Customer Phone</td>
-												<td th:text="${order.netPrice}">Price</td>
+
 												<td
 													th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}">Created
 													At</td>
 												<td
 													th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}">Updated
 													At</td>
+												<td th:text="${order.netPrice}">Price</td>
 												<td><a
 													th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
