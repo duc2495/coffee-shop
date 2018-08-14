@@ -2,7 +2,6 @@
 $(document).ready(function() {
 	var status = $('#orderStatus').text();
 	setOrderStatus(status);
-
 	$('#btnUpdateOrderStatus').click(function(event) {
 
 		// stop submit the form, we will post it manually.
@@ -60,19 +59,32 @@ function ajaxUpdateStatus() {
 }
 
 function setOrderStatus(status) {
-	console.log("set class : " + status);
 	switch (status) {
 	case 'ORDERED':
 		$('#orderStatus').removeClass().addClass("label label-warning");
+		disableOrderStatus("ordered");
 		break;
 	case 'SHIPPING':
 		$('#orderStatus').removeClass().addClass("label label-info");
+		disableOrderStatus("shipping");
 		break;
 	case 'FINISHED':
 		$('#orderStatus').removeClass().addClass("label label-success");
+		disableOrderStatus("finished");
 		break;
 	case 'CANCELED':
 		$('#orderStatus').removeClass().addClass("label label-danger");
+		disableOrderStatus("canceled");
 		break;
 	}
+}
+
+function disableOrderStatus(status) {
+	$('#ordered').prop('disabled', false);
+	$('#shipping').prop('disabled', false);
+	$('#finished').prop('disabled', false);
+	$('#canceled').prop('disabled', false);
+	
+	$('#' + status).prop('disabled', !$('#' + status).prop('disabled'));
+	$('.select2').select2();
 }

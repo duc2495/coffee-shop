@@ -63,12 +63,14 @@ public class AdminProductController extends BaseController {
 		List<Product> productList = productService.getProductList();
 
 		// resourceに変換
+		List<ProductResource> productResources = new LinkedList<ProductResource>();
 		List<ProductResource> pureCoffeeList = new LinkedList<ProductResource>();
 		List<ProductResource> fromCoffeeList = new LinkedList<ProductResource>();
 		List<ProductResource> nonCoffeeList = new LinkedList<ProductResource>();
 
 		for (Product p : productList) {
 			ProductResource product = productHelper.createProductResource(p);
+			productResources.add(product);
 			if (product.getProductType().equals(ProductType.FROM_COFFEE))
 				fromCoffeeList.add(product);
 			else if (p.getProductType().equals(ProductType.NON_COFFEE))
@@ -76,7 +78,7 @@ public class AdminProductController extends BaseController {
 			else
 				pureCoffeeList.add(product);
 		}
-
+		model.addAttribute("productResources", productResources);
 		model.addAttribute("fromCoffeeList", fromCoffeeList);
 		model.addAttribute("nonCoffeeList", nonCoffeeList);
 		model.addAttribute("pureCoffeeList", pureCoffeeList);

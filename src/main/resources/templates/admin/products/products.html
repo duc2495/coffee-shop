@@ -10,12 +10,13 @@
 <body>
 	<section layout:fragment="content-header">
 		<h1>
-			[[#{label.product}]]
-			<small th:text="#{label.product_list}">List of Products</small>
+			[[#{title.products}]] <small th:text="#{title.list_products}">List
+				of Products</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-			<li class="active">Products</li>
+			<li><a href="#" th:href="@{/admin}" th:text="#{title.home}"><i
+					class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active" th:text="#{title.products}">Products</li>
 		</ol>
 		<div th:if="${info}"
 			class="col-md-3 alert alert-info alert-dismissable alert-hide">
@@ -47,154 +48,176 @@
 			</div>
 		</div>
 
-		<!-- List product with type PURE_COFFEE -->
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header">
-						<h3 class="box-title">PURE_COFFEE</h3>
+		<!-- Products Tabs -->
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab_1" data-toggle="tab"
+					th:text="#{tab.all_list}">All of list</a></li>
+				<li><a href="#tab_2" data-toggle="tab">PURE_COFFEE</a></li>
+				<li><a href="#tab_3" data-toggle="tab">FROM_COFFEE</a></li>
+				<li><a href="#tab_4" data-toggle="tab">NON_COFFEE</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab_1">
+					<!-- All of list -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-body">
+									<table id="dataTable0"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">#</th>
+												<th th:text="#{label.product_name}">Name</th>
+												<th th:text="#{label.product_type}">Type</th>
+												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="product,iterStat : ${productResources}">
+												<td th:text="${iterStat.count}">1</td>
+												<td th:text="${product.productName}">Product Name</td>
+												<td th:text="${product.productType}">Product Type</td>
+												<td th:text="${product.price}">Product Price</td>
+												<td><a
+													th:href="@{/admin/products/{id}(id=${product.productId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 
-						<div class="box-tools pull-right">
-							<!-- Collapse Button -->
-							<button type="button" class="btn btn-box-tool"
-								data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
+							</div>
 						</div>
 					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
-						<table id="dataTable1" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th style="width: 10px">#</th>
-									<th th:text="#{label.product_name}">Name</th>
-									<th th:text="#{label.product_price}">Price</th>
-									<th th:text="#{label.action}">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="product,iterStat : ${pureCoffeeList}">
-									<td th:text="${iterStat.count}">1</td>
-									<td th:text="${product.productName}">Product Name</td>
-									<td th:text="${product.price}">Product Price</td>
-									<td><a
-										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-sm btn-default" th:text="#{button.info}"><i
-											class="fa fa-info"></i> Info</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
+					<!-- /.All of list -->
 				</div>
-			</div>
-		</div>
-		<!-- /.List product with type PURE_COFFEE -->
 
-		<!-- List product with type FROM_COFFEE -->
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header">
-						<h3 class="box-title">FROM_COFFEE</h3>
+				<div class="tab-pane" id="tab_2">
+					<!-- List product with type PURE_COFFEE -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-body">
+									<table id="dataTable1"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">#</th>
+												<th th:text="#{label.product_name}">Name</th>
+												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="product,iterStat : ${pureCoffeeList}">
+												<td th:text="${iterStat.count}">1</td>
+												<td th:text="${product.productName}">Product Name</td>
+												<td th:text="${product.price}">Product Price</td>
+												<td><a
+													th:href="@{/admin/products/{id}(id=${product.productId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 
-						<div class="box-tools pull-right">
-							<!-- Collapse Button -->
-							<button type="button" class="btn btn-box-tool"
-								data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
+							</div>
 						</div>
 					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
-						<table id="dataTable2" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th style="width: 10px">#</th>
-									<th th:text="#{label.product_name}">Name</th>
-									<th th:text="#{label.product_price}">Price</th>
-									<th th:text="#{label.action}">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="product,iterStat : ${fromCoffeeList}">
-									<td th:text="${iterStat.count}">1</td>
-									<td th:text="${product.productName}">Product Name</td>
-									<td th:text="${product.price}">Product Price</td>
-									<td><a
-										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-sm btn-default" th:text="#{button.info}"><i
-											class="fa fa-info"></i> Info</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
+					<!-- /.List product with type PURE_COFFEE -->
 				</div>
-			</div>
-		</div>
-		<!-- /.List product with type FROM_COFFEE -->
 
-		<!-- List product with type NON_COFFEE -->
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header">
-						<h3 class="box-title">NON_COFFEE</h3>
+				<div class="tab-pane" id="tab_3">
+					<!-- List product with type FROM_COFFEE -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-body">
+									<table id="dataTable2"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">#</th>
+												<th th:text="#{label.product_name}">Name</th>
+												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="product,iterStat : ${fromCoffeeList}">
+												<td th:text="${iterStat.count}">1</td>
+												<td th:text="${product.productName}">Product Name</td>
+												<td th:text="${product.price}">Product Price</td>
+												<td><a
+													th:href="@{/admin/products/{id}(id=${product.productId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 
-						<div class="box-tools pull-right">
-							<!-- Collapse Button -->
-							<button type="button" class="btn btn-box-tool"
-								data-widget="collapse">
-								<i class="fa fa-minus"></i>
-							</button>
+							</div>
 						</div>
 					</div>
-					<!-- /.box-header -->
-					<div class="box-body">
-						<table id="dataTable3" class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th style="width: 10px">#</th>
-									<th th:text="#{label.product_name}">Name</th>
-									<th th:text="#{label.product_price}">Price</th>
-									<th th:text="#{label.action}">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="product,iterStat : ${nonCoffeeList}">
-									<td th:text="${iterStat.count}">1</td>
-									<td th:text="${product.productName}">Product Name</td>
-									<td th:text="${product.price}">Product Price</td>
-									<td><a
-										th:href="@{/admin/products/{id}(id=${product.productId})}"
-										class="btn btn-sm btn-default" th:text="#{button.info}"><i
-											class="fa fa-info"></i> Info</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<!-- /.List product with type FROM_COFFEE -->
+				</div>
 
+				<div class="tab-pane" id="tab_4">
+					<!-- List product with type NON_COFFEE -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-info">
+								<div class="box-body">
+									<table id="dataTable3"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">#</th>
+												<th th:text="#{label.product_name}">Name</th>
+												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.action}">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="product,iterStat : ${nonCoffeeList}">
+												<td th:text="${iterStat.count}">1</td>
+												<td th:text="${product.productName}">Product Name</td>
+												<td th:text="${product.price}">Product Price</td>
+												<td><a
+													th:href="@{/admin/products/{id}(id=${product.productId})}"
+													class="btn btn-sm btn-default" th:text="#{button.info}"><i
+														class="fa fa-info"></i> Info</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /.List product with type NON_COFFEE -->
 				</div>
 			</div>
-		</div>
-		<!-- /.List product with type NON_COFFEE -->
 
+		</div>
 	</div>
-
 	<th:block layout:fragment="script">
 		<script>
 			$(function() {
 				//Initialize DataTable Elements
+				$('#dataTable0').DataTable()
 				$('#dataTable1').DataTable()
 				$('#dataTable2').DataTable()
 				$('#dataTable3').DataTable()
 			})
 		</script>
 	</th:block>
-
 </body>
 
 </html>

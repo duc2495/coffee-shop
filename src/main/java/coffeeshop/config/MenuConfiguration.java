@@ -10,8 +10,9 @@ public class MenuConfiguration {
 	
 	static
 	{
-		MENU_URL_PATTERN_MAP.put("/home", "Home");
-		MENU_URL_PATTERN_MAP.put("/dashboard", "Dashboard");	
+		MENU_URL_PATTERN_MAP.put("/dashboard", "Dashboard");
+		MENU_URL_PATTERN_MAP.put("/products", "Products");
+		MENU_URL_PATTERN_MAP.put("/orders", "Orders");
 	}
 	
 	public static Map<String, String> getMenuUrlPatternMap() {
