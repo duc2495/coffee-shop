@@ -11,7 +11,6 @@ import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.repository.OrderRepository;
-import coffeeshop.resource.order.OrderProductDetailResource;
 import coffeeshop.resource.order.OrderProductResource;
 import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
@@ -102,6 +101,16 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void updateOrder(Order order) {
 		orderRepository.updateOrder(order);
+	}
+
+	@Override
+	public boolean hasOrder(Integer orderId) {
+		return orderRepository.hasOrder(orderId);
+	}
+
+	@Override
+	public void updateOrderStatus(Order order) {
+		orderRepository.updateOrderStatus(order);
 	}
 
 }

@@ -22,33 +22,41 @@ public class OrderResource {
 	@NotBlank(message = "{error.required}")
 	private String customerAddress;
 	@NotBlank(message = "{error.required}")
-	@Pattern(regexp="\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}", message="{error.phone.invalid}")
+	@Pattern(regexp = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}", message = "{error.phone.invalid}")
 	private String customerPhone;
-	
+
 	private String note;
-	
+
 	public String getCustomerName() {
 		return customerName;
 	}
+
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
+
 	public String getCustomerAddress() {
 		return customerAddress;
 	}
+
 	public void setCustomerAddress(String customerAddress) {
 		this.customerAddress = customerAddress;
 	}
+
 	public String getCustomerPhone() {
 		return customerPhone;
 	}
+
 	public void setCustomerPhone(String customerPhone) {
 		this.customerPhone = customerPhone;
 	}
+
 	public String getNote() {
 		return note;
 	}
+
 	public void setNote(String note) {
 		this.note = note;
 	}
+
 }
