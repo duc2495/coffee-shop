@@ -130,8 +130,8 @@ public class OrderController {
 		Order order = orderService.findOrderById(orderRequestResource.getOrderId());
 
 		if (order == null) {
-			// return 404 view
-			return "error";
+			model.addAttribute("info", "結果がありません");
+			return "big_store/find_order";
 		} else if (!order.getCustomerPhone().equals(orderRequestResource.getCustomerPhone())) {
 			model.addAttribute("info", "結果がありません");
 			return "big_store/find_order";

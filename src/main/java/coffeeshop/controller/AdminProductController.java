@@ -140,7 +140,6 @@ public class AdminProductController extends BaseController {
 
 		// Validate
 		if (result.hasErrors()) {
-			redirectAttributes.addFlashAttribute("error", "Error ...");
 			return viewPrefix + "create_product";
 		}
 		String imageUrl;
@@ -148,7 +147,6 @@ public class AdminProductController extends BaseController {
 		try {
 			imageUrl = this.doUploadFile(resource.getImage());
 		} catch (IOException e) {
-			redirectAttributes.addFlashAttribute("error", "Error ...");
 			return viewPrefix + "create_product";
 		}
 
@@ -195,7 +193,7 @@ public class AdminProductController extends BaseController {
 	@PatchMapping("/{productId}")
 	public String updateProduct(@PathVariable("productId") Integer productId,
 			@Valid @ModelAttribute("product") ProductUpdateResource resource, BindingResult result, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Locale locale) {
 
 		// Validate
 		if (result.hasErrors()) {
@@ -217,7 +215,7 @@ public class AdminProductController extends BaseController {
 
 		// return view
 		redirectAttributes.addAttribute("productId", productId);
-		redirectAttributes.addFlashAttribute("info", "Product updated successfully");
+		redirectAttributes.addFlashAttribute("info", messageSource.getMessage("info.product.updated", null, locale));
 		return "redirect:/" + viewPrefix + "{productId}";
 	}
 
@@ -242,14 +240,14 @@ public class AdminProductController extends BaseController {
 		productService.deleteProduct(productId);
 
 		// return view
-		redirectAttributes.addFlashAttribute("info", "Product deleted successfully");
+		redirectAttributes.addFlashAttribute("info", messageSource.getMessage("info.product.deleted", null, locale));
 		return "redirect:/" + viewPrefix;
 	}
 
 	@PatchMapping("/{productId}/updateImage")
 	@ResponseBody
 	public ResponseEntity<?> uploadFile(@PathVariable("productId") Integer productId,
-			@RequestParam("image") MultipartFile image) {
+			@RequestParam("image") MultipartFile image, Locale locale) {
 
 		if (image.isEmpty()) {
 			return new ResponseEntity<>("Please select a image!", HttpStatus.BAD_REQUEST);
@@ -275,7 +273,7 @@ public class AdminProductController extends BaseController {
 		}
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("imageUrl", image.getOriginalFilename());
-		resultMap.put("message", "Product image updated successfully");
+		resultMap.put("message", messageSource.getMessage("info.product.image.updated", null, locale));
 		return new ResponseEntity<HashMap<String, Object>>(resultMap, new HttpHeaders(), HttpStatus.OK);
 	}
 
