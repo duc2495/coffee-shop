@@ -75,14 +75,14 @@
 									</tr>
 								</thead>
 								<tr th:each="orderProduct,iterStat : ${order.orderProductList}">
-									<td title="Product Name"
-										th:text=${orderProduct.product.productName}>Product Name</td>
-									<td title="Unit Price" th:text=${orderProduct.product.price}>Product
+									<td title="Product Name" th:text=${orderProduct.productName}>Product
+										Name</td>
+									<td title="Unit Price" th:text=${orderProduct.price}>Product
 										Price</td>
 									<td title="Quantity" th:text=${orderProduct.quantity}>Product
 										Quantity</td>
 									<td title="Total"
-										th:text="${orderProduct.quantity*orderProduct.product.price}">Total</td>
+										th:text="${orderProduct.quantity*orderProduct.price}">Total</td>
 								</tr>
 								<tr>
 									<td></td>
@@ -93,55 +93,60 @@
 							</table>
 						</div>
 						<div class="col-sm-6">
-							<form th:action="@{/order/update_order}" 
-							th:method="patch"
-							th:object="${order}">
-							<table class="table table-responsive" id="cardtable">
+							<form th:action="@{/order/update_order}" th:method="patch"
+								th:object="${order}">
+								<table class="table table-responsive" id="cardtable">
 
-								<tr>
-									<td title="Order Id" th:text="@{Order Id}">Order Id</td>
-									<td title="Order Id" th:text=${order.orderId}>Order Id</td>
-								</tr>
-								<tr>
-									<td title="Customer Name" th:text="@{Customer Name}">Customer
-										Name</td>
-									<td title="Customer Name" th:text=${order.customerName}>Customer
-										Name</td>
-								</tr>
-								<tr>
-									<td title="Phone Number" th:text="@{Phone Number}">Phone
-										Number</td>
-									<td title="Phone Number" th:text=${order.customerPhone}>Phone
-										Number</td>
-								</tr>
-								<tr>
-									<td title="Customer Address" th:text="@{Customer Address}">Customer
-										Address</td>
-									<td title="Customer Address" th:text=${order.customerAddress}>Customer
-										Address</td>
-								</tr>
-								<tr>
-									<td title="Note" th:text="@{Note}">Note</td>
-									<td title="Note">
-									<input th:type="@{hidden}" th:field="*{orderId}" th:value="${order.orderId}">
-									<textarea rows="5" class="form-control" placeholder="メーモ"
-										th:field="*{note}"></textarea></td>
-								</tr>
-								<tr>
-									<td></td>
-									<td><button type="submit" value="Submit">Submit</button></td>
-								</tr>
-							</table>
+									<tr>
+										<td title="Order Id" th:text="@{Order Id}">Order Id</td>
+										<td title="Order Id" th:text=${order.orderId}>Order Id</td>
+									</tr>
+									<tr>
+										<td title="Customer Name" th:text="@{Customer Name}">Customer
+											Name</td>
+										<td title="Customer Name" th:text=${order.customerName}>Customer
+											Name</td>
+									</tr>
+									<tr>
+										<td title="Phone Number" th:text="@{Phone Number}">Phone
+											Number</td>
+										<td title="Phone Number" th:text=${order.customerPhone}>Phone
+											Number</td>
+									</tr>
+									<tr>
+										<td title="Customer Address" th:text="@{Customer Address}">Customer
+											Address</td>
+										<td title="Customer Address" th:text=${order.customerAddress}>Customer
+											Address</td>
+									</tr>
+									<tr>
+										<td title="Note" th:text="@{Note}">Note</td>
+										<td title="Note"><input th:type="@{hidden}"
+											th:field="*{orderId}" th:value="${order.orderId}"> <textarea
+												rows="5" class="form-control" placeholder="メーモ"
+												th:field="*{note}"></textarea></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><button class="btn btn-info" type="submit"
+												value="Submit" th:text=#{button.submit}>Submit</button></td>
+									</tr>
+								</table>
 							</form>
 						</div>
 					</div>
-					<div th:if="${order.status.value} == 1">
+					<div align="right" th:if="${order.status.value} == 1">
+
+						<form style='display: inline;' th:action="@{/order/update_order}"
+							method="post" th:object=${order}>
+							<input type="hidden" th:field="*{orderId}"
+								th:value="${order.orderId}">
+							<button type="submit" class="btn btn-info"
+								th:text=#{button.order.update_note}></button>
+						</form>
 						<button type="button" class="btn btn-danger" data-toggle="modal"
 							data-target="#modal-cancel_order-confirm"
 							th:text="#{button.delete}">Delete</button>
-						<button type="button" class="btn btn-danger" data-toggle="modal"
-							data-target="#modal-update_order-confirm"
-							th:text="#{button.update}">Update Note</button>
 					</div>
 					<div class="modal fade" id="modal-cancel_order-confirm"
 						tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

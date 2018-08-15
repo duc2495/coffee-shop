@@ -77,7 +77,7 @@ public class OrderController {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
 					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getProductPrice();
+			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
 		}
 
@@ -167,14 +167,13 @@ public class OrderController {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
 					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getProductPrice();
+			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
 		}
 		model.addAttribute("orderResource", orderResource);
 		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);
 		if (result.hasErrors()) {
-			result.getAllErrors().forEach(e->System.out.println(e));
 			return "big_store/checkout";
 		}
 		// add order to db
@@ -200,7 +199,7 @@ public class OrderController {
 			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
 					productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getProductPrice();
+			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
 		}
 

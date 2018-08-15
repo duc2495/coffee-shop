@@ -26,7 +26,7 @@
 		</div>
 		<div class="product">
 			<div>
-				<div class="container" th:fragment="content" id="content"> 
+				<div class="container" th:fragment="content" id="content">
 					<!-- Order status -->
 					<h3>Order Status</h3>
 					<div class="row order-status" style="margin-left: 0px;">
@@ -68,15 +68,15 @@
 							<table class="table table-responsive" id="cardtable">
 								<thead>
 									<tr>
-										<td>Product Name</td>
-										<td>Product Price</td>
-										<td>Product Quantity</td>
-										<td>Total</td>
+										<td th:text=#{label.product_name}>Product Name</td>
+										<td th:text=#{label.product_price}>Product Price</td>
+										<td th:text=#{label.quantity}>Product Quantity</td>
+										<td th:text=#{label.total}>Total</td>
 									</tr>
 								</thead>
 								<tr th:each="orderProduct,iterStat : ${order.orderProductList}">
-									<td title="Product Name"
-										th:text=${orderProduct.productName}>Product Name</td>
+									<td title="Product Name" th:text=${orderProduct.productName}>Product
+										Name</td>
 									<td title="Unit Price" th:text=${orderProduct.price}>Product
 										Price</td>
 									<td title="Quantity" th:text=${orderProduct.quantity}>Product
@@ -96,44 +96,47 @@
 							<table class="table table-responsive" id="cardtable">
 
 								<tr>
-									<td title="Order Id" th:text="@{Order Id}">Order Id</td>
+									<td title="Order Id" th:text="#{label.order_id}">Order Id</td>
 									<td title="Order Id" th:text=${order.orderId}>Order Id</td>
 								</tr>
 								<tr>
-									<td title="Customer Name" th:text="@{Customer Name}">Customer
+									<td title="Customer Name" th:text="#{label.customer_name}">Customer
 										Name</td>
 									<td title="Customer Name" th:text=${order.customerName}>Customer
 										Name</td>
 								</tr>
 								<tr>
-									<td title="Phone Number" th:text="@{Phone Number}">Phone
+									<td title="Phone Number" th:text="#{label.phone_number}">Phone
 										Number</td>
 									<td title="Phone Number" th:text=${order.customerPhone}>Phone
 										Number</td>
 								</tr>
 								<tr>
-									<td title="Customer Address" th:text="@{Customer Address}">Customer
+									<td title="Customer Address" th:text="#{label.address}">Customer
 										Address</td>
 									<td title="Customer Address" th:text=${order.customerAddress}>Customer
 										Address</td>
 								</tr>
 								<tr>
-									<td title="Note" th:text="@{Note}">Note</td>
+									<td title="Note" th:text="#{label.note}">Note</td>
 									<td title="Note" th:text=${order.note}>Note</td>
 								</tr>
 
 							</table>
 						</div>
 					</div>
-					<div th:if="${order.status.value} == 1">
+					<div align="right" th:if="${order.status.value} == 1">
+
+						<form style='display: inline;' th:action="@{/order/update_order}"
+							method="post" th:object=${order}>
+							<input type="hidden" th:field="*{orderId}"
+								th:value="${order.orderId}">
+							<button type="submit" class="btn btn-info"
+								th:text=#{button.order.update_note}></button>
+						</form>
 						<button type="button" class="btn btn-danger" data-toggle="modal"
 							data-target="#modal-cancel_order-confirm"
 							th:text="#{button.delete}">Delete</button>
-							<form style='display:inline;' th:action="@{/order/update_order}" method="post" th:object=${order} >
-								<input type="hidden" th:field="*{orderId}" th:value="${order.orderId}">
-								<button type="submit" class="btn btn-danger"
-													th:text=#{title.order.update_note}></button>
-							</form>
 					</div>
 					<div class="modal fade" id="modal-cancel_order-confirm"
 						tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

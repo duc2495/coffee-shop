@@ -30,11 +30,11 @@
 							<td title="Product Name"
 								th:text=${orderProduct.productName}>Product Name</td>
 							<td title="Unit Price"
-								th:text="${orderProduct.productPrice}+@{円}">Product Price</td>
+								th:text="${orderProduct.price}+@{円}">Product Price</td>
 							<td title="Quantity" th:text=${orderProduct.quantity}>Product
 								Quantity</td>
 							<td title="Total"
-								th:text="${orderProduct.quantity*orderProduct.productPrice}+@{円}">Total</td>
+								th:text="${orderProduct.quantity*orderProduct.price}+@{円}">Total</td>
 						</tr>
 						<tr>
 							<td></td>
