@@ -4,6 +4,7 @@ import java.util.List;
 
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
+import coffeeshop.model.product.Product;
 import coffeeshop.resource.order.OrderResource;
 
 /**
@@ -43,4 +44,6 @@ public interface OrderService {
 	public boolean hasOrder(Integer orderId);
 	
 	public void updateOrderStatus(Order order);
+	
+	public boolean checkIfProductIsInActiveOrder(Product product);
 }

@@ -86,7 +86,7 @@ CREATE TABLE "order"(
 DROP TABLE IF EXISTS "order_product" CASCADE;
 CREATE TABLE "order_product"(
 	order_id integer REFERENCES "order"(order_id),
-	product_id integer REFERENCES "product"(product_id),
+	product_id integer REFERENCES "product"(product_id) ON DELETE SET NULL,
 	quantity integer NOT NULL CHECK (quantity > 0),
 	product_name varchar(30) NOT NULL,
 	product_type varchar(20) NOT NULL,

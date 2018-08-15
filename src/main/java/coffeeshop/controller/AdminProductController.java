@@ -41,6 +41,7 @@ import coffeeshop.resource.product.ProductDetailResource;
 import coffeeshop.resource.product.ProductRegistResource;
 import coffeeshop.resource.product.ProductResource;
 import coffeeshop.resource.product.ProductUpdateResource;
+import coffeeshop.service.OrderService;
 import coffeeshop.service.product.ProductService;
 
 @Controller
@@ -54,7 +55,8 @@ public class AdminProductController extends BaseController {
 	private MessageSource messageSource;
 	@Autowired
 	private ProductService productService;
-
+	@Autowired
+	private OrderService orderService;
 	@Autowired
 	private ProductHelper productHelper;
 
@@ -221,14 +223,21 @@ public class AdminProductController extends BaseController {
 
 	@DeleteMapping("/{productId}")
 	public String deleteProduct(@PathVariable("productId") Integer productId, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Locale locale) {
 
 		// 商品のアクセス権限をチェック
 		if (!productService.existProduct(productId)) {
 			// return forbidden view
 			return "403";
 		}
-
+		Product product = productService.getProductDetail(productId);
+		if(orderService.checkIfProductIsInActiveOrder(product)){
+			ProductDetailResource resource = productHelper.createProductDetailResource(product);
+			model.addAttribute("info", messageSource.getMessage("error.delete.product", null, locale));
+			model.addAttribute("product", resource);
+			return viewPrefix + "product";
+		}
+		
 		// 商品削除
 		productService.deleteProduct(productId);
 

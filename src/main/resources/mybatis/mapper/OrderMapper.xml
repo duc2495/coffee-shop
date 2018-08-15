@@ -28,22 +28,12 @@
 	<select id="findOrderById" resultMap="OrderResult">
 		SELECT *
 		FROM
-		(SELECT *
-		FROM
 		"order" inner
 		join order_product
 		ON "order".order_id =
 		order_product.order_id
 		WHERE
-		"order".order_id = #{id})
-		AS tab1
-		INNER JOIN
-		(SELECT *
-		FROM
-		product)
-		AS tab2
-		ON tab1.product_id =
-		tab2.product_id
+		"order".order_id = #{id}
 	</select>
 
 	<select id="findOrderByPhone" resultMap="OrderResult">
@@ -81,6 +71,7 @@
 		keyColumn="order_id">
 		UPDATE "order"
 		SET status = #{status}
+		, note = #{note}
 		WHERE
 		order_id =
 		#{orderId}
@@ -129,5 +120,24 @@
 		WHERE
 		order_id = #{orderId}
 	</update>
-
+	
+	<select id="getAllActiveOrderHaveProduct" parameterType="Product"
+	resultMap="OrderResult">
+		SELECT *
+		FROM
+		(SELECT *
+		FROM
+		product INNER JOIN order_product
+		ON 
+		product.product_id = order_product.product_id
+		WHERE
+		product.product_id = #{productId})
+		AS tab1
+		INNER JOIN
+		(SELECT *
+		FROM "order"
+		WHERE status = 'ORDERED')
+		AS tab2
+		ON tab1.order_id = tab2.order_id
+	</select>
 </mapper>

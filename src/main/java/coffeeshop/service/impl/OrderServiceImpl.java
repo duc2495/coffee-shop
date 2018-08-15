@@ -1,6 +1,11 @@
 package coffeeshop.service.impl;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +15,7 @@ import coffeeshop.helper.OrderHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
+import coffeeshop.model.product.Product;
 import coffeeshop.repository.OrderRepository;
 import coffeeshop.resource.order.OrderProductResource;
 import coffeeshop.resource.order.OrderResource;
@@ -112,6 +118,12 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void updateOrderStatus(Order order) {
 		orderRepository.updateOrderStatus(order);
+	}
+
+	@Override
+	public boolean checkIfProductIsInActiveOrder(Product product) {
+		
+		return !orderRepository.getAllActiveOrderHaveProduct(product).isEmpty();
 	}
 
 }

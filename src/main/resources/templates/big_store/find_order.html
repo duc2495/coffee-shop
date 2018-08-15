@@ -39,7 +39,7 @@
 								th:field="*{customerPhone}"></input>
 						</div>
 						<input type="hidden" name="${_csrf.parameterName}"
-							value="${_csrf.token}" /> <input type="submit" value="提出"></input>
+							value="${_csrf.token}" /> <input class="btn btn-info" type="submit" th:value=#{button.search}></input>
 					</form>
 				</div>
 			</div>
