@@ -24,7 +24,6 @@ import coffeeshop.model.product.ProductType;
 import coffeeshop.repository.ProductRepository;
 
 @RunWith(SpringRunner.class)
-@AutoConfigureMybatis
 @MybatisTest
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 public class ProductRepositoryTest {

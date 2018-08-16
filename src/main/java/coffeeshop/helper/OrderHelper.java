@@ -1,5 +1,8 @@
 package coffeeshop.helper;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +29,10 @@ public class OrderHelper {
 	 */
 	public Order createOrderModel(OrderResource resource) {
 		// 商品情報をマッピング
-		return modelMapper.map(resource, Order.class);
+		Order order = modelMapper.map(resource, Order.class);
+		order.setOrderProductList(resource.getOrderProductList().stream().map(e->createOrderProductModel(e)).collect(Collectors.toList()));
+		System.out.println(order.getOrderProductList().size());
+		return order;
 	}
 
 	/**

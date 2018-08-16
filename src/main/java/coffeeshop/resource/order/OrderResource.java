@@ -3,6 +3,7 @@ package coffeeshop.resource.order;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -10,13 +11,7 @@ import javax.validation.constraints.Pattern;
 public class OrderResource {
 
 	@NotEmpty(message = "{error.required}")
-	private List<OrderProductResource> orderProductList = new LinkedList<OrderProductResource>();
-	public List<OrderProductResource> getOrderProductList() {
-		return orderProductList;
-	}
-	public void setOrderProductList(List<OrderProductResource> orderProductList) {
-		this.orderProductList = orderProductList;
-	}
+	private List<@Valid OrderProductResource> orderProductList = new LinkedList<OrderProductResource>();
 	@NotBlank(message = "{error.required}")
 	private String customerName;
 	@NotBlank(message = "{error.required}")
@@ -27,6 +22,13 @@ public class OrderResource {
 
 	private String note;
 
+	public List<OrderProductResource> getOrderProductList() {
+		return orderProductList;
+	}
+	public void setOrderProductList(List<OrderProductResource> orderProductList) {
+		this.orderProductList = orderProductList;
+	}
+	
 	public String getCustomerName() {
 		return customerName;
 	}

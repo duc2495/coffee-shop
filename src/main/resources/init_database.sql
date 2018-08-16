@@ -72,7 +72,7 @@ DROP TABLE IF EXISTS "order" CASCADE;
 CREATE TABLE "order"(
 	order_id integer PRIMARY KEY DEFAULT NEXTVAL('order_id_seq'),
 	net_price integer NOT NULL,
-	status varchar(10) REFERENCES "status"(status_name),
+	status varchar(10) REFERENCES "status"(status_name) NOT NULL,
 	note varchar(200),
 	customer_name varchar(50) NOT NULL,
 	customer_phone varchar(20) NOT NULL,
@@ -81,11 +81,16 @@ CREATE TABLE "order"(
 	updated_at timestamp NOT NULL DEFAULT now()
 );
 
+
+
 DROP TABLE IF EXISTS "order_product" CASCADE;
 CREATE TABLE "order_product"(
 	order_id integer REFERENCES "order"(order_id),
-	product_id integer REFERENCES "product"(product_id),
+	product_id integer REFERENCES "product"(product_id) ON DELETE SET NULL,
 	quantity integer NOT NULL CHECK (quantity > 0),
+	product_name varchar(30) NOT NULL,
+	product_type varchar(20) NOT NULL,
+	price integer NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );

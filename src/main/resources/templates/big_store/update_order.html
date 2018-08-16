@@ -28,7 +28,7 @@
 			<div>
 				<div class="container" th:fragment="content" id="content">
 					<!-- Order status -->
-					<h3 th:text=#{title.order_status}>Order Status</h3>
+					<h3>Order Status</h3>
 					<div class="row order-status" style="margin-left: 0px; margin-right: 0px;">
 
 						<div th:switch="${order.status.value}">
@@ -59,7 +59,7 @@
 					</div>
 
 					<!-- Order info -->
-					<h3 th:text=#{title.info_order}>Order Info</h3>
+					<h3>Order Info</h3>
 					<div class="row">
 
 
@@ -68,10 +68,10 @@
 							<table class="table table-responsive" id="cardtable">
 								<thead>
 									<tr>
-										<td th:text=#{label.product_name}>Product Name</td>
-										<td th:text=#{label.product_price}>Product Price</td>
-										<td th:text=#{label.quantity}>Product Quantity</td>
-										<td th:text=#{label.total}>Total</td>
+										<td>Product Name</td>
+										<td>Product Price</td>
+										<td>Product Quantity</td>
+										<td>Total</td>
 									</tr>
 								</thead>
 								<tr th:each="orderProduct,iterStat : ${order.orderProductList}">
@@ -93,36 +93,46 @@
 							</table>
 						</div>
 						<div class="col-sm-6">
-							<table class="table table-responsive" id="cardtable">
+							<form th:action="@{/order/update_order}" th:method="patch"
+								th:object="${order}">
+								<table class="table table-responsive" id="cardtable">
 
-								<tr>
-									<td title="Order Id" th:text="#{label.order_id}">Order Id</td>
-									<td title="Order Id" th:text=${order.orderId}>Order Id</td>
-								</tr>
-								<tr>
-									<td title="Customer Name" th:text="#{label.customer_name}">Customer
-										Name</td>
-									<td title="Customer Name" th:text=${order.customerName}>Customer
-										Name</td>
-								</tr>
-								<tr>
-									<td title="Phone Number" th:text="#{label.phone_number}">Phone
-										Number</td>
-									<td title="Phone Number" th:text=${order.customerPhone}>Phone
-										Number</td>
-								</tr>
-								<tr>
-									<td title="Customer Address" th:text="#{label.address}">Customer
-										Address</td>
-									<td title="Customer Address" th:text=${order.customerAddress}>Customer
-										Address</td>
-								</tr>
-								<tr>
-									<td title="Note" th:text="#{label.note}">Note</td>
-									<td title="Note" th:text=${order.note}>Note</td>
-								</tr>
-
-							</table>
+									<tr>
+										<td title="Order Id" th:text="@{Order Id}">Order Id</td>
+										<td title="Order Id" th:text=${order.orderId}>Order Id</td>
+									</tr>
+									<tr>
+										<td title="Customer Name" th:text="@{Customer Name}">Customer
+											Name</td>
+										<td title="Customer Name" th:text=${order.customerName}>Customer
+											Name</td>
+									</tr>
+									<tr>
+										<td title="Phone Number" th:text="@{Phone Number}">Phone
+											Number</td>
+										<td title="Phone Number" th:text=${order.customerPhone}>Phone
+											Number</td>
+									</tr>
+									<tr>
+										<td title="Customer Address" th:text="@{Customer Address}">Customer
+											Address</td>
+										<td title="Customer Address" th:text=${order.customerAddress}>Customer
+											Address</td>
+									</tr>
+									<tr>
+										<td title="Note" th:text="@{Note}">Note</td>
+										<td title="Note"><input th:type="@{hidden}"
+											th:field="*{orderId}" th:value="${order.orderId}"> <textarea
+												rows="5" class="form-control" placeholder="メーモ"
+												th:field="*{note}"></textarea></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><button class="btn btn-info" type="submit" style="float:right;"
+												value="Submit" th:text=#{button.submit}>Submit</button></td>
+									</tr>
+								</table>
+							</form>
 						</div>
 					</div>
 					<div align="right" th:if="${order.status.value} == 1">

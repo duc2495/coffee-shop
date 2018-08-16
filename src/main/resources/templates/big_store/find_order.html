@@ -12,33 +12,36 @@
 
 	<!--content-->
 	<div layout:fragment="content">
+		<div class="product" id="content">
 
-		<div th:if="${info}">
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
-			<div class="col-md-4 alert alert-danger alert-dismissable alert-hide">
-				<button type="button" class="close" data-dismiss="alert"
-					aria-hidden="true">&times;</button>
-				<p>
-					<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
-				</p>
+			<div th:if="${info}">
+				<div class="col-md-4"></div>
+				<div class="col-md-4"></div>
+				<div
+					class="col-md-4 alert alert-danger alert-dismissable alert-hide">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-hidden="true">&times;</button>
+					<p>
+						<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
+					</p>
+				</div>
 			</div>
-		</div>
-		<div class="product">
-			
-			<div class="container" th:fragment="content">
-				<form th:action=@{/order/find_order}
-					th:object="${orderRequestResource}" th:method="POST"
-					style="display:grid; place-items:center;">
-					<div class="input-group">
-						<input type="number" class="form-control" placeholder="オーダーID"
-							th:field="*{orderId}"></input> <input type="text"
-							class="form-control" placeholder="電話番号"
-							th:field="*{customerPhone}"></input>
-					</div>
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-					<input type="submit" value="提出"></input>
-				</form>
+			<div class="product">
+
+				<div class="container" th:fragment="content">
+					<form th:action=@{/order/find_order}
+						th:object="${orderRequestResource}" th:method="POST"
+						style="display: grid; place-items: center;">
+						<div class="input-group">
+							<input type="number" class="form-control" placeholder="オーダーID"
+								th:field="*{orderId}"></input> <input type="text"
+								class="form-control" placeholder="電話番号"
+								th:field="*{customerPhone}"></input>
+						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" /> <input class="btn btn-info" type="submit" th:value=#{button.search}></input>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

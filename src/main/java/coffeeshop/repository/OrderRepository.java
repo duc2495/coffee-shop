@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
+import coffeeshop.model.product.Product;
 
 /**
  * @author hoang
@@ -23,4 +24,5 @@ public interface OrderRepository {
 	public void updateOrder(Order order);
 	public boolean hasOrder(Integer orderId);
 	public void updateOrderStatus(Order order);
+	public List<Order> getAllActiveOrderHaveProduct(Product product);
 }
