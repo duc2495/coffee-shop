@@ -10,9 +10,14 @@ $(document).ready(function() {
 		$($.fn.dataTable.tables(true)).css('width', '100%');
 		$($.fn.dataTable.tables(true)).DataTable().columns.adjust().draw();
 	});
+
+	// Initialize Select2 Elements
+	$('.select2').select2()
+
+	$('[data-toggle="tooltip"]').tooltip()
 });
 
-//function for cart's submit button
+// function for cart's submit button
 function submit() {
 	var reqRow = [];
 	var products = JSON.parse(localStorage.products);
@@ -22,18 +27,18 @@ function submit() {
 		var product = {
 			"productId" : productId
 		}
-		var entry ={
-				"product": product,
-				"quantity": quantity
+		var entry = {
+			"product" : product,
+			"quantity" : quantity
 		}
 		reqRow.push(entry);
 	}
 
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	 
+
 	$(document).ajaxSend(function(e, xhr, options) {
-	    xhr.setRequestHeader(header, token);
+		xhr.setRequestHeader(header, token);
 	});
 
 	$.ajax({
@@ -56,7 +61,7 @@ function submit() {
 	}, 1000);
 }
 
-function reloadEvent(){
+function reloadEvent() {
 	var goToCartIcon = function($addTocartBtn) {
 		var $cartIcon = $(".my-cart-icon");
 		var $image = $(
@@ -97,9 +102,9 @@ function reloadEvent(){
 	});
 }
 
-function searchByKeyWord(){
+function searchByKeyWord() {
 	var keyword = $('#searchInputField').val();
-	var destination = "/search?keyWord="+keyword;
+	var destination = "/search?keyWord=" + keyword;
 	$.ajax({
 		type : "Get",
 		url : destination,
@@ -114,11 +119,11 @@ function searchByKeyWord(){
 	});
 }
 
-function paginate(paginate){
+function paginate(paginate) {
 	var productType = paginate.getAttribute("data-productType");
 	var page = paginate.getAttribute("data-page");
-	var destination = "/productpage/"+productType+"/"+page;
-	var element = '#'+productType+'_section';
+	var destination = "/productpage/" + productType + "/" + page;
+	var element = '#' + productType + '_section';
 	$.ajax({
 		type : "Get",
 		url : destination,
