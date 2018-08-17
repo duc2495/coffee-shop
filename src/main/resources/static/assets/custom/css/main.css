@@ -87,10 +87,13 @@
 	table-layout: fixed;
 }
 
-.row {
-	margin-bottom: 20px;
-}
-
 .label {
 	font-size: 14px;
+}
+
+.chart-legend {
+	margin-top: 20px;
+}
+.chart-legend li {
+	margin-bottom: 10px;
 }

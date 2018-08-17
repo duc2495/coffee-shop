@@ -24,6 +24,12 @@
 <link rel="stylesheet"
 	href="assets/dist/css/dataTables.bootstrap.min.css"
 	th:href="@{/assets/dist/css/dataTables.bootstrap.min.css}" />
+<link rel="stylesheet" href="assets/dist/css/daterangepicker.min.css"
+	th:href="@{/assets/dist/css/daterangepicker.min.css}" />
+<link rel="stylesheet" href="assets/dist/css/fullcalendar.min.css"
+	th:href="@{/assets/dist/css/fullcalendar.min.css}" />
+<link rel="stylesheet" href="assets/dist/css/morris.css"
+	th:href="@{/assets/dist/css/morris.css}" />
 <link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css"
 	th:href="@{/assets/dist/css/AdminLTE.min.css}" />
 <link rel="stylesheet" href="assets/dist/css/skins/skin-blue.min.css"
@@ -40,7 +46,8 @@
 			<!-- Logo -->
 			<a href="#" th:href="@{/admin/dashboard}" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>CA</b></span> <!-- logo for regular state and mobile devices -->
-				<span class="logo-lg"><b th:text="#{logo}">CoffeeShop Admin</b></span>
+				<span class="logo-lg"><b th:text="#{logo}">CoffeeShop
+						Admin</b></span>
 			</a>
 
 			<!-- Header Navbar -->
@@ -95,7 +102,8 @@
 							<!-- sec:authentication="principal.user.name" -->
 						</p>
 						<!-- Status -->
-						<a href="#"><i class="fa fa-circle text-success" th:text="#{label.online}"> Online</i></a>
+						<a href="#"><i class="fa fa-circle text-success"
+							th:text="#{label.online}"> Online</i></a>
 					</div>
 				</div>
 
@@ -155,19 +163,19 @@
 
 	<script th:src="@{'/assets/jquery/jquery.min.js'}"></script>
 	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/moment.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/daterangepicker.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/fullcalendar.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/select2.full.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/jquery.dataTables.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/dataTables.bootstrap.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/Chart.js'}"></script>
+	<script th:src="@{'/assets/dist/js/raphael.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/morris.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/adminlte.min.js'}"></script>
 	<script th:src="@{'/assets/custom/js/bootstrap-imageupload.js'}"></script>
 	<script th:src="@{'/assets/custom/js/main.js'}"></script>
 	<th:block layout:fragment="script"></th:block>
-	<script>
-		$(function() {
-			//Initialize Select2 Elements
-			$('.select2').select2()
-		})
-	</script>
-	<!-- <script th:src="@{'/assets/custom/js/confirm.js'}"></script> -->
+
 </body>
 </html>
