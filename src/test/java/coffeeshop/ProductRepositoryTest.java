@@ -1,22 +1,15 @@
 package coffeeshop;
 import static org.junit.Assert.assertEquals;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.apache.ibatis.session.SqlSession;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import coffeeshop.model.product.Product;
@@ -30,9 +23,6 @@ public class ProductRepositoryTest {
 	
 	@Autowired
 	private ProductRepository productRepository;
-	
-	@Autowired
-	private SqlSession session;
 	
     @Before
     public void setUp() {
@@ -48,23 +38,23 @@ public class ProductRepositoryTest {
     	p.setProductType(ProductType.FROM_COFFEE);
     	productRepository.insertProduct(p);
     	int id = p.getProductId();
-    	String sql = "Select * from product where product_id = ?";
-    	PreparedStatement stm;
-		try {
-			stm = session.getConnection().prepareStatement(sql);
-		
-    	stm.setInt(1, id);
-    	
-    	ResultSet result = stm.executeQuery();
-    	if(result.next()){
-	    	assertEquals(p.getDescription(), result.getString("description"));
-	    	assertEquals(p.getImageUrl(), result.getString("image_url"));
-	    	assertEquals(p.getProductName(), result.getString("product_name"));
-	    	assertEquals(p.getProductType().toString(), result.getString("product_type"));
-    	}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	Product p_check = productRepository.getProductById(id);
+    	assertEquals(p.getProductId(), p_check.getProductId());
+    	assertEquals(p.getDescription(), p_check.getDescription());
+    	assertEquals(p.getImageUrl(), p_check.getImageUrl());
+    	assertEquals(p.getPrice(), p_check.getPrice());
+    	assertEquals(p.getProductName(), p_check.getProductName());
+    	assertEquals(p.getProductType(), p_check.getProductType());
+    }
+    
+    @Test
+    public void getNewProductInTimeIntervalTest(){
+    	Calendar carlendar1 = new GregorianCalendar();
+    	Calendar carlendar2 = new GregorianCalendar();
+    	carlendar2.set(2018, 7, 15);
+    	Date timeTo = carlendar1.getTime();
+    	Date timeFrom = carlendar2.getTime();
+    	assertEquals(productRepository.getNewProductInTimeInterval(timeFrom, timeTo).size(), 95);
+    	assertEquals(productRepository.getNewProductInTimeInterval(timeTo, timeTo).size(),0);
     }
 }

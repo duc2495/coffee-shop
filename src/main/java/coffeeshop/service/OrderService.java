@@ -1,5 +1,6 @@
 package coffeeshop.service;
 
+import java.util.Date;
 import java.util.List;
 
 import coffeeshop.model.order.Order;
@@ -46,4 +47,6 @@ public interface OrderService {
 	public void updateOrderStatus(Order order);
 	
 	public boolean checkIfProductIsInActiveOrder(Product product);
+	
+	public List<Order> getNewOrderInTimeInterval(Date timeFrom, Date timeTo);
 }

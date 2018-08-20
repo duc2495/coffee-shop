@@ -3,30 +3,29 @@
 DROP TABLE IF EXISTS "product_type" CASCADE;
 CREATE TABLE "product_type"(
 	type_name varchar(20) PRIMARY KEY,
-	created_at Date NOT NULL DEFAULT now(),
-	updated_at Date NOT NULL DEFAULT now()
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS "product" CASCADE;
 DROP SEQUENCE IF EXISTS "product_id_seq" CASCADE;
-
 CREATE SEQUENCE product_id_seq;
 CREATE TABLE "product"(
 	product_id integer PRIMARY KEY DEFAULT NEXTVAL('product_id_seq'),
-	product_name varchar(30) NOT NULL,
+	product_name varchar(100) NOT NULL,
 	product_type varchar(20) REFERENCES "product_type"(type_name),
 	price integer NOT NULL CHECK (price > 0),
 	image_url varchar(100) NOT NULL,
 	description varchar(1000) NOT NULL,
-	created_at Date NOT NULL DEFAULT now(),
-	updated_at Date NOT NULL DEFAULT now()
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS "role" CASCADE;
 CREATE TABLE "role"(
 	role_name varchar(20) PRIMARY KEY,
-	created_at Date NOT NULL DEFAULT now(),
-	updated_at Date NOT NULL DEFAULT now()
+	created_at timestamp NOT NULL DEFAULT now(),
+	updated_at timestamp NOT NULL DEFAULT now()
 );
 
 DROP TABLE IF EXISTS "account" CASCADE;
