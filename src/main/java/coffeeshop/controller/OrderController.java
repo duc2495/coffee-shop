@@ -54,7 +54,8 @@ public class OrderController {
 	// Session attribute
 	/**
 	 * セッションスコープのビーンを作る 方法
-	 * @return　セッションスコープのビーンのモデルアトリビュート
+	 * 
+	 * @return セッションスコープのビーンのモデルアトリビュート
 	 */
 	@ModelAttribute("orderResource")
 	private OrderResource orderResource() {
@@ -63,17 +64,18 @@ public class OrderController {
 
 	/**
 	 * クライアントからお客の情報がない発注を受ける方法
+	 * 
 	 * @param orderResource
 	 * @param model
-	 * @return　お客情報フォームのビュー
+	 * @return お客情報フォームのビュー
 	 */
 	@GetMapping("/submit_order")
 	public String orderFormPage(@ModelAttribute("orderResource") OrderResource orderResource, Model model) {
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
 		for (OrderProductResource p : orderResource.getOrderProductList()) {
-			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
-					productService.getProductDetail(p.getProduct().getProductId()));
+			OrderProductDetailResource pd = productHelper
+					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
 			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
@@ -87,9 +89,10 @@ public class OrderController {
 
 	/**
 	 * オーダーを探すフォームページを取る方法
+	 * 
 	 * @param model
 	 * @param orderRequestResource
-	 * @return　オーダーを探すフォームページ
+	 * @return オーダーを探すフォームページ
 	 */
 	@GetMapping(value = "/find_order")
 	public String getFindOder(Model model, OrderRequestResource orderRequestResource) {
@@ -99,10 +102,11 @@ public class OrderController {
 
 	/**
 	 * オーダーIdとお客の電話番号でオーダーを探す方法
+	 * 
 	 * @param orderRequestResource
 	 * @param result
 	 * @param redirectAttribute
-	 * @return　探した結果を表示するページ
+	 * @return 探した結果を表示するページ
 	 */
 	@PostMapping("/find_order")
 	public String postFindOrder(
@@ -114,9 +118,10 @@ public class OrderController {
 
 	/**
 	 * オーダーの詳しい情報を表示するページを取る方法
+	 * 
 	 * @param orderRequestResource
 	 * @param model
-	 * @return　オーダーの詳しい情報を表示するページ
+	 * @return オーダーの詳しい情報を表示するページ
 	 */
 	@GetMapping("/order_detail")
 	public String orderDetail(@ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource,
@@ -145,13 +150,13 @@ public class OrderController {
 
 	/**
 	 * クライアントから完成オーダーリクエストを受ける方法
+	 * 
 	 * @param orderResource
 	 * @param result
 	 * @param redirectAttributes
 	 * @param model
 	 * @param locale
-	 * @return　もし入力したデータにミスがない場合、オーダー情報を表示うるページを送ります
-	 * 逆に元の所に戻って、エラーを表示儀ます。
+	 * @return もし入力したデータにミスがない場合、オーダー情報を表示うるページを送ります 逆に元の所に戻って、エラーを表示儀ます。
 	 * @throws ParseException
 	 */
 	@PostMapping("/submit_order")
@@ -162,8 +167,8 @@ public class OrderController {
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
 		for (OrderProductResource p : orderResource.getOrderProductList()) {
-			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
-					productService.getProductDetail(p.getProduct().getProductId()));
+			OrderProductDetailResource pd = productHelper
+					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
 			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
@@ -189,13 +194,13 @@ public class OrderController {
 
 	@PostMapping("")
 	public String receiveOrder(@ModelAttribute("orderResource") OrderResource orderResource,
-			@Valid @RequestBody ListResource<coffeeshop.resource.order.OrderProductResource> data, BindingResult result, Model model)
-			throws ParseException {
+			@Valid @RequestBody ListResource<coffeeshop.resource.order.OrderProductResource> data, BindingResult result,
+			Model model) throws ParseException {
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
 		for (OrderProductResource p : data.getProductList()) {
-			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(
-					productService.getProductDetail(p.getProduct().getProductId()));
+			OrderProductDetailResource pd = productHelper
+					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
 			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
@@ -207,9 +212,10 @@ public class OrderController {
 		model.addAttribute("total_check", total_check);
 		return "big_store/checkout";
 	}
-	
+
 	@PatchMapping("/update_order")
-	public String udpateNote(@ModelAttribute("order") OrderDetailResource orderDetailResource, Model model, Locale locale){
+	public String udpateNote(@ModelAttribute("order") OrderDetailResource orderDetailResource, Model model,
+			Locale locale) {
 		Order order = orderService.findOrderById(orderDetailResource.getOrderId());
 		order.setNote(orderDetailResource.getNote());
 		orderService.updateOrder(order);
@@ -218,15 +224,16 @@ public class OrderController {
 		model.addAttribute("order", orderDetailResource);
 		return "big_store/order";
 	}
-	
+
 	@PostMapping("/update_order")
-	public String getUpdateOrderPage(@ModelAttribute("order") OrderDetailResource orderDetailResource, Model model, Locale locale){
+	public String getUpdateOrderPage(@ModelAttribute("order") OrderDetailResource orderDetailResource, Model model,
+			Locale locale) {
 		Order order = orderService.findOrderById(orderDetailResource.getOrderId());
 		orderDetailResource = orderHelper.createOrderDetailResource(order);
 		model.addAttribute("order", orderDetailResource);
 		return "big_store/update_order";
 	}
-	
+
 	@PatchMapping("/{orderId}")
 	public String cancelOrder(@PathVariable("orderId") Integer orderId, Model model, Locale locale) {
 		Order order = orderService.findOrderById(orderId);
@@ -235,13 +242,13 @@ public class OrderController {
 			return "error";
 		}
 		// Order modelを作成
-			order.setStatus(OrderStatus.CANCELED);
+		order.setStatus(OrderStatus.CANCELED);
 		// DBにを更新
-			orderService.updateOrder(order);
+		orderService.updateOrder(order);
 		// return view
-			model.addAttribute("info", messageSource.getMessage("info.order.canceled", null, locale));
-			OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
-			model.addAttribute("order", resource);
+		model.addAttribute("info", messageSource.getMessage("info.order.canceled", null, locale));
+		OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
+		model.addAttribute("order", resource);
 		return "big_store/order";
 	}
 }

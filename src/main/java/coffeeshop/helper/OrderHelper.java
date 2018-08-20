@@ -29,7 +29,8 @@ public class OrderHelper {
 	public Order createOrderModel(OrderResource resource) {
 		// 商品情報をマッピング
 		Order order = modelMapper.map(resource, Order.class);
-		order.setOrderProductList(resource.getOrderProductList().stream().map(e->createOrderProductModel(e)).collect(Collectors.toList()));
+		order.setOrderProductList(resource.getOrderProductList().stream().map(e -> createOrderProductModel(e))
+				.collect(Collectors.toList()));
 		System.out.println(order.getOrderProductList().size());
 		return order;
 	}
