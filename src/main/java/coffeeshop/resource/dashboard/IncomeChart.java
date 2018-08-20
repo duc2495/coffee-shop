@@ -11,8 +11,8 @@ public class IncomeChart {
 	public IncomeChart() {
 
 	}
-	
-	public IncomeChart(Date date, int value){
+
+	public IncomeChart(Date date, int value) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM");
 		this.date = df.format(date);
 		this.value = value;

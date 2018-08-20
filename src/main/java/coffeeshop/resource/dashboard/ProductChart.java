@@ -20,7 +20,7 @@ public class ProductChart {
 		this.fromCoffee = fromCoffee;
 		this.noneCoffee = noneCoffee;
 	}
-	
+
 	public ProductChart(Date date, int pureCoffee, int fromCoffee, int noneCoffee) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM");
 		this.date = df.format(date);
@@ -60,6 +60,5 @@ public class ProductChart {
 	public void setNoneCoffee(int noneCoffee) {
 		this.noneCoffee = noneCoffee;
 	}
-	
-	
+
 }

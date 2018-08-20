@@ -1,38 +1,9 @@
 ;
-var pieOptions     = {
-		  // Boolean - Whether we should show a stroke on each segment
-		  segmentShowStroke    : true,
-		  // String - The colour of each segment stroke
-		  segmentStrokeColor   : '#fff',
-		  // Number - The width of each segment stroke
-		  segmentStrokeWidth   : 1,
-		  // Number - The percentage of the chart that we cut out of the
-			// middle
-		  percentageInnerCutout: 50, // This is 0 for Pie charts
-		  // Number - Amount of animation steps
-		  animationSteps       : 100,
-		  // String - Animation easing effect
-		  animationEasing      : 'easeOutBounce',
-		  // Boolean - Whether we animate the rotation of the Doughnut
-		  animateRotate        : true,
-		  // Boolean - Whether we animate scaling the Doughnut from the centre
-		  animateScale         : false,
-		  // Boolean - whether to make the chart responsive to window resizing
-		  responsive           : true,
-		  // Boolean - whether to maintain the starting aspect ratio or not
-			// when
-			// responsive, if set to false, will take up entire container
-		  maintainAspectRatio  : false,
-		  // String - A legend template
-		  legendTemplate       : '<ul class=\'<%=name.toLowerCase()%>-legend\'><% for (var i=0; i<segments.length; i++){%><li><span style=\'background-color:<%=segments[i].fillColor%>\'></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
-		  // String - A tooltip template
-		  tooltipTemplate      : '<%=value %> <%=label%>'
-};
-
 $(document).ready(function() {
 	initDashboardDaterange();
 	ajaxGetResource();
 	$('.btnGetValueByDate').click(function(event) {
+		
 		event.preventDefault();
 		// ajax get value
 		ajaxGetResource();
@@ -69,12 +40,25 @@ function ajaxGetResource() {
 		cache : false,
 		timeout : 600000,
 		success : function(data) {
+			
+			$('#newOrderNumber').text(data.newOrderNumber);
+			$('#newProductNumber').text(data.newProductNumber);
+			$('#income').text(data.income);
+
+			$('#totalOrders').text(data.totalOrders);
+			$('#totalOrders').attr('data-original-title', data.totalOrders + " Orders");
+			$('#totalProducts').text(data.totalProducts);
+			$('#bestProductName').text(data.bestProduct.quantity);
+			$('#totalProducts').attr('data-original-title', data.totalProducts + " Products");
+			
+			
 			initLineChart(data.listIncome);
 			initBarChart(data.listProduct);
 			initOrderPieChart(data.orderedNumber, data.shippingNumber, data.finishedNumber, data.canceledNumber);
 			initProductPieChart(data.pureCoffee, data.fromCoffee, data.noneCoffee);
+
 			console.log("SUCCESS : ", data);
-		},
+		}, 
 		error : function(data) {
 			console.log("ERROR : ", data.responseText);
 		}
@@ -82,6 +66,7 @@ function ajaxGetResource() {
 }
 
 function initLineChart(data) {
+	$('#line-chart').empty();
     var line = new Morris.Line({
       element: 'line-chart',
       resize: true,
@@ -95,11 +80,12 @@ function initLineChart(data) {
 }
 
 function initBarChart(data) {
+	$('#bar-chart').empty();
     var bar = new Morris.Bar({
       element: 'bar-chart',
       resize: true,
       data: data,
-      barColors: ['#00a65a', '#f56954', '#111111'],
+      barColors: ['#00a65a', '#D81B60', '#3c8dbc'],
       xkey: 'date',
       ykeys: ['pureCoffee', 'fromCoffee', 'noneCoffee'],
       labels: ['PURE COFFEE', 'FROM COFFEE', 'NONE COFFEE'],
@@ -108,60 +94,32 @@ function initBarChart(data) {
 }
 
 function initOrderPieChart(ordered, shipping, finnished, canceled) {
-	var orderPieChartCanvas = $('#orderPieChart').get(0).getContext('2d');
-	var orderPieChart       = new Chart(orderPieChartCanvas);
-	var orderPieData   = [
-	  {
-	    value    : ordered,
-	    color    : '#f39c12',
-	    highlight: '#f39c12',
-	    label    : 'ORDERED'
-	  },
-	  {
-	    value    : shipping,
-	    color    : '#00c0ef',
-	    highlight: '#00c0ef',
-	    label    : 'SHIPPING'
-	  },
-	  {
-	    value    : finnished,
-	    color    : '#00a65a',
-	    highlight: '#00a65a',
-
-	    label    : 'FINISHED'
-	  },
-	  {
-	    value    : canceled,
-	    color    : '#f56954',
-	    highlight: '#f56954',
-	    label    : 'CANCELED'
-	  }
-	];
-	orderPieChart.Doughnut(orderPieData, pieOptions);
+	$('#orderPieChart').empty();
+	var orderPieChart = new Morris.Donut({
+	      element: 'orderPieChart',
+	      resize: true,
+	      colors: ["#ff851b", "#00c0ef", "#00a65a", "#f56954"],
+	      data: [
+	        {label: "Ordered", value: ordered},
+	        {label: "Shipping", value: shipping},
+	        {label: "Finished", value: finnished},
+	        {label: "Canceled", value: canceled}
+	      ],
+	      hideHover: 'auto'
+	    });
 }
 
 function initProductPieChart(pureCoffee, fromCoffee, noneCoffee) {
-	var productPieChartCanvas = $('#productPieChart').get(0).getContext('2d');
-	var productPieChart       = new Chart(productPieChartCanvas);
-	var productPieData        = [
-	  {
-	    value    : pureCoffee,
-	    color    : '#00a65a',
-	    highlight: '#00a65a',
-	    label    : 'PURE COFFEE'
-	  },
-	  {
-	    value    : fromCoffee,
-	    color    : '#f56954',
-	    highlight: '#f56954',
-	    label    : 'FROM COFFEE'
-	  },
-	  {
-	    value    : noneCoffee,
-	    color    : '#111111',
-	    highlight: '#111111',
-	    label    : 'NONE COFFEE'
-	  }
-	];
-	productPieChart.Doughnut(productPieData, pieOptions);
+	$('#productPieChart').empty();
+	var productPieChart = new Morris.Donut({
+	      element: 'productPieChart',
+	      resize: true,
+	      colors: ["#00a65a", "#D81B60", "#3c8dbc"],
+	      data: [
+	        {label: "PURE COFFEE", value: pureCoffee},
+	        {label: "FROM COFFEE", value: fromCoffee},
+	        {label: "NONE COFFEE", value: noneCoffee}
+	      ],
+	      hideHover: 'auto'
+	    });
 }

@@ -23,10 +23,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import coffeeshop.resource.dashboard.DashboardResource;
-import coffeeshop.resource.dashboard.IncomeChart;
-import coffeeshop.resource.dashboard.ProductChart;
 import coffeeshop.service.DashboardService;
-import coffeeshop.service.OrderService;
 
 @Controller
 @RequestMapping("/admin")
@@ -34,12 +31,14 @@ public class AdminDashboardController {
 
 	@Autowired
 	private Gson gson;
-
+	
 	@Autowired
 	private DashboardService dashboardService;
 
 	@GetMapping(path = { "", "/dashboard" })
 	public String getDashboard(Model model) {
+		model.addAttribute("latestOrders", dashboardService.getTopTenLastestOrder());
+		model.addAttribute("latestProducts", dashboardService.getTopTenLastestProduct());
 		return "admin/dashboard";
 	}
 
@@ -54,12 +53,12 @@ public class AdminDashboardController {
 			if (!from.equals("")) {
 				dayFrom = df.parse(from);
 			} else {
-				dayFrom = new Date();
+				dayFrom = df.parse(df.format(new Date()));
 			}
 			if (!to.equals("")) {
 				dayTo = df.parse(to);
 			} else {
-				dayTo = new Date();
+				dayTo = df.parse(df.format(new Date()));
 			}
 
 			DashboardResource resource = dashboardService.getDashboardResource(dayFrom, dayTo);

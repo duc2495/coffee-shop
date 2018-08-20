@@ -1,6 +1,5 @@
 package coffeeshop.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -14,9 +13,6 @@ import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.model.product.Product;
 import coffeeshop.repository.OrderRepository;
-import coffeeshop.resource.dashboard.DashboardResource;
-import coffeeshop.resource.dashboard.IncomeChart;
-import coffeeshop.resource.dashboard.ProductChart;
 import coffeeshop.resource.order.OrderProductResource;
 import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
@@ -64,25 +60,14 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.getAllOrder();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see coffeeshop.service.OrderService#getAllOrderProduct(coffeeshop.model.
-	 * order. Order)
-	 */
+
 	@Override
 	public List<OrderProduct> getAllOrderProduct(Order order) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * coffeeshop.service.OrderService#insertOrder(coffeeshop.controller.order.
-	 * OrderResource)
-	 */
+
 	@Override
 	@Transactional(readOnly = false)
 	public int insertOrder(OrderResource orderResource) {

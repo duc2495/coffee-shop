@@ -1,6 +1,7 @@
 package coffeeshop;
 
 import static org.junit.Assert.assertEquals;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -58,5 +59,6 @@ public class ProductRepositoryTest {
 		Date timeFrom = carlendar2.getTime();
 		assertEquals(productRepository.getNewProductInTimeInterval(timeFrom, timeTo).size(), 95);
 		assertEquals(productRepository.getNewProductInTimeInterval(timeTo, timeTo).size(), 0);
+
 	}
 }

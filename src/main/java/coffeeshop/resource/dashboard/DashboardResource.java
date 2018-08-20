@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import coffeeshop.resource.order.OrderListResource;
+import coffeeshop.resource.product.BestProductResource;
 import coffeeshop.resource.product.ProductDetailResource;
-import coffeeshop.resource.product.ProductResource;
 
 public class DashboardResource {
 
 	private int newOrderNumber;
 	private int newProductNumber;
 	private int income;
-	private ProductResource bestProduct;
+	private BestProductResource bestProduct;
 
 	private int totalOrders;
 	private int orderedNumber;
@@ -55,11 +55,11 @@ public class DashboardResource {
 		this.income = income;
 	}
 
-	public ProductResource getBestProduct() {
+	public BestProductResource getBestProduct() {
 		return bestProduct;
 	}
 
-	public void setBestProduct(ProductResource bestProduct) {
+	public void setBestProduct(BestProductResource bestProduct) {
 		this.bestProduct = bestProduct;
 	}
 

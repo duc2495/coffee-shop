@@ -34,6 +34,7 @@ public interface OrderRepository {
 	public void updateOrderStatus(Order order);
 
 	public List<Order> getAllActiveOrderHaveProduct(Product product);
-	public List<Order> getNewOrderInTimeInterval(@Param("dayFrom") Date dayFrom,@Param("dayTo") Date dayTo);
+
+	public List<Order> getNewOrderInTimeInterval(@Param("dayFrom") Date dayFrom, @Param("dayTo") Date dayTo);
 
 }

@@ -46,8 +46,7 @@
 				<!-- small box -->
 				<div class="small-box bg-aqua">
 					<div class="inner">
-						<h3>150</h3>
-
+						<h3 id="newOrderNumber"></h3>
 						<p>New Orders</p>
 					</div>
 					<div class="icon">
@@ -63,7 +62,7 @@
 				<!-- small box -->
 				<div class="small-box bg-green">
 					<div class="inner">
-						<h3>53</h3>
+						<h3 id="newProductNumber"></h3>
 						<p>New Products</p>
 					</div>
 					<div class="icon">
@@ -79,8 +78,7 @@
 				<!-- small box -->
 				<div class="small-box bg-yellow">
 					<div class="inner">
-						<h3>44</h3>
-
+						<h3 id="income"></h3>
 						<p>Income</p>
 					</div>
 					<div class="icon">
@@ -95,8 +93,7 @@
 				<!-- small box -->
 				<div class="small-box bg-red">
 					<div class="inner">
-						<h3>Product</h3>
-
+						<h3 id="bestProductName"></h3>
 						<p>Best sell</p>
 					</div>
 					<div class="icon">
@@ -134,7 +131,7 @@
 					<!-- /.box-body -->
 				</div>
 				<!-- /.box -->
-				
+
 				<!-- BAR CHART -->
 				<div class="box box-success">
 					<div class="box-header with-border">
@@ -221,13 +218,13 @@
 			</div>
 			<!-- /.col -->
 			<div class="col-md-4">
-				<div class="box box-danger">
+				<div class="box box-warning">
 					<div class="box-header with-border">
 						<h3 class="box-title">Order Total</h3>
 
 						<div class="box-tools pull-right">
-							<span data-toggle="tooltip" title="" class="badge bg-red"
-								data-original-title="50 Orders">50</span>
+							<span data-toggle="tooltip" title="" class="badge bg-yellow"
+								data-original-title="Orders" id="totalOrders"></span>
 							<button type="button" class="btn btn-box-tool"
 								data-widget="collapse">
 								<i class="fa fa-minus"></i>
@@ -239,38 +236,20 @@
 						</div>
 					</div>
 					<!-- /.box-header -->
-					<div class=" box-body">
-						<div class="row">
-							<div class="col-md-7">
-								<div class="chart-responsive">
-									<canvas id="orderPieChart" height="180"></canvas>
-								</div>
-								<!-- ./chart-responsive -->
-							</div>
-							<!-- /.col -->
-							<div class="col-md-5">
-								<ul class="chart-legend clearfix">
-									<li><i class="fa fa-circle-o text-yellow"></i> ORDERED</li>
-									<li><i class="fa fa-circle-o text-light-blue"></i>
-										SHIPPING</li>
-									<li><i class="fa fa-circle-o text-green"></i> FINISHED</li>
-									<li><i class="fa fa-circle-o text-red"></i> CANCELED</li>
-								</ul>
-							</div>
-							<!-- /.col -->
-						</div>
-						<!-- /.row -->
+					<div class="box-body chart-responsive">
+						<div class="chart" id="orderPieChart"
+							style="height: 260px; position: relative;"></div>
 					</div>
 					<!-- /.box-body -->
 				</div>
 				<!-- /.box -->
 
-				<div class="box box-warning">
+				<div class="box box-danger">
 					<div class="box-header with-border">
 						<h3 class="box-title">Sold Products</h3>
 						<div class="box-tools pull-right">
-							<span data-toggle="tooltip" title="" class="badge bg-yellow"
-								data-original-title="30 Products">30</span>
+							<span data-toggle="tooltip" title="" class="badge bg-red"
+								data-original-title="Products" id="totalProducts"></span>
 							<button type="button" class="btn btn-box-tool"
 								data-widget="collapse">
 								<i class="fa fa-minus"></i>
@@ -282,31 +261,14 @@
 						</div>
 					</div>
 					<!-- /.box-header -->
-					<div class=" box-body">
-						<div class="row">
-							<div class="col-md-7">
-								<div class="chart-responsive">
-									<canvas id="productPieChart" height="180"></canvas>
-								</div>
-								<!-- ./chart-responsive -->
-							</div>
-							<!-- /.col -->
-							<div class="col-md-5">
-								<ul class="chart-legend clearfix">
-									<li><i class="fa fa-circle-o text-green"></i> PURE COFFEE</li>
-									<li><i class="fa fa-circle-o text-red"></i>
-										FROM COFFEE</li>
-									<li><i class="fa fa-circle-o text-black"></i> NONE COFFEE</li>
-								</ul>
-							</div>
-							<!-- /.col -->
-						</div>
-						<!-- /.row -->
+					<div class="box-body chart-responsive">
+						<div class="chart" id="productPieChart"
+							style="height: 260px; position: relative;"></div>
 					</div>
 					<!-- /.box-body -->
 				</div>
 				<!-- /.box -->
-				
+
 				<!-- PRODUCT LIST -->
 				<div class="box box-primary">
 					<div class="box-header with-border">
@@ -356,7 +318,6 @@
 	<th:block layout:fragment="script">
 		<script th:src="@{'/assets/custom/js/dashboard.js'}"></script>
 	</th:block>
-
 </body>
 
 </html>
