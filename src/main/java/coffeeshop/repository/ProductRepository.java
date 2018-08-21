@@ -26,6 +26,7 @@ public interface ProductRepository {
     public void deleteProduct(Integer productId);
     
     public List<Product> searchByKeyWord(@Param("keyWord") String keyWord);
-    
+
     public List<Product> getNewProductInTimeInterval(@Param("dayFrom") Date dayFrom, @Param("dayTo") Date dayTo);
+
 }

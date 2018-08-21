@@ -4,11 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import coffeeshop.helper.OrderHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
@@ -26,24 +24,25 @@ import coffeeshop.service.product.ProductService;
  */
 @Service
 @Transactional
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
-	
+
 	@Autowired
 	private OrderHelper orderHelper;
-	
+
 	@Autowired
 	private ProductService productService;
-	
+
 	public Integer insertOrder(Order order) {
 		return orderRepository.insertOrder(order);
-		
+
 	}
 
 	/**
 	 * データベースにオーダープロダクトを追加
+	 * 
 	 * @param order
 	 * @param orderProduct
 	 */
@@ -51,7 +50,9 @@ public class OrderServiceImpl implements OrderService{
 		orderRepository.insertOrderProduct(order, orderProduct);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see coffeeshop.service.OrderService#getAllOrder()
 	 */
 	@Override
@@ -59,39 +60,36 @@ public class OrderServiceImpl implements OrderService{
 		return orderRepository.getAllOrder();
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see coffeeshop.service.OrderService#getAllOrderProduct(coffeeshop.model.order.Order)
-	 */
+
 	@Override
 	public List<OrderProduct> getAllOrderProduct(Order order) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see coffeeshop.service.OrderService#insertOrder(coffeeshop.controller.order.OrderResource)
-	 */
+
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly = false)
 	public int insertOrder(OrderResource orderResource) {
 		Order order = orderHelper.createOrderModel(orderResource);
 		order.setStatus(OrderStatus.ORDERED);
 		int total_check = 0;
-		for(OrderProductResource opdr : orderResource.getOrderProductList()){
-			total_check += opdr.getQuantity()*(productService.getProductDetail(opdr.getProduct().getProductId()).getPrice());
+		for (OrderProductResource opdr : orderResource.getOrderProductList()) {
+			total_check += opdr.getQuantity()
+					* (productService.getProductDetail(opdr.getProduct().getProductId()).getPrice());
 		}
 		order.setNetPrice(total_check);
 		this.insertOrder(order);
-		for(OrderProduct orderProduct : order.getOrderProductList()){
+		for (OrderProduct orderProduct : order.getOrderProductList()) {
 			orderProduct.setProduct(productService.getProductDetail(orderProduct.getProduct().getProductId()));
 			insertOrderProduct(order, orderProduct);
 		}
 		return order.getOrderId();
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see coffeeshop.service.OrderService#findOrderById(java.lang.Integer)
 	 */
 	@Override
@@ -100,8 +98,11 @@ public class OrderServiceImpl implements OrderService{
 		return order;
 	}
 
-	/* (non-Javadoc)
-	 * @see coffeeshop.service.OrderService#updateOrder(coffeeshop.model.order.Order)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * coffeeshop.service.OrderService#updateOrder(coffeeshop.model.order.Order)
 	 */
 	@Override
 	public void updateOrder(Order order) {
@@ -120,24 +121,24 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public boolean checkIfProductIsInActiveOrder(Product product) {
-		
+
 		return !orderRepository.getAllActiveOrderHaveProduct(product).isEmpty();
 	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public List<Order> getNewOrderInTimeInterval(Date timeFrom, Date timeTo) {
 		return orderRepository.getNewOrderInTimeInterval(timeFrom, timeTo);
 	}
-	
-	public Integer getNumberOfOrderByStatus(List<Order> orderList, OrderStatus status){
-		return orderList.stream().filter(new Predicate<Order>(){
+
+	public Integer getNumberOfOrderByStatus(List<Order> orderList, OrderStatus status) {
+		return orderList.stream().filter(new Predicate<Order>() {
 
 			@Override
 			public boolean test(Order t) {
 				return t.getStatus().equals(status);
 			}
-			
+
 		}).collect(Collectors.toList()).size();
 	}
 

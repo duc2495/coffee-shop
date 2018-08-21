@@ -25,6 +25,13 @@ function ajaxUpdateStatus() {
 
 	var data = new FormData(form);
 
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+
 	$("#btnUpdateOrderStatus").prop("disabled", true);
 
 	$.ajax({
@@ -84,7 +91,7 @@ function disableOrderStatus(status) {
 	$('#shipping').prop('disabled', false);
 	$('#finished').prop('disabled', false);
 	$('#canceled').prop('disabled', false);
-	
+
 	$('#' + status).prop('disabled', !$('#' + status).prop('disabled'));
 	$('.select2').select2();
 }
