@@ -1,5 +1,7 @@
 package coffeeshop.model.product;
 
+import java.util.Date;
+
 public class Product {
 
 	private int productId;
@@ -8,6 +10,7 @@ public class Product {
 	private int price;
 	private String imageUrl;
 	private String description;
+	private Date createdAt;
 
 	public int getProductId() {
 		return productId;
@@ -55,6 +58,14 @@ public class Product {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 }
