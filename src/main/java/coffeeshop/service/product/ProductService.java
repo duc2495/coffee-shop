@@ -1,20 +1,29 @@
 package coffeeshop.service.product;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import coffeeshop.model.order.Order;
+import coffeeshop.model.order.OrderStatus;
 import coffeeshop.model.product.Product;
 import coffeeshop.model.product.ProductType;
 import coffeeshop.repository.ProductRepository;
+import coffeeshop.service.OrderService;
 
 @Service
 @Transactional(readOnly = true)
 public class ProductService {
 	@Autowired
 	ProductRepository productRepository;
-
+	@Autowired
+	OrderService orderService;
+	
 	/**
 	 * 商品一覧を取得する
 	 * 
@@ -119,5 +128,10 @@ public class ProductService {
 	public List<Product> searchByKeyWord(String keyWord){
 		return productRepository.searchByKeyWord(keyWord);
 	}
-
+	
+	public List<Product> getNewProductInTimeInterval(Date dayFrom, Date dayTo){
+		return productRepository.getNewProductInTimeInterval(dayFrom, dayTo);
+	}
+	
+	
 }

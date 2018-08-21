@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 import coffeeshop.helper.OrderHelper;
 import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.order.Order;

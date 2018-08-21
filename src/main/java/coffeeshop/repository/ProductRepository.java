@@ -1,5 +1,6 @@
 package coffeeshop.repository;
 
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,6 @@ public interface ProductRepository {
     public void deleteProduct(Integer productId);
     
     public List<Product> searchByKeyWord(@Param("keyWord") String keyWord);
+    
+    public List<Product> getNewProductInTimeInterval(@Param("dayFrom") Date dayFrom, @Param("dayTo") Date dayTo);
 }

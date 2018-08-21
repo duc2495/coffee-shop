@@ -1,5 +1,6 @@
 package coffeeshop.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,5 @@ public interface OrderRepository {
 	public boolean hasOrder(Integer orderId);
 	public void updateOrderStatus(Order order);
 	public List<Order> getAllActiveOrderHaveProduct(Product product);
+	public List<Order> getNewOrderInTimeInterval(@Param("dayFrom") Date dayFrom,@Param("dayTo") Date dayTo);
 }

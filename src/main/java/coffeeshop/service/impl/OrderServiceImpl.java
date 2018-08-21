@@ -1,10 +1,8 @@
 package coffeeshop.service.impl;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +122,23 @@ public class OrderServiceImpl implements OrderService{
 	public boolean checkIfProductIsInActiveOrder(Product product) {
 		
 		return !orderRepository.getAllActiveOrderHaveProduct(product).isEmpty();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Order> getNewOrderInTimeInterval(Date timeFrom, Date timeTo) {
+		return orderRepository.getNewOrderInTimeInterval(timeFrom, timeTo);
+	}
+	
+	public Integer getNumberOfOrderByStatus(List<Order> orderList, OrderStatus status){
+		return orderList.stream().filter(new Predicate<Order>(){
+
+			@Override
+			public boolean test(Order t) {
+				return t.getStatus().equals(status);
+			}
+			
+		}).collect(Collectors.toList()).size();
 	}
 
 }

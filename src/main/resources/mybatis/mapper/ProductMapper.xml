@@ -17,7 +17,15 @@
 		FROM product
 		WHERE product_id = #{productId}
 	</select>
-		
+	
+	<select id="getNewProductInTimeInterval" resultMap="ProductResult">
+		SELECT *
+		FROM product
+		WHERE product.created_at::date &gt;= #{dayFrom}
+		AND product.created_at::date &lt;= #{dayTo}
+		ORDER BY product.product_id
+	</select>
+	
 	<insert id="insertProduct" parameterType="Product">
 		INSERT 
 		INTO product(
