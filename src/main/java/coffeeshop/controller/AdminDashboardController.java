@@ -3,7 +3,6 @@ package coffeeshop.controller;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class AdminDashboardController {
 
 	@Autowired
 	private Gson gson;
-	
+
 	@Autowired
 	private DashboardService dashboardService;
 
@@ -77,5 +76,11 @@ public class AdminDashboardController {
 			return new ResponseEntity<>("Resource not exist!", HttpStatus.BAD_REQUEST);
 		}
 
+	}
+
+	@GetMapping("/latestOrder")
+	@ResponseBody
+	public ResponseEntity<?> getResource() {
+		return new ResponseEntity<>(dashboardService.getTopTenLastestOrder(), new HttpHeaders(), HttpStatus.OK);
 	}
 }

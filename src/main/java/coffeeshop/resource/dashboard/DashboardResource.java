@@ -13,8 +13,7 @@ public class DashboardResource {
 	private int newProductNumber;
 	private int income;
 	private BestProductResource bestProduct;
-
-	private int totalOrders;
+	private int highestPriceOrderId;
 	private int orderedNumber;
 	private int shippingNumber;
 	private int finishedNumber;
@@ -61,14 +60,6 @@ public class DashboardResource {
 
 	public void setBestProduct(BestProductResource bestProduct) {
 		this.bestProduct = bestProduct;
-	}
-
-	public int getTotalOrders() {
-		return totalOrders;
-	}
-
-	public void setTotalOrders(int totalOrders) {
-		this.totalOrders = totalOrders;
 	}
 
 	public int getOrderedNumber() {
@@ -165,6 +156,14 @@ public class DashboardResource {
 
 	public void setListProduct(ArrayList<ProductChart> listProduct) {
 		this.listProduct = listProduct;
+	}
+
+	public int getHighestPriceOrderId() {
+		return highestPriceOrderId;
+	}
+
+	public void setHighestPriceOrderId(int highestPriceOrderId) {
+		this.highestPriceOrderId = highestPriceOrderId;
 	}
 
 }

@@ -3,10 +3,15 @@ $(document).ready(function() {
 	initDashboardDaterange();
 	ajaxGetResource();
 	$('.btnGetValueByDate').click(function(event) {
-		
 		event.preventDefault();
 		// ajax get value
 		ajaxGetResource();
+	});
+	
+	$('#btnRefresh').click(function(event) {
+		event.preventDefault();
+		// ajax get value
+		ajaxGetLatestOrder();
 	});
     
 });
@@ -45,17 +50,32 @@ function ajaxGetResource() {
 			$('#newProductNumber').text(data.newProductNumber);
 			$('#income').text(data.income);
 
-			$('#totalOrders').text(data.totalOrders);
-			$('#totalOrders').attr('data-original-title', data.totalOrders + " Orders");
+			$('#highestPriceOrder').attr("href", "/admin/orders/" + data.highestPriceOrderId);
+			$('#totalOrders').text(data.newOrderNumber);
+			$('#totalOrders').attr('data-original-title', data.newOrderNumber + " オーダー");
 			$('#totalProducts').text(data.totalProducts);
-			$('#bestProductName').text(data.bestProduct.quantity);
-			$('#totalProducts').attr('data-original-title', data.totalProducts + " Products");
-			
+			$('#totalProducts').attr('data-original-title', data.totalProducts + " 製品");
+			$('#bestQuantity').text(data.bestProduct.quantity);
+			$('#bestProductName').text(data.bestProduct.productName);
+			if (data.bestProduct.productId !== 0) {
+				$('#productInfo').attr("href", "/admin/products/" + data.bestProduct.productId);
+			} else {
+				$('#productInfo').attr("href", "#");
+			}
 			
 			initLineChart(data.listIncome);
 			initBarChart(data.listProduct);
-			initOrderPieChart(data.orderedNumber, data.shippingNumber, data.finishedNumber, data.canceledNumber);
-			initProductPieChart(data.pureCoffee, data.fromCoffee, data.noneCoffee);
+			
+			if ((data.orderedNumber + data.shippingNumber + data.finishedNumber + data.canceledNumber) === 0) {
+				$('#orderPieChart').empty().attr("class", "text-none").text("ありません！");
+			} else {
+				initOrderPieChart(data.orderedNumber, data.shippingNumber, data.finishedNumber, data.canceledNumber);
+			}
+			if ((data.pureCoffee + data.fromCoffee + data.noneCoffee) === 0) {
+				$('#productPieChart').empty().attr("class", "text-none").text("ありません！");
+			} else {
+				initProductPieChart(data.pureCoffee, data.fromCoffee, data.noneCoffee);
+			}
 
 			console.log("SUCCESS : ", data);
 		}, 
@@ -122,4 +142,21 @@ function initProductPieChart(pureCoffee, fromCoffee, noneCoffee) {
 	      ],
 	      hideHover: 'auto'
 	    });
+}
+
+function ajaxGetLatestOrder() {
+	$.ajax({
+		type : "GET",
+		url : "/admin/latestOrder",
+		processData : false,
+		contentType : false,
+		cache : false,
+		timeout : 600000,
+		success : function(data) {
+			console.log("SUCCESS : ", data);
+		}, 
+		error : function(data) {
+			console.log("ERROR : ", data);
+		}
+	});
 }

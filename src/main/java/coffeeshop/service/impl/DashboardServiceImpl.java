@@ -42,8 +42,7 @@ public class DashboardServiceImpl implements DashboardService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * coffeeshop.service.DashboardService#getDashboardResource(java.util.Date,
+	 * @see coffeeshop.service.DashboardService#getDashboardResource(java.util.Date,
 	 * java.util.Date)
 	 */
 	@Override
@@ -63,6 +62,7 @@ public class DashboardServiceImpl implements DashboardService {
 		resource.setPureCoffee(getNumberOfProductInType(orderList, ProductType.PURE_COFFEE));
 		resource.setFromCoffee(getNumberOfProductInType(orderList, ProductType.FROM_COFFEE));
 		resource.setNoneCoffee(getNumberOfProductInType(orderList, ProductType.NON_COFFEE));
+		resource.setTotalProducts(resource.getPureCoffee() + resource.getFromCoffee() + resource.getNoneCoffee());
 
 		resource.setListIncome(incomeList);
 		resource.setListProduct(productList);
@@ -70,6 +70,7 @@ public class DashboardServiceImpl implements DashboardService {
 		resource.setIncome(getIncome(orderList, dayFrom, dayTo));
 		resource.setNewProductNumber(newProductList.size());
 		resource.setNewOrderNumber(orderList.size());
+		resource.setHighestPriceOrderId(getHighestPriceOrderId(orderList));
 		return resource;
 	}
 
@@ -183,12 +184,12 @@ public class DashboardServiceImpl implements DashboardService {
 				.flatMap(o -> o.getOrderProductList().stream()).collect(Collectors.toList()).stream()
 				.collect(Collectors.toMap(p -> p.getProduct().getProductId(), OrderProduct::getQuantity,
 						(oldVal, newVal) -> (oldVal + newVal)));
-		if(map.entrySet().isEmpty()){
-				return new BestProductResource();
+		if (map.entrySet().isEmpty()) {
+			return new BestProductResource();
 		}
-		
-		Integer bestProductId =  map.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get()
-				.getKey();
+
+		Integer bestProductId = map.entrySet().stream()
+				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
 		Product product = productService.getProductDetail(bestProductId);
 		BestProductResource bestProductResource = new BestProductResource();
 		bestProductResource.setProductId(product.getProductId());
@@ -197,21 +198,22 @@ public class DashboardServiceImpl implements DashboardService {
 		return bestProductResource;
 	}
 
-	public List<OrderListResource> getTopTenLastestOrder(){
-		List<Order> orderList = orderService.getAllOrder(); 
-		orderList.sort((order1, order2)->order1.getCreatedAt().before(order2.getCreatedAt())?1:-1);
-		return orderList.subList(0, 10>orderList.size()?orderList.size():10)
-				.stream()
-				.map(e->orderHelper.createOrderListResource(e))
-				.collect(Collectors.toList());
+	public List<OrderListResource> getTopTenLastestOrder() {
+		List<Order> orderList = orderService.getAllOrder();
+		orderList.sort((order1, order2) -> order1.getCreatedAt().before(order2.getCreatedAt()) ? 1 : -1);
+		return orderList.subList(0, 10 > orderList.size() ? orderList.size() : 10).stream()
+				.map(e -> orderHelper.createOrderListResource(e)).collect(Collectors.toList());
+	}
+
+	public List<ProductDetailResource> getTopTenLastestProduct() {
+		List<Product> productList = productService.getProductList();
+		productList.sort((product1, product2) -> product1.getCreatedAt().before(product2.getCreatedAt()) ? 1 : -1);
+		return productList.subList(0, 6 > productList.size() ? productList.size() : 6).stream()
+				.map(e -> productHelper.createProductDetailResource(e)).collect(Collectors.toList());
 	}
 	
-	public List<ProductDetailResource> getTopTenLastestProduct(){
-		List<Product> productList = productService.getProductList();
-		productList.sort((product1, product2)->product1.getCreatedAt().before(product2.getCreatedAt())?1:-1);
-		return productList.subList(0, 10>productList.size()?productList.size():10)
-				.stream()
-				.map(e->productHelper.createProductDetailResource(e))
-				.collect(Collectors.toList());
+	public Integer getHighestPriceOrderId(List<Order> orderList) {
+		orderList.sort((order1, order2)->order1.getNetPrice()>order2.getNetPrice()?-1:1);
+		return orderList.get(0).getOrderId();
 	}
 }
