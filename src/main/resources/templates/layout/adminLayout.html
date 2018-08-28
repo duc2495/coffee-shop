@@ -77,6 +77,17 @@
 										<span th:text="#{label.user}">User</span>
 										<!-- sec:authentication="principal.user.name" -->
 									</p></li>
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#"
+											class="btn btn-default btn-flat" th:text="#{label.profile}">Profile</a>
+									</div>
+									<div class="pull-right">
+										<a href="logout" th:href="@{/logout}"
+											class="btn btn-default btn-flat" th:text="#{label.logout}">Log out</a>
+									</div>
+								</li>
 							</ul>
 						</li>
 
