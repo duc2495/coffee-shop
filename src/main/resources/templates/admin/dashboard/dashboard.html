@@ -179,47 +179,50 @@
 						</div>
 					</div>
 					<!-- /.box-header -->
-					<div class="box-body">
-						<div class="table-responsive">
-							<table class="table no-margin">
-								<thead>
-									<tr>
-										<th style="width: 40px">ID</th>
-										<th th:text="#{label.customer_name}">Customer Name</th>
-										<th th:text="#{label.phone_number}">Phone Number</th>
-										<th th:text="#{label.order_status}">Order Status</th>
-										<th th:text="#{label.created_at}">Created At</th>
-										<th th:text="#{label.total}">Net Price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="order,iterStat : ${latestOrders}">
-										<td th:text="${order.orderId}">1</td>
-										<td th:text="${order.customerName}">Customer Name</td>
-										<td th:text="${order.customerPhone}">Customer Phone</td>
-										<td th:switch="${order.status.value}"><span th:case="'1'"
-											class="label label-warning" th:text="${order.status}">ORDERED</span>
-											<span th:case="'2'" class="label label-info"
-											th:text="${order.status}">SHIPPING</span> <span th:case="'3'"
-											class="label label-success" th:text="${order.status}">FINISHED</span>
-											<span th:case="'0'" class="label label-danger"
-											th:text="${order.status}">CANCELED</span></td>
-										<td
-											th:text="${#dates.format(order.createdAt, 'yy年M月dd日 a hh時mm分')}">Created
-											At</td>
-										<td th:text="${order.netPrice}">Price</td>
-									</tr>
-								</tbody>
-							</table>
+					<div id="latestOrders">
+						<div class="box-body">
+							<div class="table-responsive">
+								<table class="table no-margin">
+									<thead>
+										<tr>
+											<th style="width: 40px">ID</th>
+											<th th:text="#{label.customer_name}">Customer Name</th>
+											<th th:text="#{label.phone_number}">Phone Number</th>
+											<th th:text="#{label.order_status}">Order Status</th>
+											<th th:text="#{label.created_at}">Created At</th>
+											<th th:text="#{label.total}">Net Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="order,iterStat : ${latestOrders}">
+											<td th:text="${order.orderId}">1</td>
+											<td th:text="${order.customerName}">Customer Name</td>
+											<td th:text="${order.customerPhone}">Customer Phone</td>
+											<td th:switch="${order.status.value}"><span
+												th:case="'1'" class="label label-warning"
+												th:text="${order.status}">ORDERED</span> <span th:case="'2'"
+												class="label label-info" th:text="${order.status}">SHIPPING</span>
+												<span th:case="'3'" class="label label-success"
+												th:text="${order.status}">FINISHED</span> <span
+												th:case="'0'" class="label label-danger"
+												th:text="${order.status}">CANCELED</span></td>
+											<td
+												th:text="${#dates.format(order.createdAt, 'yy年M月dd日 a hh時mm分')}">Created
+												At</td>
+											<td th:text="${order.netPrice}">Price</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- /.table-responsive -->
 						</div>
-						<!-- /.table-responsive -->
+						<!-- /.box-body -->
 					</div>
-					<!-- /.box-body -->
 					<div class="box-footer clearfix">
 						<button id="btnRefresh" type="button"
 							class="btn btn-sm btn-info btn-flat pull-left"
-							th:text="#{button.refresh}">REFRESH</button> <a
-							th:href="@{/admin/orders}"
+							th:text="#{button.refresh}">REFRESH</button>
+						<a th:href="@{/admin/orders}"
 							class="btn btn-sm btn-default btn-flat pull-right"
 							th:text="#{label.all_order_list}">View All Orders</a>
 					</div>

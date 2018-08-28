@@ -211,9 +211,11 @@ public class DashboardServiceImpl implements DashboardService {
 		return productList.subList(0, 6 > productList.size() ? productList.size() : 6).stream()
 				.map(e -> productHelper.createProductDetailResource(e)).collect(Collectors.toList());
 	}
-	
+
 	public Integer getHighestPriceOrderId(List<Order> orderList) {
-		orderList.sort((order1, order2)->order1.getNetPrice()>order2.getNetPrice()?-1:1);
+		orderList.sort((order1, order2) -> order1.getNetPrice() > order2.getNetPrice() ? -1 : 1);
+		if (orderList.isEmpty())
+			return 0;
 		return orderList.get(0).getOrderId();
 	}
 }

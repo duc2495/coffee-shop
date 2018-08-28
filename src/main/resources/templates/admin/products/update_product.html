@@ -65,7 +65,7 @@
 								th:classappend="${#fields.hasErrors('productName')}? 'has-error'">
 								<label th:text="#{label.product_name}">Name</label> <input
 									type="text" class="form-control" name="name"
-									th:field="*{productName}" placeholder="Enter Product Name"
+									th:field="*{productName}" placeholder="製品名を入力"
 									required />
 								<p th:if="${#fields.hasErrors('productName')}"
 									th:errors="*{productName}" th:class="text-red">Incorrect
@@ -76,7 +76,7 @@
 								th:classappend="${#fields.hasErrors('price')}? 'has-error'">
 								<label th:text="#{label.product_price}">Price</label> <input
 									type="number" class="form-control" name="price"
-									th:field="*{price}" placeholder="Enter Product Price" required />
+									th:field="*{price}" placeholder="製品価格を入力" required />
 								<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
 									th:class="text-red">Incorrect data</p>
 							</div>
@@ -85,7 +85,7 @@
 							<div class="form-group">
 								<label th:text="#{label.product_description}">Description</label>
 								<textarea class="form-control" rows="3" name="description"
-									th:field="*{description}" placeholder="Enter Role Description"></textarea>
+									th:field="*{description}" placeholder="説明を入力"></textarea>
 								<p th:if="${#fields.hasErrors('description')}"
 									th:errors="*{description}" th:class="text-red">Incorrect
 									data</p>

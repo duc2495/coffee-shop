@@ -28,8 +28,9 @@
 			<div>
 				<div class="container" th:fragment="content" id="content">
 					<!-- Order status -->
-					<h3 th:text=#{title.order_status}>Order Status</h3>
-					<div class="row order-status" style="margin-left: 0px; margin-right: 0px;">
+					<h4 th:text=#{title.order_status}>Order Status</h4>
+					<div class="row order-status"
+						style="margin-left: 0px; margin-right: 0px;">
 
 						<div th:switch="${order.status.value}">
 
@@ -59,72 +60,97 @@
 					</div>
 
 					<!-- Order info -->
-					<h3 th:text=#{title.info_order}>Order Info</h3>
-					<div class="row">
+					<div class="row" style="margin-bottom: unset;">
+						<div class="col-md-6">
+							<div class="box box-solid">
+								<div class="box-header with-border">
+									<h3 class="box-title" th:text="#{title.info_customer}">Customer
+										info</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<dl class="dl-horizontal">
+										<dt th:text="#{label.customer_name}">Customer Name</dt>
+										<dd th:text="${order.customerName}"></dd>
 
+										<dt th:text="#{label.phone_number}">Phone Number</dt>
+										<dd th:text="${order.customerPhone}"></dd>
 
+										<dt th:text="#{label.address}">Address</dt>
+										<dd th:text="${order.customerAddress}"></dd>
 
-						<div class="col-sm-6">
-							<table class="table table-responsive" id="cardtable">
-								<thead>
-									<tr>
-										<td th:text=#{label.product_name}>Product Name</td>
-										<td th:text=#{label.product_price}>Product Price</td>
-										<td th:text=#{label.quantity}>Product Quantity</td>
-										<td th:text=#{label.total}>Total</td>
-									</tr>
-								</thead>
-								<tr th:each="orderProduct,iterStat : ${order.orderProductList}">
-									<td title="Product Name" th:text=${orderProduct.productName}>Product
-										Name</td>
-									<td title="Unit Price" th:text=${orderProduct.price}>Product
-										Price</td>
-									<td title="Quantity" th:text=${orderProduct.quantity}>Product
-										Quantity</td>
-									<td title="Total"
-										th:text="${orderProduct.quantity*orderProduct.price}">Total</td>
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td title="Total" th:text="${order.netPrice}">Total</td>
-								</tr>
-							</table>
+										<dt th:text="#{label.note}">Note</dt>
+										<dd th:text="${order.note}"></dd>
+									</dl>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
 						</div>
-						<div class="col-sm-6">
-							<table class="table table-responsive" id="cardtable">
+						<div class="col-md-6">
+							<div class="box box-solid">
+								<div class="box-header with-border">
+									<h3 class="box-title" th:text="#{title.info_order}">Order
+										info</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body">
+									<dl class="dl-horizontal">
+										<dt th:text="#{label.order_id}">Order Id</dt>
+										<dd th:text="${order.orderId}"></dd>
 
-								<tr>
-									<td title="Order Id" th:text="#{label.order_id}">Order Id</td>
-									<td title="Order Id" th:text=${order.orderId}>Order Id</td>
-								</tr>
-								<tr>
-									<td title="Customer Name" th:text="#{label.customer_name}">Customer
-										Name</td>
-									<td title="Customer Name" th:text=${order.customerName}>Customer
-										Name</td>
-								</tr>
-								<tr>
-									<td title="Phone Number" th:text="#{label.phone_number}">Phone
-										Number</td>
-									<td title="Phone Number" th:text=${order.customerPhone}>Phone
-										Number</td>
-								</tr>
-								<tr>
-									<td title="Customer Address" th:text="#{label.address}">Customer
-										Address</td>
-									<td title="Customer Address" th:text=${order.customerAddress}>Customer
-										Address</td>
-								</tr>
-								<tr>
-									<td title="Note" th:text="#{label.note}">Note</td>
-									<td title="Note" th:text=${order.note}>Note</td>
-								</tr>
+										<dt th:text="#{label.created_at}">Created At</dt>
+										<dd
+											th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}"></dd>
 
-							</table>
+										<dt th:text="#{label.updated_at}">Updated At</dt>
+										<dd
+											th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}"></dd>
+
+										<dt th:text="#{label.total}">Total</dt>
+										<dd th:text="${order.netPrice}"></dd>
+									</dl>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
 						</div>
 					</div>
+					<!-- /.Order info -->
+					<!-- List product -->
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-solid">
+								<div class="box-body">
+									<table id="productTable"
+										class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th style="width: 10px">#</th>
+												<th th:text="#{label.product_name}">Product</th>
+												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.quantity}">Quantity</th>
+												<th th:text="#{label.sub_total}">Subtotal</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="product,iterStat : ${order.orderProductList}">
+												<td th:text="${iterStat.count}">1</td>
+												<td th:text=${product.productName}>Product</td>
+												<td th:text=${product.price}>Price</td>
+												<td th:text=${product.quantity}>Product Quantity</td>
+												<td th:text=${product.quantity*product.price}>Subtotal</td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<!-- /.List product -->
+
 					<div align="right" th:if="${order.status.value} == 1">
 
 						<form style='display: inline;' th:action="@{/order/update_order}"

@@ -17,7 +17,7 @@ public class DBController {
 	@Autowired
 	DataSource datasource;
 	
-	@GetMapping("/initDB")
+	@GetMapping("/admin/initDB")
 	private void initDataBase() {
 		EncodedResource script = new EncodedResource(new ClassPathResource("init_database.sql"));
 		try {
@@ -29,7 +29,7 @@ public class DBController {
 		}
 	}
 	
-	@GetMapping("/addMockingDB")
+	@GetMapping("/admin/addMockingDB")
 	private void addMockingDB() {
 		EncodedResource script = new EncodedResource(new ClassPathResource("data.sql"));
 		try {
