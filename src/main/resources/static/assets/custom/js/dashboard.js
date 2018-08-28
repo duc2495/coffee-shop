@@ -50,13 +50,18 @@ function ajaxGetResource() {
 			$('#newProductNumber').text(data.newProductNumber);
 			$('#income').text(data.income);
 
-			$('#highestPriceOrder').attr("href", "/admin/orders/" + data.highestPriceOrderId);
+
 			$('#totalOrders').text(data.newOrderNumber);
 			$('#totalOrders').attr('data-original-title', data.newOrderNumber + " オーダー");
 			$('#totalProducts').text(data.totalProducts);
 			$('#totalProducts').attr('data-original-title', data.totalProducts + " 製品");
 			$('#bestQuantity').text(data.bestProduct.quantity);
 			$('#bestProductName').text(data.bestProduct.productName);
+			if (data.highestPriceOrderId !== 0) {
+				$('#highestPriceOrder').attr("href", "/admin/orders/" + data.highestPriceOrderId);
+			} else {
+				$('#highestPriceOrder').attr("href", "#");
+			}
 			if (data.bestProduct.productId !== 0) {
 				$('#productInfo').attr("href", "/admin/products/" + data.bestProduct.productId);
 			} else {
@@ -69,11 +74,13 @@ function ajaxGetResource() {
 			if ((data.orderedNumber + data.shippingNumber + data.finishedNumber + data.canceledNumber) === 0) {
 				$('#orderPieChart').empty().attr("class", "text-none").text("ありません！");
 			} else {
+				$('#orderPieChart').removeClass("text-none");
 				initOrderPieChart(data.orderedNumber, data.shippingNumber, data.finishedNumber, data.canceledNumber);
 			}
 			if ((data.pureCoffee + data.fromCoffee + data.noneCoffee) === 0) {
 				$('#productPieChart').empty().attr("class", "text-none").text("ありません！");
 			} else {
+				$('#productPieChart').removeClass("text-none");
 				initProductPieChart(data.pureCoffee, data.fromCoffee, data.noneCoffee);
 			}
 
