@@ -15,22 +15,22 @@
 		<div class="product">
 			<div class="container" th:fragment="content" id="content">
 				<!-- Cart info -->
-				<div class="col-sm-1"></div>
-				<div class="col-sm-5">
-					<table class="table table-responsive" id="cardtable">
+				<div class="col-md-6">
+					<table class="table table-responsive" id="cardtable"
+						style="background-color: #fff;">
 						<thead>
 							<tr>
-								<td>品名</td>
-								<td>値段</td>
-								<td>数値</td>
-								<td>全部</td>
+								<th>品名</th>
+								<th>値段</th>
+								<th>数値</th>
+								<th>全部</th>
 							</tr>
 						</thead>
 						<tr th:each="orderProduct,iterStat : ${orderProductDetailList}">
-							<td title="Product Name"
-								th:text=${orderProduct.productName}>Product Name</td>
-							<td title="Unit Price"
-								th:text="${orderProduct.price}+@{円}">Product Price</td>
+							<td title="Product Name" th:text=${orderProduct.productName}>Product
+								Name</td>
+							<td title="Unit Price" th:text="${orderProduct.price}+@{円}">Product
+								Price</td>
 							<td title="Quantity" th:text=${orderProduct.quantity}>Product
 								Quantity</td>
 							<td title="Total"
@@ -52,15 +52,15 @@
 								th:text="${orderProductDetailList[__${count.index}__].productName}"></p>
 							<p
 								th:errors="${orderResource.orderProductList[__${count.index}__].quantity}"
-								th:class="text-red"></p>
+								th:class="text-danger"></p>
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-5 body-box">
+				<div class="col-md-6 body-box">
 					<form th:action=@{/order/submit_order} th:object="${orderResource}"
 						th:method="POST">
 
-						<div style="width: 100%;" class="input-group">
+						<div>
 							<div th:each="orderProduct, count : ${orderProductDetailList}">
 								<input th:type="@{hidden}"
 									th:id="*{orderProductList[__${count.index}__].product.productId}"
@@ -76,7 +76,7 @@
 								<input type="text" class="form-control" placeholder="名前"
 									th:field="*{customerName}"></input>
 								<p th:if="${#fields.hasErrors('customerName')}"
-									th:errors="*{customerName}" th:class="text-red">Incorrect
+									th:errors="*{customerName}" th:class="text-danger">Incorrect
 									data</p>
 							</div>
 							<div class="form-group"
@@ -84,7 +84,7 @@
 								<input type="text" class="form-control" placeholder="電話番号"
 									th:field="*{customerPhone}"></input>
 								<p th:if="${#fields.hasErrors('customerPhone')}"
-									th:errors="*{customerPhone}" th:class="text-red">Incorrect
+									th:errors="*{customerPhone}" th:class="text-danger">Incorrect
 									data</p>
 							</div>
 
@@ -93,7 +93,7 @@
 								<input type="text" class="form-control" placeholder="住所"
 									th:field="*{customerAddress}"></input> <span
 									th:if="${#fields.hasErrors('customerAddress')}"
-									th:errors="*{customerAddress}" th:class="text-red">Incorrect
+									th:errors="*{customerAddress}" th:class="text-danger">Incorrect
 									data</span>
 							</div>
 
@@ -105,11 +105,18 @@
 
 						</div>
 
-						<input class="btn btn-info" style="float:right;" type="submit" value="提出"></input>
+						<input class="btn btn-info btn-removeAll" style="float: right;"
+							type="submit" value="提出"></input>
 					</form>
 
 				</div>
 				<script>
+					$(document).on('click', ".btn-removeAll", function() {
+						ProductManager.clearProduct();
+						drawTable();
+						$cartBadge.text(ProductManager.getTotalQuantity());
+					});
+					
 					function submit_order() {
 						var reqRow = [];
 						var products = JSON.parse(localStorage.products);

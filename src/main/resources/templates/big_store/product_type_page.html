@@ -55,17 +55,17 @@
 					<div class="clearfix"></div>
 
 					<div style="float: right">
-						<ul class="pagination justify-content-end" th:if="${maxPage} > 1">
+						<ul class="pagination pagination-fix justify-content-end " th:if="${maxPage} > 1">
 							<li th:if="${activePage}>1" class="page-item"><a
-								class="page-link" onclick="paginate(this)"
+								class="page-link pointer" onclick="paginate(this)"
 								th:data-productType=${productType} th:data-page="${page}-1">Previous</a></li>
 							<li th:each="i : ${#numbers.sequence( 1, maxPage)}"
 								th:class="${i}==${page}? 'page-item active':'page-item'"><a
-								class="page-link" onclick="paginate(this)"
+								class="page-link pointer" onclick="paginate(this)"
 								th:data-productType=${productType} th:data-page="${i}"
 								th:text="${i}">PageNumber</a>
 							<li th:if="${activePage}<${maxPage}" class="page-item"><a
-								class="page-link" onclick="paginate(this)"
+								class="page-link pointer" onclick="paginate(this)"
 								th:data-productType=${productType} th:data-page="${page}+1">Next</a></li>
 						</ul>
 						<div class="clearfix"></div>
@@ -74,7 +74,7 @@
 						th:id="@{modal}+${product.productId}" tabindex="-1" role="dialog"
 						aria-labelledby="myModalLabel">
 						<div class="modal-dialog" role="document">
-							<div class="modal-content modal-info">
+							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">

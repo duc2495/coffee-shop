@@ -3,10 +3,12 @@ package coffeeshop.controller;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ public class AdminOrderController {
 
 	private static final String viewPrefix = "admin/orders/";
 
+	@Autowired
+	private MessageSource messageSource;
 	@Autowired
 	private OrderService orderService;
 	@Autowired
@@ -84,13 +88,13 @@ public class AdminOrderController {
 
 		// resourceに変換
 		OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
-		
+
 		model.addAttribute("order", resource);
 
 		// return order detail view
 		return viewPrefix + "order";
 	}
-	
+
 	/**
 	 * 
 	 * @param orderId
@@ -100,7 +104,7 @@ public class AdminOrderController {
 	@PatchMapping("/{orderId}")
 	@ResponseBody
 	public ResponseEntity<?> updateProduct(@PathVariable("orderId") Integer orderId,
-			@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, Model model) {
+			@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, Model model, Locale locale) {
 
 		// 商品のアクセス権限をチェック
 		if (!orderService.hasOrder(orderId)) {
@@ -111,14 +115,14 @@ public class AdminOrderController {
 
 		// 商品modelを作成
 		Order order = orderHelper.createOrderModel(resource);
-		
+
 		// DBにを更新
 		orderService.updateOrderStatus(order);
 
 		// return view
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status", order.getStatus());
-		resultMap.put("message", "Order status updated successfully");
+		resultMap.put("message", messageSource.getMessage("info.order.status.updated", null, locale));
 		return new ResponseEntity<HashMap<String, Object>>(resultMap, new HttpHeaders(), HttpStatus.OK);
 	}
 
