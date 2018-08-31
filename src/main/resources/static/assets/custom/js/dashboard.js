@@ -10,26 +10,25 @@ $(document).ready(function() {
 	
 	$('#btnRefresh').click(function(event) {
 		event.preventDefault();
-		// ajax get value
-		ajaxGetLatestOrder();
-	});
+        $('#latestOrders').load("/admin/latestOrder");
+    });
     
 });
 
 function initDashboardDaterange() {
     jQuery().daterangepicker&&($("#dashboard-report-range").daterangepicker( {
         ranges: {
-            Today: [moment(), moment()], Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")], "Last 7 Days": [moment().subtract(6, "days"), moment()], "Last 30 Days": [moment().subtract(29, "days"), moment()], "This Month": [moment().startOf("month"), moment().endOf("month")], "Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+            "今日": [moment(), moment()], "昨日": [moment().subtract(1, "days"), moment().subtract(1, "days")], "過去7日": [moment().subtract(6, "days"), moment()], "過去30日": [moment().subtract(29, "days"), moment()], "今月": [moment().startOf("month"), moment().endOf("month")], "先月": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
         }
         , locale: {
-            format: "MM/DD/YYYY", separator: " - ", applyLabel: "Apply", cancelLabel: "Cancel", fromLabel: "From", toLabel: "To", customRangeLabel: "Custom", daysOfWeek: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"], monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], firstDay: 1
+            format: "MM/DD/YYYY", separator: " - ", applyLabel: "アプライ", cancelLabel: "キャンセル", fromLabel: "から", toLabel: "まで", customRangeLabel: "希望時間を選ぶ", daysOfWeek: ["日", "月", "火", "水", "木", "金", "土"], monthNames: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"], firstDay: 1
         }
        
     }
     , function(e, t, a) {
-        "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(e.format("MMMM D, YYYY")+" - "+t.format("MMMM D, YYYY"))
+        "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(e.format("YYYY年MM月DD日")+" - "+t.format("YYYY年MM月DD日"))
     }
-    ), "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(moment().subtract(29, "days").format("MMMM D, YYYY")+" - "+moment().format("MMMM D, YYYY")), $("#dashboard-report-range").show())
+    ), "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(moment().subtract(29, "days").format("YYYY年MM月DD日")+" - "+moment().format("YYYY年MM月DD日")), $("#dashboard-report-range").show())
 }
 
 function ajaxGetResource() {
@@ -49,12 +48,10 @@ function ajaxGetResource() {
 			$('#newOrderNumber').text(data.newOrderNumber);
 			$('#newProductNumber').text(data.newProductNumber);
 			$('#income').text(data.income);
-
-
 			$('#totalOrders').text(data.newOrderNumber);
-			$('#totalOrders').attr('data-original-title', data.newOrderNumber + " オーダー");
+			$('#totalOrders').attr('data-original-title', data.newOrderNumber + " 新オーダー");
 			$('#totalProducts').text(data.totalProducts);
-			$('#totalProducts').attr('data-original-title', data.totalProducts + " 製品");
+			$('#totalProducts').attr('data-original-title', data.totalProducts + " 新製品");
 			$('#bestQuantity').text(data.bestProduct.quantity);
 			$('#bestProductName').text(data.bestProduct.productName);
 			if (data.highestPriceOrderId !== 0) {
@@ -149,21 +146,4 @@ function initProductPieChart(pureCoffee, fromCoffee, noneCoffee) {
 	      ],
 	      hideHover: 'auto'
 	    });
-}
-
-function ajaxGetLatestOrder() {
-	$.ajax({
-		type : "GET",
-		url : "/admin/latestOrder",
-		processData : false,
-		contentType : false,
-		cache : false,
-		timeout : 600000,
-		success : function(data) {
-			console.log("SUCCESS : ", data);
-		}, 
-		error : function(data) {
-			console.log("ERROR : ", data);
-		}
-	});
 }

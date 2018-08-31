@@ -8,46 +8,44 @@
 </head>
 <body>
 	<div layout:fragment="content">
-		<div class="row">
-			<div th:if="${param.error}"
-				class="alert alert-danger alert-dismissable">
-				<p>
-					<i class="icon fa fa-ban"></i> <span
-						th:text="#{error.login_failed}">Invalid Username or
-						Password</span>
-				</p>
-			</div>
-			<div th:if="${param.account}"
-				class="alert alert-danger alert-dismissable">
-				<p>
-					<i class="icon fa fa-ban"></i> <span
-						th:text="#{error.user_disabled}">User is disabled</span>
-				</p>
-			</div>
-			<div th:if="${param.logout}"
-				class="alert alert-info alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<p>
-					<i class="icon fa fa-info"></i> <span th:text="#{info.logout}">You have been logged
-						out</span>
-				</p>
-			</div>
-			<div th:if="${msg!=null}"
-				class="alert alert-warning alert-dismissable">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<p>
-					<i class="icon fa fa-warning"></i> <span th:text="${msg}"></span>
-				</p>
-			</div>
-
-		</div>
 		<div class="login-box">
 			<div class="login-logo">
-				<a href="#"><b th:text="#{label.login_header}">Login</b></a>
+				<p><b th:text="#{label.login_header}">Login</b></p>
 			</div>
 			<div class="login-box-body">
 				<p class="login-box-msg" th:text="#{text.signin}">Sign in to
 					start your session</p>
+				<div th:if="${param.error}"
+					class="alert alert-danger alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<p>
+						<i class="icon fa fa-ban"></i> <span
+							th:text="#{error.login_failed}">Invalid Username or
+							Password</span>
+					</p>
+				</div>
+				<div th:if="${param.account}"
+					class="alert alert-danger alert-dismissable">
+					<p>
+						<i class="icon fa fa-ban"></i> <span
+							th:text="#{error.user_disabled}">User is disabled</span>
+					</p>
+				</div>
+				<div th:if="${param.logout}"
+					class="alert alert-info alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<p>
+						<i class="icon fa fa-info"></i> <span th:text="#{info.logout}">You
+							have been logged out</span>
+					</p>
+				</div>
+				<div th:if="${msg!=null}"
+					class="alert alert-warning alert-dismissable">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<p>
+						<i class="icon fa fa-warning"></i> <span th:text="${msg}"></span>
+					</p>
+				</div>
 				<form action="home" th:action="@{/login}" method="post">
 					<input type="hidden" th:name="${_csrf.parameterName}"
 						th:value="${_csrf.token}" />

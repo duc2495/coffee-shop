@@ -19,7 +19,7 @@
 			<li class="active" th:text="#{title.products}">Products</li>
 		</ol>
 		<div th:if="${info}"
-			class="col-md-3 alert alert-info alert-dismissable alert-hide">
+			class="col-md-3 alert alert-fix alert-info alert-dismissable alert-hide">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			<p>
@@ -28,7 +28,7 @@
 		</div>
 
 		<div th:if="${error}"
-			class="col-md-3 alert alert-danger alert-dismissable">
+			class="col-md-3 alert alert-fix alert-danger alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert"
 				aria-hidden="true">&times;</button>
 			<p>

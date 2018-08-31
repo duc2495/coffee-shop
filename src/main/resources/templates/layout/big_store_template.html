@@ -10,42 +10,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta content="Vide" />
 <meta name="keywords" content="うまいコーヒー" />
-<script type="application/x-javascript">
-	
-	 addEventListener("load", function() { 
-		 setTimeout(hideURLbar, 0); 
-		 }, false);
-	 function hideURLbar(){ window.scrollTo(0,1); } 
 
-</script>
 <link rel="stylesheet"
 	href="assets/dist/css/dataTables.bootstrap.min.css"
 	th:href="@{/assets/dist/css/dataTables.bootstrap.min.css}" />
 <link href="/big_store/css/bootstrap.css" rel='stylesheet'
 	type='text/css' />
+<link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css"
+	th:href="@{/assets/dist/css/AdminLTE.min.css}" />
 <!-- Custom Theme files -->
-<link th:href="@{/assets/custom/css/main.css}" rel='stylesheet' type='text/css' />
+<link th:href="@{/assets/custom/css/main.css}" rel='stylesheet'
+	type='text/css' />
 <link href="/big_store/css/style.css" rel='stylesheet' type='text/css' />
-<!-- js -->
-<script src="/big_store/js/jquery-1.11.1.min.js"></script>
-<script src="/assets/custom/js/main.js"></script>
-<script th:src="@{'/assets/dist/js/select2.full.min.js'}"></script>
-<script th:src="@{'/assets/dist/js/jquery.dataTables.min.js'}"></script>
-<script th:src="@{'/assets/dist/js/dataTables.bootstrap.min.js'}"></script>
-<!-- //js -->
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" src="/big_store/js/move-top.js"></script>
-<script type="text/javascript" src="/big_store/js/easing.js"></script>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event) {
-			event.preventDefault();
-			$('html,body').animate({
-				scrollTop : $(this.hash).offset().top
-			}, 1000);
-		});
-	});
-</script>
+
 <!-- start-smoth-scrolling -->
 <link href="/big_store/css/font-awesome.css" rel="stylesheet">
 <link href='//fonts.googleapis.com/css?family=Montserrat:400,700'
@@ -111,41 +88,45 @@
 		</div>
 	</div>
 
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="/big_store/js/vendor/jquery-1.11.1.min.js"><\/script>')
-	</script>
-	<script src="/big_store/js/jquery.vide.min.js"></script>
-
-
 	<div layout:fragment="content" style="background-color: #ecf0f5">
 		<!-- Your Page Content Here -->
 	</div>
-	<!-- smooth scrolling -->
+
+	<a href="#" id="toTop" style="display: block;"> <span
+		id="toTopHover" style="opacity: 1;"> </span></a>
+	<script src="/big_store/js/jquery-1.11.1.min.js"></script>
+	<script src="/big_store/js/bootstrap.js"></script>
+	<script th:src="@{'/assets/dist/js/adminlte.min.js'}"></script>
+	<script src="/big_store/js/jquery.vide.min.js"></script>
+	<script type='text/javascript' src="/big_store/js/jquery.mycart.js"></script>
+	<script th:src="@{'/assets/dist/js/select2.full.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/jquery.dataTables.min.js'}"></script>
+	<script th:src="@{'/assets/dist/js/dataTables.bootstrap.min.js'}"></script>
+	<script type="text/javascript" src="/big_store/js/move-top.js"></script>
+	<script type="text/javascript" src="/big_store/js/easing.js"></script>
+	<script src="/assets/custom/js/main.js"></script>
+	<script type="application/x-javascript">
+		
+		 addEventListener("load", function() { 
+		 setTimeout(hideURLbar, 0); 
+		 }, false);
+		 function hideURLbar(){ window.scrollTo(0,1); } 
+	
+	</script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-				};
-			 */
+		jQuery(document).ready(function($) {
+			$(".scroll").click(function(event) {
+				event.preventDefault();
+				$('html,body').animate({
+					scrollTop : $(this.hash).offset().top
+				}, 1000);
+			});
 			$().UItoTop({
 				easingType : 'easeOutQuart'
 			});
 		});
 	</script>
-	<a href="#" id="toTop" style="display: block;"> <span
-		id="toTopHover" style="opacity: 1;"> </span></a>
-	<!-- //smooth scrolling -->
-	<!-- for bootstrap working -->
-	<script src="/big_store/js/bootstrap.js"></script>
-	<!-- //for bootstrap working -->
-	<script type='text/javascript' src="/big_store/js/jquery.mycart.js"></script>
-	
+
 	<script type="text/javascript">
 		$(function() {
 

@@ -38,9 +38,9 @@ public class AdminDashboardController {
 	public String getDashboard(Model model) {
 		model.addAttribute("latestOrders", dashboardService.getTopTenLastestOrder());
 		model.addAttribute("latestProducts", dashboardService.getTopTenLastestProduct());
-		return "admin/dashboard";
+		return "admin/dashboard/dashboard";
 	}
-
+	
 	@GetMapping("/resource")
 	@ResponseBody
 	public ResponseEntity<?> getResource(@RequestParam("from") String from, @RequestParam("to") String to) {
@@ -79,8 +79,10 @@ public class AdminDashboardController {
 	}
 
 	@GetMapping("/latestOrder")
-	@ResponseBody
-	public ResponseEntity<?> getResource() {
-		return new ResponseEntity<>(dashboardService.getTopTenLastestOrder(), new HttpHeaders(), HttpStatus.OK);
+	public String getLatestOrders(Model model) {
+		System.out.println("refresh");
+		model.addAttribute("latestOrders", dashboardService.getTopTenLastestOrder());
+		return "admin/dashboard/latestOrders::latestOrders";
+		
 	}
 }
