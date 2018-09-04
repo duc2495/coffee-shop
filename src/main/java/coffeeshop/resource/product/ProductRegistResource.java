@@ -10,17 +10,23 @@ import org.springframework.web.multipart.MultipartFile;
 import coffeeshop.model.product.ProductType;
 
 public class ProductRegistResource {
+	
 	@NotBlank(message = "{error.required}")
-	@Size(max = 100)
+	@Size(max = 100, message = "{error.maxLength.productName}")
 	private String productName;
+
 	@NotNull(message = "{error.required}")
 	private ProductType productType;
+
 	@NotNull(message = "{error.required}")
 	@Min(value = 0, message = "{error.min}")
 	@Max(value = 100000, message = "{error.max}")
 	private Integer price;
+
 	@NotNull(message = "{error.required}")
 	private MultipartFile image;
+
+	@Size(max = 1000, message = "{error.maxLength.description}")
 	private String description;
 
 	public String getProductName() {

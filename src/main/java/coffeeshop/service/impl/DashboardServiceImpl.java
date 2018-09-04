@@ -47,8 +47,19 @@ public class DashboardServiceImpl implements DashboardService {
 	 */
 	@Override
 	public DashboardResource getDashboardResource(Date dayFrom, Date dayTo) {
-		System.out.println(dayTo);
 		DashboardResource resource = new DashboardResource();
+		Calendar calFrom = Calendar.getInstance();
+		calFrom.setTime(dayFrom);
+		calFrom.set(Calendar.HOUR_OF_DAY, 0);
+		calFrom.set(Calendar.MINUTE, 0);
+		calFrom.set(Calendar.SECOND, 0);
+		dayFrom = calFrom.getTime();
+		Calendar calTo = Calendar.getInstance();
+		calTo.setTime(dayTo);
+		calTo.set(Calendar.HOUR, 23);
+		calTo.set(Calendar.MINUTE, 59);
+		calTo.set(Calendar.SECOND, 59);
+		dayTo = calTo.getTime();
 		List<Order> orderList = orderService.getNewOrderInTimeInterval(dayFrom, dayTo);
 		List<Product> newProductList = productService.getNewProductInTimeInterval(dayFrom, dayTo);
 		ArrayList<ProductChart> productList = getProductNumberListSoldInType(dayTo);
@@ -106,6 +117,9 @@ public class DashboardServiceImpl implements DashboardService {
 			firstDate.setTime(dayTo);
 			Calendar lastDate = Calendar.getInstance();
 			lastDate.setTime(dayTo);
+			firstDate.set(Calendar.HOUR_OF_DAY, 0);
+			firstDate.set(Calendar.MINUTE, 0);
+			firstDate.set(Calendar.SECOND, 0);
 			firstDate.add(Calendar.MONTH, i);
 			firstDate.set(Calendar.DATE, firstDate.getActualMinimum(Calendar.DATE));
 			lastDate.add(Calendar.MONTH, i);

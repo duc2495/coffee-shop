@@ -9,16 +9,22 @@ import javax.validation.constraints.Size;
 import coffeeshop.model.product.ProductType;
 
 public class ProductUpdateResource {
+	
 	private int productId;
+	
 	@NotBlank(message = "{error.required}")
-	@Size(max = 100, message = "{error.maxLength}")
+	@Size(max = 50, message = "{error.maxLength.productName}")
 	private String productName;
+	
 	@NotNull(message = "{error.required}")
 	private ProductType productType;
+	
 	@NotNull(message = "{error.required}")
 	@Min(value = 0, message = "{error.min}")
 	@Max(value = 100000, message = "{error.max}")
 	private Integer price;
+	
+	@Size(max = 1000, message = "{error.maxLength.description}")
 	private String description;
 
 	public int getProductId() {

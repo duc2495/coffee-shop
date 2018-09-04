@@ -19,8 +19,8 @@
 						th:each="product,iterStat : ${productList}">
 						<div class="col-m">
 							<a href="#" data-toggle="modal"
-								th:data-target="@{#modal}+${product.productId}"
-								> <img class="img-product"
+								th:data-target="@{#modal}+${product.productId}"> <img
+								class="img-product"
 								th:src="@{/product/images(image=${product.imageUrl})}"
 								alt="Product image">
 							</a>
@@ -28,8 +28,9 @@
 								<div class="women">
 									<h6
 										style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-										<a href="single.html" th:text="${product.productName}">Product
-											Name</a>
+										<a href="#" data-toggle="modal"
+											th:data-target="@{#modal}+${product.productId}"
+											th:text="${product.productName}">Product Name</a>
 									</h6>
 								</div>
 								<div class="mid-2">
@@ -55,7 +56,8 @@
 					<div class="clearfix"></div>
 
 					<div style="float: right">
-						<ul class="pagination pagination-fix justify-content-end " th:if="${maxPage} > 1">
+						<ul class="pagination pagination-fix justify-content-end "
+							th:if="${maxPage} > 1">
 							<li th:if="${activePage}>1" class="page-item"><a
 								class="page-link pointer" onclick="paginate(this)"
 								th:data-productType=${productType} th:data-page="${page}-1">Previous</a></li>

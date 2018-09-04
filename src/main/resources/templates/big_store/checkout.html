@@ -101,6 +101,9 @@
 								th:classappend="${#fields.hasErrors('note')}? 'has-error'">
 								<textarea rows="5" class="form-control" placeholder="メーモ"
 									th:field="*{note}"></textarea>
+								<span th:if="${#fields.hasErrors('note')}"
+									th:errors="*{note}" th:class="text-danger">Incorrect
+									data</span>
 							</div>
 
 						</div>
@@ -116,7 +119,7 @@
 						drawTable();
 						$cartBadge.text(ProductManager.getTotalQuantity());
 					});
-					
+
 					function submit_order() {
 						var reqRow = [];
 						var products = JSON.parse(localStorage.products);

@@ -35,9 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**", "/webjars/**", "/assets/**").permitAll()
 				//.antMatchers("/**", "/home", "/register", "/forgotPwd", "/resetPwd", "/order").permitAll().anyRequest()
 				.antMatchers("/admin", "/admin/**")
-				.authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/admin")
+				.authenticated().and().formLogin().loginPage("/admin/login").defaultSuccessUrl("/admin")
 				.failureHandler(authenticationFailureHandler).permitAll().and().logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
 				// .logoutUrl("/logout")
 				.permitAll().and().exceptionHandling().accessDeniedPage("/403").and().csrf();
 	}
