@@ -27,8 +27,9 @@
 								<div class="women">
 									<h6
 										style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-										<a href="single.html" th:text="${product.productName}">Product
-											Name</a>
+										<a href="#" data-toggle="modal"
+											th:data-target="@{#modal}+${product.productId}"
+											th:text="${product.productName}">Product Name</a>
 									</h6>
 								</div>
 								<div class="mid-2">
