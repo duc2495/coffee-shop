@@ -26,7 +26,7 @@ public class ProductRegistResource {
 	@NotNull(message = "{error.required}")
 	private MultipartFile image;
 
-	@Size(max = 1000, message = "{error.maxLength.discription}")
+	@Size(max = 1000, message = "{error.maxLength.description}")
 	private String description;
 
 	public String getProductName() {

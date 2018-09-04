@@ -24,7 +24,7 @@ public class ProductUpdateResource {
 	@Max(value = 100000, message = "{error.max}")
 	private Integer price;
 	
-	@Size(max = 1000, message = "{error.maxLength.discription}")
+	@Size(max = 1000, message = "{error.maxLength.description}")
 	private String description;
 
 	public int getProductId() {

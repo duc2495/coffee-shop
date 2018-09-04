@@ -28,7 +28,7 @@ function initDashboardDaterange() {
     , function(e, t, a) {
         "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(e.format("YYYY年MM月DD日")+" - "+t.format("YYYY年MM月DD日"))
     }
-    ), "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(moment().subtract(29, "days").format("YYYY年MM月DD日")+" - "+moment().format("YYYY年MM月DD日")), $("#dashboard-report-range").show())
+    ), "0"!=$("#dashboard-report-range").attr("data-display-range")&&$("#dashboard-report-range span").html(moment().format("YYYY年MM月DD日")+" - "+moment().format("YYYY年MM月DD日")), $("#dashboard-report-range").show())
 }
 
 function ajaxGetResource() {
