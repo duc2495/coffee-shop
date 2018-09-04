@@ -12,11 +12,11 @@ DROP SEQUENCE IF EXISTS "product_id_seq" CASCADE;
 CREATE SEQUENCE product_id_seq;
 CREATE TABLE "product"(
 	product_id integer PRIMARY KEY DEFAULT NEXTVAL('product_id_seq'),
-	product_name varchar(100) NOT NULL,
+	product_name varchar(150) NOT NULL,
 	product_type varchar(20) REFERENCES "product_type"(type_name),
 	price integer NOT NULL CHECK (price > 0),
-	image_url varchar(100) NOT NULL,
-	description varchar(1000) NOT NULL,
+	image_url varchar(300) NOT NULL,
+	description varchar(3000) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );
@@ -40,22 +40,6 @@ CREATE TABLE "account"(
 
 DROP SEQUENCE IF EXISTS "customer_id_seq" CASCADE;
 
-CREATE SEQUENCE customer_id_seq;
-DROP TABLE IF EXISTS "customer_info" CASCADE;
-CREATE TABLE "customer_info"(
-	customer_id integer PRIMARY KEY DEFAULT NEXTVAL('customer_id_seq'),
-	full_name varchar(50) NOT NULL,
-	address varchar(100) NOT NULL,
-	phone_number varchar(20) NOT NULL,
-	email varchar(30) NOT NULL,
-	token varchar(100) NOT NULL,
-	expiry_date timestamp with time zone NOT NULL,
-	unique (email),
-	unique (token),
-	created_at timestamp NOT NULL DEFAULT now(),
-	updated_at timestamp NOT NULL DEFAULT now()
-);
-
 DROP TABLE IF EXISTS "status" CASCADE;
 CREATE TABLE "status"(
 	status_name varchar(10) PRIMARY KEY,
@@ -72,10 +56,10 @@ CREATE TABLE "order"(
 	order_id integer PRIMARY KEY DEFAULT NEXTVAL('order_id_seq'),
 	net_price integer NOT NULL,
 	status varchar(10) REFERENCES "status"(status_name) NOT NULL,
-	note varchar(200),
-	customer_name varchar(50) NOT NULL,
-	customer_phone varchar(20) NOT NULL,
-	customer_address varchar(100) NOT NULL,
+	note varchar(1500),
+	customer_name varchar(150) NOT NULL,
+	customer_phone varchar(15) NOT NULL,
+	customer_address varchar(300) NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),
 	updated_at timestamp NOT NULL DEFAULT now()
 );
@@ -87,7 +71,7 @@ CREATE TABLE "order_product"(
 	order_id integer REFERENCES "order"(order_id),
 	product_id integer REFERENCES "product"(product_id) ON DELETE SET NULL,
 	quantity integer NOT NULL CHECK (quantity > 0),
-	product_name varchar(30) NOT NULL,
+	product_name varchar(150) NOT NULL,
 	product_type varchar(20) NOT NULL,
 	price integer NOT NULL,
 	created_at timestamp NOT NULL DEFAULT now(),

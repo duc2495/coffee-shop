@@ -32,7 +32,7 @@ public class UserController {
 	@Autowired
 	private AccountValidator accountValidator;
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
 		return "login";
 	}
