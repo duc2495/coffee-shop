@@ -24,6 +24,15 @@
 				</p>
 			</div>
 		</div>
+		<div class="message">
+			<div class="col-md-3 alert alert-fix alert-info alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-hidden="true">&times;</button>
+				<p>
+					<i class="icon fa fa-info"></i> <span id="showMessage"></span>
+				</p>
+			</div>
+		</div>
 		<div class="product">
 			<div>
 				<div class="container" th:fragment="content" id="content">
@@ -58,6 +67,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- /.Order status -->
 
 					<!-- Order info -->
 					<div class="row" style="margin-bottom: unset;">
@@ -80,7 +90,7 @@
 										<dd th:text="${order.customerAddress}"></dd>
 
 										<dt th:text="#{label.note}">Note</dt>
-										<dd th:text="${order.note}"></dd>
+										<dd id="orderNote" class="text-justify" th:text="${order.note}"></dd>
 									</dl>
 								</div>
 								<!-- /.box-body -->
@@ -153,64 +163,101 @@
 
 					<div align="right" th:if="${order.status.value} == 1">
 
-						<form style='display: inline;' th:action="@{/order/update_order}"
-							method="post" th:object=${order}>
-							<input type="hidden" th:field="*{orderId}"
-								th:value="${order.orderId}">
-							<button type="submit" class="btn btn-info"
-								th:text=#{button.order.update_note}></button>
-						</form>
+						<button type="button" class="btn btn-default" data-toggle="modal"
+							data-target="#modal-update-order"
+							th:text="#{button.update_order_status}">Update Order</button>
+
 						<button type="button" class="btn btn-danger" data-toggle="modal"
 							data-target="#modal-cancel_order-confirm"
 							th:text="#{button.delete}">Delete</button>
 					</div>
-					<div class="modal fade" id="modal-cancel_order-confirm"
-						tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-									<h4 class="modal-title" th:text="#{title.order.cancel_order}"></h4>
-								</div>
-								<div class="modal-body">
-									<div class="box-body">
-										<h4 class="modal-title"
-											th:text="#{title.order.cancel_order_confirm}"></h4>
-									</div>
-									<!-- /.box-body -->
 
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default pull-left"
-										data-dismiss="modal" th:text="#{button.cancel}">Cancel</button>
-									<div th:if="${order.status.value} == 1">
-										<form role="form"
-											th:action="@{/order/{orderId}(orderId=${order.orderId})}"
-											th:method="patch">
-											<div>
-												<button type="submit" class="btn btn-danger"
-													th:text=#{title.order.cancel_order}></button>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
-							<!-- /.modal-content -->
-						</div>
-						<!-- /.modal-dialog -->
-					</div>
 				</div>
 			</div>
-
-			<!-- /.modal -->
 		</div>
 
+		<!-- Update Order Modal content-->
+		<div class="modal fade" id="modal-update-order">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" th:text="#{title.update_order}">Update
+							Order</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<form role="form" id="updateOrderForm" th:method="patch"
+								enctype="multipart/form-data">
+								<input type="hidden" id="orderId" th:name="orderId"
+									th:value="${order.orderId}" />
+								<div class="form-group">
+									<label th:text="#{label.note}">Note</label>
+									<textarea rows="5" class="form-control" placeholder="メーモ"
+										id="note" th:name="note" th:text="${order.note}"></textarea>
+									<p class="errorMessage text-red"></p>
+								</div>
+
+							</form>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left"
+							data-dismiss="modal" th:text="#{button.cancel}">Cancel</button>
+						<button type="button" id="btnUpdateOrder" class="btn btn-primary"
+							form="updateOrderForm" th:text="#{button.save_change}">Save
+							changes</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.Update Order Modal content-->
+
 		<!-- Delete confirm Modal content-->
+		<div class="modal fade" id="modal-cancel_order-confirm" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" th:text="#{title.order.cancel_order}"></h4>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<h4 class="modal-title"
+								th:text="#{title.order.cancel_order_confirm}"></h4>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left"
+							data-dismiss="modal" th:text="#{button.cancel}">Cancel</button>
+						<div th:if="${order.status.value} == 1">
+							<form role="form"
+								th:action="@{/order/{orderId}(orderId=${order.orderId})}"
+								th:method="patch">
+								<div>
+									<button type="submit" class="btn btn-danger"
+										th:text=#{title.order.cancel_order}></button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.Delete confirm Modal content-->
 	</div>
-
-
 </body>
 </html>

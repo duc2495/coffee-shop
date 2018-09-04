@@ -1,5 +1,6 @@
 package coffeeshop.controller;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +10,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.expression.ParseException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import coffeeshop.helper.OrderHelper;
@@ -26,6 +31,7 @@ import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.resource.ListResource;
+import coffeeshop.resource.order.AdminOrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
 import coffeeshop.resource.order.OrderProductDetailResource;
 import coffeeshop.resource.order.OrderProductResource;
@@ -232,6 +238,38 @@ public class OrderController {
 		orderDetailResource = orderHelper.createOrderDetailResource(order);
 		model.addAttribute("order", orderDetailResource);
 		return "big_store/update_order";
+	}
+
+	/**
+	 * 
+	 * @param orderId
+	 * @param resource
+	 * @param model
+	 */
+	@PatchMapping("/update")
+	@ResponseBody
+	public ResponseEntity<?> updateOrder(@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, Model model,
+			Locale locale) {
+
+		if (!orderService.hasOrder(resource.getOrderId())) {
+			return new ResponseEntity<>("Order not exist!", HttpStatus.BAD_REQUEST);
+		}
+
+		// 注文modelを作成
+		Order order = orderService.findOrderById(resource.getOrderId());
+		if (resource.getNote().length()>500) {
+			return new ResponseEntity<>("メモは500文字未満でなければなりません", HttpStatus.BAD_REQUEST);
+		}
+		order.setNote(resource.getNote());
+
+		// DBにを更新
+		orderService.updateOrder(order);
+
+		// return view
+		HashMap<String, String> resultMap = new HashMap<String, String>();
+		resultMap.put("note", order.getNote());
+		resultMap.put("message", messageSource.getMessage("info.order.updated", null, locale));
+		return new ResponseEntity<HashMap<String, String>>(resultMap, new HttpHeaders(), HttpStatus.OK);
 	}
 
 	@PatchMapping("/{orderId}")
