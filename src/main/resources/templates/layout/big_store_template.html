@@ -11,11 +11,11 @@
 <meta content="Vide" />
 <meta name="keywords" content="うまいコーヒー" />
 
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"
+	th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
 <link rel="stylesheet"
 	href="assets/dist/css/dataTables.bootstrap.min.css"
 	th:href="@{/assets/dist/css/dataTables.bootstrap.min.css}" />
-<link href="/big_store/css/bootstrap.css" rel='stylesheet'
-	type='text/css' />
 <link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css"
 	th:href="@{/assets/dist/css/AdminLTE.min.css}" />
 <!-- Custom Theme files -->
@@ -33,7 +33,7 @@
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
-	<a href="offer.html"><img src="/big_store/images/download.png"
+	<a href="#"><img src="/big_store/images/download.png"
 		class="img-head" alt=""></a>
 	<div class="header">
 		<div class="container-fluid">
@@ -95,7 +95,7 @@
 	<a href="#" id="toTop" style="display: block;"> <span
 		id="toTopHover" style="opacity: 1;"> </span></a>
 	<script src="/big_store/js/jquery-1.11.1.min.js"></script>
-	<script src="/big_store/js/bootstrap.js"></script>
+	<script th:src="@{'/assets/bootstrap/js/bootstrap.min.js'}"></script>
 	<script th:src="@{'/assets/dist/js/adminlte.min.js'}"></script>
 	<script src="/big_store/js/jquery.vide.min.js"></script>
 	<script type='text/javascript' src="/big_store/js/jquery.mycart.js"></script>

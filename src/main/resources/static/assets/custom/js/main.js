@@ -15,6 +15,15 @@ $(document).ready(function() {
 	$('.select2').select2()
 
 	$('[data-toggle="tooltip"]').tooltip()
+
+	$('#btnUpdateOrder').click(function(event) {
+
+		// stop submit the form, we will post it manually.
+		event.preventDefault();
+
+		ajaxUpdateOrder();
+
+	});
 });
 
 // function for cart's submit button
@@ -136,4 +145,53 @@ function paginate(paginate) {
 			alert("Error!"), console.log("ERROR: ", e);
 		}
 	});
+}
+
+function ajaxUpdateOrder() {
+
+	// Validate
+	var note = $('#note').val();
+	console.log(note + "|" + note.length);
+	if (note.length > 500) {
+		$(".errorMessage").text("メモは500文字未満でなければなりません。");
+	} else {
+		// Get form
+		var form = $('#updateOrderForm')[0];
+		var data = new FormData(form);
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+
+		$("#btnUpdateOrder").prop("disabled", true);
+
+		$.ajax({
+			type : "POST",
+			enctype : 'multipart/form-data',
+			url : "/order/update",
+			data : data,
+			processData : false,
+			contentType : false,
+			cache : false,
+			timeout : 600000,
+			success : function(data) {
+				$("#modal-update-order").modal('hide');
+				$("#showMessage").text(data.message)
+				$(".message").show();
+				setTimeout(function() {
+					$(".message").hide(1000);
+				}, 3000);
+				$("#orderNote").text(data.note);
+				console.log("SUCCESS : ", data);
+				$("#btnUpdateOrder").prop("disabled", false);
+				$(".errorMessage").text("");
+			},
+			error : function(data) {
+				$('.errorMessage').text(data.responseText);
+				$("#btnUpdateOrder").prop("disabled", false);
+			}
+		});
+	}
 }
