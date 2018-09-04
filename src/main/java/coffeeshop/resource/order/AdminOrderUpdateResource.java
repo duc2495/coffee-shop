@@ -5,6 +5,7 @@ import coffeeshop.model.order.OrderStatus;
 public class AdminOrderUpdateResource {
 	private Integer orderId;
 	private OrderStatus status;
+	private String note;
 
 	public Integer getOrderId() {
 		return orderId;
@@ -20,6 +21,14 @@ public class AdminOrderUpdateResource {
 
 	public void setStatus(OrderStatus status) {
 		this.status = status;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 }
