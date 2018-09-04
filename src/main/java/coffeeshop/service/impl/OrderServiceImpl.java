@@ -128,6 +128,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Order> getNewOrderInTimeInterval(Date timeFrom, Date timeTo) {
+		System.out.println(timeTo);
 		return orderRepository.getNewOrderInTimeInterval(timeFrom, timeTo);
 	}
 
