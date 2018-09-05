@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.repository.RoleRepository">
+	<resultMap id="RoleResult" type="Role" autoMapping="true">
+	</resultMap>
+
+	<select id="findRoleByName" parameterType="String" resultMap="RoleResult">
+		SELECT role_name 
+		FROM role
+		WHERE
+			role_name = #{roleName}
+	</select>
+</mapper>

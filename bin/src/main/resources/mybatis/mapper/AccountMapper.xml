@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.repository.AccountRepository">
+	<resultMap id="AccountResult" type="Account" autoMapping="true">
+		<association property="role" javaType="Role" column="role"
+			select="coffeeshop.repository.RoleRepository.findRoleByName">
+		</association>
+	</resultMap>
+
+	<select id="findAccountByUsername" parameterType="String"
+		resultMap="AccountResult">
+		SELECT * 
+		FROM account
+		WHERE
+			username = #{username}
+	</select>
+
+	<insert id="insertAccount" parameterType="Account">
+		INSERT 
+		INTO account( 
+			username
+			, password
+			, enabled
+			, role 
+		) 
+		VALUES(
+			#{username}
+			, #{password}
+			, #{enabled}
+			, #{role.roleName} 
+		)
+	</insert>
+	
+	<update id="updateAccount" parameterType="Account">
+		UPDATE account
+		SET
+			password = #{password}
+			, enabled = #{enabled}
+		WHERE 
+			username = #{username}
+	</update>
+
+</mapper>
