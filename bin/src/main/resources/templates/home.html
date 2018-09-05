@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mainLayout}">
+
+<head>
+<title>Home Page</title>
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<h1>
+			[[#{label.product}]]
+			<small th:text="#{label.product_list}">List of Products</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li class="active">Products</li>
+		</ol>
+		<div th:if="${info}"
+			class="col-md-3 alert alert-info alert-dismissable alert-hide">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			<p>
+				<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
+			</p>
+		</div>
+
+		<div th:if="${error}"
+			class="col-md-3 alert alert-danger alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			<p>
+				<i class="icon fa fa-ban"></i> <span th:text="${error}">Error</span>
+			</p>
+		</div>
+	</section>
+
+	<div layout:fragment="content">
+
+
+		<!-- List product with type PURE_COFFEE -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header">
+						<h3 class="box-title">PURE_COFFEE</h3>
+
+						<div class="box-tools pull-right">
+							<!-- Collapse Button -->
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<table id="dataTable1" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 10px">#</th>
+									<th th:text="#{label.product_name}">Name</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.action}">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="product,iterStat : ${resources.pureCoffeeList}">
+									<td th:text="${iterStat.count}">1</td>
+									<td th:text="${product.productName}">Product Name</td>
+									<td th:text="${product.price}">Product Price</td>
+									<td><a
+										th:href="@{/admin/products/{id}(id=${product.productId})}"
+										class="btn btn-sm btn-default" th:text="#{button.info}"><i
+											class="fa fa-info"></i> Info</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /.List product with type PURE_COFFEE -->
+
+		<!-- List product with type FROM_COFFEE -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header">
+						<h3 class="box-title">FROM_COFFEE</h3>
+
+						<div class="box-tools pull-right">
+							<!-- Collapse Button -->
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<table id="dataTable2" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 10px">#</th>
+									<th th:text="#{label.product_name}">Name</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.action}">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="product,iterStat : ${resources.fromCoffeeList}">
+									<td th:text="${iterStat.count}">1</td>
+									<td th:text="${product.productName}">Product Name</td>
+									<td th:text="${product.price}">Product Price</td>
+									<td><a
+										th:href="@{/admin/products/{id}(id=${product.productId})}"
+										class="btn btn-sm btn-default" th:text="#{button.info}"><i
+											class="fa fa-info"></i> Info</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /.List product with type FROM_COFFEE -->
+
+		<!-- List product with type NON_COFFEE -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-info">
+					<div class="box-header">
+						<h3 class="box-title">NON_COFFEE</h3>
+
+						<div class="box-tools pull-right">
+							<!-- Collapse Button -->
+							<button type="button" class="btn btn-box-tool"
+								data-widget="collapse">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<table id="dataTable3" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 10px">#</th>
+									<th th:text="#{label.product_name}">Name</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.action}">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="product,iterStat : ${resources.nonCoffeeList}">
+									<td th:text="${iterStat.count}">1</td>
+									<td th:text="${product.productName}">Product Name</td>
+									<td th:text="${product.price}">Product Price</td>
+									<td><a
+										th:href="@{/admin/products/{id}(id=${product.productId})}"
+										class="btn btn-sm btn-default" th:text="#{button.info}"><i
+											class="fa fa-info"></i> Info</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /.List product with type NON_COFFEE -->
+
+	</div>
+
+	<th:block layout:fragment="script">
+		<script>
+			$(function() {
+				//Initialize DataTable Elements
+				$('#dataTable1').DataTable()
+				$('#dataTable2').DataTable()
+				$('#dataTable3').DataTable()
+			})
+		</script>
+	</th:block>
+
+</body>
+
+</html>

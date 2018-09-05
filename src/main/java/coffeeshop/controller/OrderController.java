@@ -279,12 +279,18 @@ public class OrderController {
 			// return 404 view
 			return "error";
 		}
-		// Order modelを作成
-		order.setStatus(OrderStatus.CANCELED);
-		// DBにを更新
-		orderService.updateOrder(order);
-		// return view
-		model.addAttribute("info", messageSource.getMessage("info.order.canceled", null, locale));
+		
+		if (!order.getStatus().equals(OrderStatus.ORDERED)) {
+			model.addAttribute("error", messageSource.getMessage("error.order.cancel.failded", null, locale));
+		}
+		else {
+			// Order modelを作成
+			order.setStatus(OrderStatus.CANCELED);
+			// DBにを更新
+			orderService.updateOrder(order);
+			// return view
+			model.addAttribute("info", messageSource.getMessage("info.order.canceled", null, locale));
+		}
 		OrderDetailResource resource = orderHelper.createOrderDetailResource(order);
 		model.addAttribute("order", resource);
 		return "big_store/order";

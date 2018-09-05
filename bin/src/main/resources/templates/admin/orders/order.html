@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/adminLayout}">
+
+<head>
+<title>Admin - Order</title>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<h1>
+			[[#{title.orders}]] <small th:text="#{title.info_order}">Info
+				Orders</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#" th:href="@{/admin}" th:text="#{title.home}"><i
+					class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="#" th:href="@{/admin/orders}"
+				th:text="#{title.orders}">Orders</a></li>
+			<li class="active" th:text="#{title.info_order}">Info</li>
+		</ol>
+		<div th:if="${info}"
+			class="col-md-3 alert alert-fix alert-info alert-dismissable alert-hide">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			<p>
+				<i class="icon fa fa-info"></i> <span th:text="${info}">Info</span>
+			</p>
+		</div>
+
+		<div class="message">
+			<div class="col-md-3 alert alert-fix alert-info alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-hidden="true">&times;</button>
+				<p>
+					<i class="icon fa fa-info"></i> <span id="showMessage"></span>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<div layout:fragment="content">
+		<!-- Order status -->
+		<div class="row" style="margin-bottom: unset;">
+			<div class="col-md-6">
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<h3 class="box-title" th:text="#{title.order_status}">Order
+							Status</h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div class="col-md-4">
+							<span id="orderStatus" class="label" th:text="${order.status}"></span>
+						</div>
+						<div class="col-md-8 align-items-center justify-content-center">
+							<button type="button" class="btn btn-sm btn-default"
+								data-toggle="modal" data-target="#modal-update-order-status"
+								th:text="#{button.update_order_status}">Update Status</button>
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+		</div>
+		<!-- /.Order status -->
+
+		<!-- Order info -->
+		<div class="row" style="margin-bottom: unset;">
+			<div class="col-md-6">
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<h3 class="box-title" th:text="#{title.info_customer}">Customer
+							info</h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<dl class="dl-horizontal">
+							<dt th:text="#{label.customer_name}">Customer Name</dt>
+							<dd th:text="${order.customerName}"></dd>
+
+							<dt th:text="#{label.phone_number}">Phone Number</dt>
+							<dd th:text="${order.customerPhone}"></dd>
+
+							<dt th:text="#{label.address}">Address</dt>
+							<dd th:text="${order.customerAddress}"></dd>
+
+							<dt th:text="#{label.note}">Note</dt>
+							<dd class="text-justify" th:text="${order.note}"></dd>
+						</dl>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+			<div class="col-md-6">
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<h3 class="box-title" th:text="#{title.info_order}">Order
+							info</h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<dl class="dl-horizontal">
+							<dt th:text="#{label.order_id}">Order Id</dt>
+							<dd th:text="${order.orderId}"></dd>
+
+							<dt th:text="#{label.created_at}">Created At</dt>
+							<dd
+								th:text="${#dates.format(order.createdAt, 'hh:mm a yy年M月dd日')}"></dd>
+
+							<dt th:text="#{label.updated_at}">Updated At</dt>
+							<dd
+								th:text="${#dates.format(order.updatedAt, 'hh:mm a yy年M月dd日')}"></dd>
+
+							<dt th:text="#{label.total}">Total</dt>
+							<dd th:text="${order.netPrice}"></dd>
+						</dl>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+		</div>
+		<!-- /.Order info -->
+
+		<!-- List product -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="box box-solid">
+					<div class="box-body">
+						<table id="productTable"
+							class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 10px">#</th>
+									<th th:text="#{label.product_name}">Product</th>
+									<th th:text="#{label.product_price}">Price</th>
+									<th th:text="#{label.quantity}">Quantity</th>
+									<th th:text="#{label.sub_total}">Subtotal</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="product,iterStat : ${order.orderProductList}">
+									<td th:text="${iterStat.count}">1</td>
+									<td th:text=${product.productName}>Product</td>
+									<td th:text=${product.price}>Price</td>
+									<td th:text=${product.quantity}>Product Quantity</td>
+									<td th:text=${product.quantity*product.price}>Subtotal</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- /.List product -->
+
+		<!-- Update status Modal content-->
+		<div class="modal fade" id="modal-update-order-status">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" th:text="#{title.update_order_status}">Update
+							Order Status</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box-body">
+							<form role="form" id="updateOrderStatusForm" th:method="patch"
+								enctype="multipart/form-data">
+								<input type="hidden" id="orderId" th:name="orderId"
+									th:value="${order.orderId}" />
+								<div class="form-group">
+									<label th:text="#{label.order_status}">Type</label> <select
+										th:name="status" th:value="${order.status}"
+										class="form-control select2" style="width: 100%;">
+										<option id="ordered" value="ORDERED">ORDERED</option>
+										<option id="shipping" value="SHIPPING">SHIPPING</option>
+										<option id="finished" value="FINISHED">FINISHED</option>
+										<option id="canceled" value="CANCELED">CANCELED</option>
+									</select>
+								</div>
+
+							</form>
+						</div>
+						<!-- /.box-body -->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default pull-left"
+							data-dismiss="modal" th:text="#{button.cancel}">Cancel</button>
+						<button type="button" id="btnUpdateOrderStatus"
+							class="btn btn-primary" form="updateOrderStatusForm"
+							th:text="#{button.save_change}">Save changes</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+
+	</div>
+	<th:block layout:fragment="script">
+		<script th:src="@{'/assets/custom/js/admin-order.js'}"></script>
+	</th:block>
+</body>
+
+</html>
