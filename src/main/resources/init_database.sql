@@ -103,6 +103,12 @@ BEFORE UPDATE ON product
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
 
+DROP TRIGGER IF EXISTS set_timestamp_customer ON customer_info;
+CREATE TRIGGER set_timestamp_customer
+BEFORE UPDATE ON customer_info
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
+
 DROP TRIGGER IF EXISTS set_timestamp_role ON role;
 CREATE TRIGGER set_timestamp_role
 BEFORE UPDATE ON role
