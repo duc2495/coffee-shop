@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coffeeshop.repository.OrderRepository">
+	<resultMap id="OrderResult" type="Order" autoMapping="true">
+		<id column="order_id" property="orderId" />
+		<collection property="orderProductList" resultMap="OrderProductResult"
+			autoMapping="true">
+		</collection>
+	</resultMap>
+
+	<resultMap id="OrderProductResult" type="OrderProduct"
+		autoMapping="true">
+		<association property="product" autoMapping="true"
+			resultMap="coffeeshop.repository.ProductRepository.ProductResult"></association>
+	</resultMap>
+
+
+	<select id="getAllOrder" resultMap="OrderResult">
+		SELECT *
+		FROM "order" inner
+		join order_product
+		ON "order".order_id = order_product.order_id
+		ORDER BY
+		"order".order_id
+	</select>
+
+	<select id="findOrderById" resultMap="OrderResult">
+		SELECT *
+		FROM
+		"order" inner
+		join order_product
+		ON "order".order_id =
+		order_product.order_id
+		WHERE
+		"order".order_id = #{id}
+	</select>
+
+	<select id="findOrderByPhone" resultMap="OrderResult">
+		SELECT *
+		FROM "order"
+		WHERE
+		customer_phone = #{customerPhone}
+	</select>
+
+	<select id="getAllActiveOrderHaveProduct" parameterType="Product"
+		resultMap="OrderResult">
+		SELECT *
+		FROM
+		(SELECT *
+		FROM
+		product INNER JOIN order_product
+		ON
+		product.product_id = order_product.product_id
+		WHERE
+		product.product_id =
+		#{productId})
+		AS tab1
+		INNER JOIN
+		(SELECT *
+		FROM "order"
+		WHERE status =
+		'ORDERED')
+		AS tab2
+		ON tab1.order_id = tab2.order_id
+	</select>
+
+	<!-- check order exist or not -->
+	<select id="hasOrder" resultType="boolean">
+		SELECT
+		CASE WHEN count(*) > 0
+		THEN TRUE
+		ELSE FALSE
+		END
+		FROM "order"
+		WHERE order_id = #{orderId}
+	</select>
+	
+	<select id="getNewOrderInTimeInterval" resultMap="OrderResult">
+		SELECT *
+		FROM
+		(SELECT *
+		FROM "order"
+		WHERE "order".created_at::date &gt;= #{dayFrom}
+		AND "order".created_at::date &lt;= #{dayTo}
+		) AS tab1
+		INNER JOIN order_product
+		AS tab2
+		ON tab1.order_id = tab2.order_id
+		ORDER BY tab1.order_id
+	</select>
+
+	<insert id="insertOrder" parameterType="Order" useGeneratedKeys="true"
+		keyProperty="order.orderId" keyColumn="order_id">
+		INSERT
+		INTO "order" (
+		net_price
+		,
+		status
+		, note
+		, customer_name
+		, customer_phone
+		, customer_address
+		)
+		VALUES(
+		#{order.netPrice}
+		, #{order.status}
+		, #{order.note}
+		,
+		#{order.customerName}
+		, #{order.customerPhone}
+		,
+		#{order.customerAddress}
+		)
+	</insert>
+
+	<insert id="insertOrderProduct" parameterType="map">
+		INSERT
+		INTO
+		order_product (
+		order_id
+		, product_id
+		, quantity
+		, product_name
+		,
+		product_type
+		, price
+		)
+		VALUES(
+		#{order.orderId}
+		,
+		#{orderProduct.product.productId}
+		, #{orderProduct.quantity}
+		,
+		#{orderProduct.product.productName}
+		,
+		#{orderProduct.product.productType}
+		, #{orderProduct.product.price}
+		)
+	</insert>
+
+	<update id="updateOrderStatus" parameterType="Order"
+		keyProperty="order.orderId" keyColumn="order_id">
+		UPDATE "order"
+		SET status =
+		#{status}
+		WHERE
+		order_id = #{orderId}
+	</update>
+
+	<update id="updateOrder" parameterType="Order" keyProperty="order.orderId"
+		keyColumn="order_id">
+		UPDATE "order"
+		SET status = #{status}
+		, note = #{note}
+		WHERE
+		order_id =
+		#{orderId}
+	</update>
+
+
+</mapper>

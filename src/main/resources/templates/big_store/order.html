@@ -24,6 +24,17 @@
 				</p>
 			</div>
 		</div>
+		<div th:if="${error}">
+			<div class="col-md-4"></div>
+			<div class="col-md-4"></div>
+			<div class="col-md-4 alert alert-danger alert-dismissable alert-hide">
+				<button type="button" class="close" data-dismiss="alert"
+					aria-hidden="true">&times;</button>
+				<p>
+					<i class="icon fa fa-info"></i> <span th:text="${error}">Info</span>
+				</p>
+			</div>
+		</div>
 		<div class="message">
 			<div class="col-md-3 alert alert-fix alert-info alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert"
@@ -37,7 +48,8 @@
 			<div>
 				<div class="container" th:fragment="content" id="content">
 					<!-- Order status -->
-					<h4 th:text=#{title.order_status}>Order Status</h4>
+					<h4 style="margin-bottom: 10px;" th:text=#{title.order_status}>Order
+						Status</h4>
 					<div class="row order-status"
 						style="margin-left: 0px; margin-right: 0px;">
 
@@ -90,7 +102,8 @@
 										<dd th:text="${order.customerAddress}"></dd>
 
 										<dt th:text="#{label.note}">Note</dt>
-										<dd id="orderNote" class="text-justify" th:text="${order.note}"></dd>
+										<dd id="orderNote" class="text-justify"
+											th:text="${order.note}"></dd>
 									</dl>
 								</div>
 								<!-- /.box-body -->
