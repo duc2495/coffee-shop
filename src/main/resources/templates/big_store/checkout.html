@@ -26,7 +26,8 @@
 								<th>全部</th>
 							</tr>
 						</thead>
-						<tr th:each="orderProduct,iterStat : ${orderProductDetailList}">
+						<tr
+							th:each="orderProduct,iterStat : ${orderResource.orderProductList}">
 							<td title="Product Name" th:text=${orderProduct.productName}>Product
 								Name</td>
 							<td title="Unit Price" th:text="${orderProduct.price}+@{円}">Product
@@ -49,7 +50,7 @@
 						<div
 							th:if="${#fields.hasErrors('${orderResource.orderProductList[__${count.index}__].quantity}')}">
 							<p
-								th:text="${orderProductDetailList[__${count.index}__].productName}"></p>
+								th:text="${orderResource.orderProductList[__${count.index}__].productName}"></p>
 							<p
 								th:errors="${orderResource.orderProductList[__${count.index}__].quantity}"
 								th:class="text-danger"></p>
@@ -59,53 +60,51 @@
 				<div class="col-md-6 body-box">
 					<form th:action=@{/order/submit_order} th:object="${orderResource}"
 						th:method="POST">
+						<div
+							th:each="orderProduct, stat : ${orderResource.orderProductList}">
+							<input th:type="@{hidden}"
+								th:name="|orderProductList[${stat.index}].productId|"
+								th:value="${orderProduct.productId}"> <input th:type="@{hidden}"
+								th:name="|orderProductList[${stat.index}].productName|"
+								th:value="${orderProduct.productName}"> <input th:type="@{hidden}"
+								th:name="|orderProductList[${stat.index}].quantity|"
+								th:value="${orderProduct.quantity}"> <input th:type="@{hidden}"
+								th:name="|orderProductList[${stat.index}].price|"
+								th:value="${orderProduct.price}">
+						</div>
 
-						<div>
-							<div th:each="orderProduct, count : ${orderProductDetailList}">
-								<input th:type="@{hidden}"
-									th:id="*{orderProductList[__${count.index}__].product.productId}"
-									th:name="*{orderProductList[__${count.index}__].product.productId}"
-									th:value="${orderProduct.productId}"> <input
-									th:type="@{hidden}"
-									th:id="*{orderProductList[__${count.index}__].quantity}"
-									th:name="*{orderProductList[__${count.index}__].quantity}"
-									th:value="${orderProduct.quantity}">
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('customerName')}? 'has-error'">
-								<input type="text" class="form-control" placeholder="名前"
-									th:field="*{customerName}"></input>
-								<p th:if="${#fields.hasErrors('customerName')}"
-									th:errors="*{customerName}" th:class="text-danger">Incorrect
-									data</p>
-							</div>
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('customerPhone')}? 'has-error'">
-								<input type="text" class="form-control" placeholder="電話番号"
-									th:field="*{customerPhone}"></input>
-								<p th:if="${#fields.hasErrors('customerPhone')}"
-									th:errors="*{customerPhone}" th:class="text-danger">Incorrect
-									data</p>
-							</div>
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('customerName')}? 'has-error'">
+							<input type="text" class="form-control" placeholder="名前"
+								th:field="*{customerName}"></input>
+							<p th:if="${#fields.hasErrors('customerName')}"
+								th:errors="*{customerName}" th:class="text-danger">Incorrect
+								data</p>
+						</div>
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('customerPhone')}? 'has-error'">
+							<input type="text" class="form-control" placeholder="電話番号"
+								th:field="*{customerPhone}"></input>
+							<p th:if="${#fields.hasErrors('customerPhone')}"
+								th:errors="*{customerPhone}" th:class="text-danger">Incorrect
+								data</p>
+						</div>
 
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('customerAddress')}? 'has-error'">
-								<input type="text" class="form-control" placeholder="住所"
-									th:field="*{customerAddress}"></input> <span
-									th:if="${#fields.hasErrors('customerAddress')}"
-									th:errors="*{customerAddress}" th:class="text-danger">Incorrect
-									data</span>
-							</div>
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('customerAddress')}? 'has-error'">
+							<input type="text" class="form-control" placeholder="住所"
+								th:field="*{customerAddress}"></input> <span
+								th:if="${#fields.hasErrors('customerAddress')}"
+								th:errors="*{customerAddress}" th:class="text-danger">Incorrect
+								data</span>
+						</div>
 
-							<div class="form-group"
-								th:classappend="${#fields.hasErrors('note')}? 'has-error'">
-								<textarea rows="5" class="form-control" placeholder="メーモ"
-									th:field="*{note}"></textarea>
-								<span th:if="${#fields.hasErrors('note')}"
-									th:errors="*{note}" th:class="text-danger">Incorrect
-									data</span>
-							</div>
-
+						<div class="form-group"
+							th:classappend="${#fields.hasErrors('note')}? 'has-error'">
+							<textarea rows="5" class="form-control" placeholder="メーモ"
+								th:field="*{note}"></textarea>
+							<span th:if="${#fields.hasErrors('note')}" th:errors="*{note}"
+								th:class="text-danger">Incorrect data</span>
 						</div>
 
 						<input class="btn btn-info btn-removeAll" style="float: right;"
@@ -113,48 +112,20 @@
 					</form>
 
 				</div>
-				<script>
-					$(document).on('click', ".btn-removeAll", function() {
-						ProductManager.clearProduct();
-						drawTable();
-						$cartBadge.text(ProductManager.getTotalQuantity());
-					});
 
-					function submit_order() {
-						var reqRow = [];
-						var products = JSON.parse(localStorage.products);
-						for (var i = 0; i < products.length; i++) {
-							var productId = products[i].id;
-							var quantity = products[i].quantity;
-							var entry = {
-								"productId" : productId,
-								"quantity" : quantity
-							}
-							reqRow.push(entry);
-						}
-
-						$.ajax({
-							type : "Post",
-							contentType : "application/json",
-							url : "/order",
-							data : JSON.stringify({
-								productList : reqRow
-							}),
-							success : function(result) {
-								// clear customer body
-								$("#content").html(result);
-							},
-							error : function(e) {
-								alert("Error!"), console.log("ERROR: ", e);
-							}
-						});
-						$('html, body').animate({
-							scrollTop : $('#content').offset().top
-						}, 1000);
-					}
-				</script>
 			</div>
 		</div>
 	</div>
+	<th:block layout:fragment="script">
+		<script>
+			$(document).ready(function() {
+				$(document).on('click', ".btn-removeAll", function() {
+					ProductManager.clearProduct();
+					drawTable();
+					$cartBadge.text(ProductManager.getTotalQuantity());
+				});
+			});
+		</script>
+	</th:block>
 </body>
 </html>

@@ -72,6 +72,7 @@
 												<th th:text="#{label.product_name}">Name</th>
 												<th th:text="#{label.product_type}">Type</th>
 												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.product_description}">Description</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -81,6 +82,7 @@
 												<td th:text="${product.productName}">Product Name</td>
 												<td th:text="${product.productType}">Product Type</td>
 												<td th:text="${product.price}">Product Price</td>
+												<td th:text="${product.description}" class="description">Description</td>
 												<td><a
 													th:href="@{/admin/products/{id}(id=${product.productId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -109,6 +111,7 @@
 												<th style="width: 10px">#</th>
 												<th th:text="#{label.product_name}">Name</th>
 												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.product_description}">Description</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -117,6 +120,7 @@
 												<td th:text="${iterStat.count}">1</td>
 												<td th:text="${product.productName}">Product Name</td>
 												<td th:text="${product.price}">Product Price</td>
+												<td th:text="${product.description}" class="description">Description</td>
 												<td><a
 													th:href="@{/admin/products/{id}(id=${product.productId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -145,6 +149,7 @@
 												<th style="width: 10px">#</th>
 												<th th:text="#{label.product_name}">Name</th>
 												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.product_description}">Description</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -153,6 +158,7 @@
 												<td th:text="${iterStat.count}">1</td>
 												<td th:text="${product.productName}">Product Name</td>
 												<td th:text="${product.price}">Product Price</td>
+												<td th:text="${product.description}" class="description">Description</td>
 												<td><a
 													th:href="@{/admin/products/{id}(id=${product.productId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i
@@ -181,6 +187,7 @@
 												<th style="width: 10px">#</th>
 												<th th:text="#{label.product_name}">Name</th>
 												<th th:text="#{label.product_price}">Price</th>
+												<th th:text="#{label.product_description}">Description</th>
 												<th th:text="#{label.action}">Action</th>
 											</tr>
 										</thead>
@@ -189,6 +196,7 @@
 												<td th:text="${iterStat.count}">1</td>
 												<td th:text="${product.productName}">Product Name</td>
 												<td th:text="${product.price}">Product Price</td>
+												<td th:text="${product.description}" class="description">Description</td>
 												<td><a
 													th:href="@{/admin/products/{id}(id=${product.productId})}"
 													class="btn btn-sm btn-default" th:text="#{button.info}"><i

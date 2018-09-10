@@ -84,4 +84,8 @@ public class ProductHelper {
 	public OrderProductDetailResource createOrderProductDetailResource(Product model){
 		return modelMapper.map(model, OrderProductDetailResource.class);
 	}
+	
+	public Product createProductModel(OrderProductDetailResource resource){
+		return modelMapper.map(resource, Product.class);
+	}
 }

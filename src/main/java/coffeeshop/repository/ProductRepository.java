@@ -18,6 +18,8 @@ public interface ProductRepository {
     public int insertProduct(Product product);
 
     public boolean hasProduct(@Param("productId") Integer productId);
+    
+    public int countProducts(@Param("productList") List<Product> productList);
 
     public void updateProductInfo(Product product);
     
