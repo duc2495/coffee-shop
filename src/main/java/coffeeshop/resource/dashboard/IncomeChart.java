@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lombok.Data;
+
+@Data
 public class IncomeChart {
 	private String date;
 	private int value;
@@ -22,21 +25,4 @@ public class IncomeChart {
 		this.date = date;
 		this.value = value;
 	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public int getValue() {
-		return value;
-	}
-
-	public void setValue(int value) {
-		this.value = value;
-	}
-
 }
