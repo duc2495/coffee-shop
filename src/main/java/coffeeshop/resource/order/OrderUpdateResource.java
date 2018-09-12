@@ -4,7 +4,7 @@ import coffeeshop.model.order.OrderStatus;
 import lombok.Data;
 
 @Data
-public class AdminOrderUpdateResource {
+public class OrderUpdateResource {
 	private Integer orderId;
 	private OrderStatus status;
 	private String note;

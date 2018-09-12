@@ -47,7 +47,6 @@
 			ON product.product_id = order_product.product_id
 			WHERE product.product_id = #{productId}
 			) AS tab1
-			
 			INNER JOIN (	
 			SELECT *
 			FROM "order"
@@ -72,13 +71,19 @@
 			SELECT *
 			FROM "order"
 			WHERE "order".created_at::date &gt;= #{dayFrom}
-			AND "order".created_at::date &lt;= #{dayTo}
-			) AS tab1
-			
+			AND "order".created_at::date &lt;= #{dayTo}) 
+			AS tab1
 			INNER JOIN order_product
 			AS tab2
 		ON tab1.order_id = tab2.order_id
 		ORDER BY tab1.order_id
+	</select>
+	
+	<select id="getNewOrders" resultMap="OrderResult">
+		SELECT *
+		FROM "order" 
+		ORDER BY created_at DESC
+		LIMIT 10
 	</select>
 
 	<insert id="insertOrder" parameterType="Order" useGeneratedKeys="true"

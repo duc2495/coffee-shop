@@ -1,4 +1,4 @@
-package coffeeshop.resource.dashboard;
+package coffeeshop.model.dashboard;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

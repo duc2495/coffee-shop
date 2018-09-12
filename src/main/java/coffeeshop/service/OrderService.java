@@ -45,4 +45,6 @@ public interface OrderService {
 	public boolean checkIfProductIsInActiveOrder(Product product);
 	
 	public List<Order> getNewOrderInTimeInterval(Date timeFrom, Date timeTo);
+	
+	public List<Order> getNewOrders();
 }

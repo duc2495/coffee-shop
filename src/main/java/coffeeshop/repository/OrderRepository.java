@@ -37,4 +37,5 @@ public interface OrderRepository {
 
 	public List<Order> getNewOrderInTimeInterval(@Param("dayFrom") Date dayFrom, @Param("dayTo") Date dayTo);
 
+	public List<Order> getNewOrders();
 }

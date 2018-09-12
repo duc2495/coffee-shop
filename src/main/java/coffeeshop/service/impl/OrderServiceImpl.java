@@ -14,27 +14,14 @@ import coffeeshop.repository.OrderRepository;
 import coffeeshop.service.OrderService;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see coffeeshop.service.OrderService#getAllOrder()
-	 */
-	@Override
 	public List<Order> getAllOrder() {
 		return orderRepository.getAllOrder();
-	}
-
-	@Transactional(readOnly = false)
-	public int insertOrder(Order order) {
-		orderRepository.insertOrder(order);
-		orderRepository.insertOrderProductList(order.getOrderId(), order.getOrderProductList());
-		return order.getOrderId();
 	}
 
 	public Order findOrderById(Integer id) {
@@ -42,37 +29,16 @@ public class OrderServiceImpl implements OrderService {
 		return order;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * coffeeshop.service.OrderService#updateOrder(coffeeshop.model.order.Order)
-	 */
-	@Override
-	public void updateOrder(Order order) {
-		orderRepository.updateOrder(order);
-	}
-
-	@Override
 	public boolean hasOrder(Integer orderId) {
 		return orderRepository.hasOrder(orderId);
 	}
 
-	@Override
-	public void updateOrderStatus(Order order) {
-		orderRepository.updateOrderStatus(order);
-	}
-
-	@Override
 	public boolean checkIfProductIsInActiveOrder(Product product) {
 
 		return !orderRepository.getAllActiveOrderHaveProduct(product).isEmpty();
 	}
 
-	@Override
-	@Transactional(readOnly = true)
 	public List<Order> getNewOrderInTimeInterval(Date timeFrom, Date timeTo) {
-		System.out.println(timeTo);
 		return orderRepository.getNewOrderInTimeInterval(timeFrom, timeTo);
 	}
 
@@ -83,8 +49,27 @@ public class OrderServiceImpl implements OrderService {
 			public boolean test(Order t) {
 				return t.getStatus().equals(status);
 			}
-
 		}).collect(Collectors.toList()).size();
 	}
 
+	public List<Order> getNewOrders() {
+		return orderRepository.getNewOrders();
+	}
+
+	@Transactional(readOnly = false)
+	public int insertOrder(Order order) {
+		orderRepository.insertOrder(order);
+		orderRepository.insertOrderProductList(order.getOrderId(), order.getOrderProductList());
+		return order.getOrderId();
+	}
+
+	@Transactional(readOnly = false)
+	public void updateOrder(Order order) {
+		orderRepository.updateOrder(order);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateOrderStatus(Order order) {
+		orderRepository.updateOrderStatus(order);
+	}
 }
