@@ -204,7 +204,7 @@ public class DashboardServiceImpl implements DashboardService {
 
 		Integer bestProductId = map.entrySet().stream()
 				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
-		Product product = productService.getProductDetail(bestProductId);
+		Product product = productService.getProductById(bestProductId);
 		BestProductResource bestProductResource = new BestProductResource();
 		bestProductResource.setProductId(product.getProductId());
 		bestProductResource.setProductName(product.getProductName());
