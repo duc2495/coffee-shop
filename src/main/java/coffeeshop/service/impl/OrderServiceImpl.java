@@ -7,48 +7,18 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import coffeeshop.helper.OrderHelper;
 import coffeeshop.model.order.Order;
-import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.model.product.Product;
 import coffeeshop.repository.OrderRepository;
-import coffeeshop.resource.order.OrderProductResource;
-import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
-import coffeeshop.service.product.ProductService;
 
-/**
- * @author hoang
- * 
- */
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderRepository orderRepository;
-
-	@Autowired
-	private OrderHelper orderHelper;
-
-	@Autowired
-	private ProductService productService;
-
-	public Integer insertOrder(Order order) {
-		return orderRepository.insertOrder(order);
-
-	}
-
-	/**
-	 * データベースにオーダープロダクトを追加
-	 * 
-	 * @param order
-	 * @param orderProduct
-	 */
-	public void insertOrderProduct(Order order, OrderProduct orderProduct) {
-		orderRepository.insertOrderProduct(order, orderProduct);
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -60,30 +30,10 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.getAllOrder();
 	}
 
-
-	@Override
-	public List<OrderProduct> getAllOrderProduct(Order order) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
 	@Transactional(readOnly = false)
-	public int insertOrder(OrderResource orderResource) {
-		Order order = orderHelper.createOrderModel(orderResource);
-		order.setStatus(OrderStatus.ORDERED);
-		int total_check = 0;
-		for (OrderProductResource opdr : orderResource.getOrderProductList()) {
-			total_check += opdr.getQuantity()
-					* (productService.getProductDetail(opdr.getProduct().getProductId()).getPrice());
-		}
-		order.setNetPrice(total_check);
-		this.insertOrder(order);
-		for (OrderProduct orderProduct : order.getOrderProductList()) {
-			orderProduct.setProduct(productService.getProductDetail(orderProduct.getProduct().getProductId()));
-			insertOrderProduct(order, orderProduct);
-		}
+	public int insertOrder(Order order) {
+		orderRepository.insertOrder(order);
+		orderRepository.insertOrderProductList(order.getOrderId(), order.getOrderProductList());
 		return order.getOrderId();
 	}
 

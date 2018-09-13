@@ -90,7 +90,7 @@ public class AdminProductController extends BaseController {
 
 	@GetMapping("/{productId}")
 	public String getProduct(@PathVariable("productId") Integer productId, Model model) {
-		Product product = productService.getProductDetail(productId);
+		Product product = productService.getProductById(productId);
 		if (product == null) {
 			// return 404 view
 			return "error";
@@ -169,7 +169,7 @@ public class AdminProductController extends BaseController {
 	 */
 	@GetMapping("/{productId}/update")
 	public String updateProductForm(@PathVariable("productId") Integer productId, Model model) {
-		Product product = productService.getProductDetail(productId);
+		Product product = productService.getProductById(productId);
 		if (product == null) {
 			// return 404 view
 			return "error";
@@ -228,7 +228,7 @@ public class AdminProductController extends BaseController {
 			// return forbidden view
 			return "403";
 		}
-		Product product = productService.getProductDetail(productId);
+		Product product = productService.getProductById(productId);
 		if(orderService.checkIfProductIsInActiveOrder(product)){
 			ProductDetailResource resource = productHelper.createProductDetailResource(product);
 			model.addAttribute("info", messageSource.getMessage("error.delete.product", null, locale));

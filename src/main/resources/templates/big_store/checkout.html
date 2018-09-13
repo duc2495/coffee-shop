@@ -113,21 +113,19 @@
 					</form>
 
 				</div>
-				<script>
-					$(document).on('click', ".btn-removeAll", function() {
-						ProductManager.clearProduct();
-						drawTable();
-						$cartBadge.text(ProductManager.getTotalQuantity());
-					});
-
+				<!-- <script>
 					function submit_order() {
 						var reqRow = [];
 						var products = JSON.parse(localStorage.products);
 						for (var i = 0; i < products.length; i++) {
 							var productId = products[i].id;
 							var quantity = products[i].quantity;
+							var productName = products[i].name;
+							var price = products[i].price;
 							var entry = {
 								"productId" : productId,
+								"productName": productName,
+								"price": price,
 								"quantity" : quantity
 							}
 							reqRow.push(entry);
@@ -152,7 +150,7 @@
 							scrollTop : $('#content').offset().top
 						}, 1000);
 					}
-				</script>
+				</script> -->
 			</div>
 		</div>
 	</div>

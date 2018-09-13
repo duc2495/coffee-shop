@@ -25,7 +25,7 @@ public interface OrderRepository {
 
 	public Integer insertOrder(@Param("order") Order order);
 
-	public Integer insertOrderProduct(@Param("order") Order order, @Param("orderProduct") OrderProduct orderProduct);
+	public void insertOrderProductList(@Param("orderId") Integer orderId, @Param("orderProductList") List<OrderProduct> orderProductList);
 
 	public void updateOrder(Order order);
 

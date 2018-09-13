@@ -33,8 +33,12 @@ function submit() {
 	for (var i = 0; i < products.length; i++) {
 		var productId = products[i].id;
 		var quantity = products[i].quantity;
+		var productName = products[i].name;
+		var price = products[i].price;
 		var product = {
-			"productId" : productId
+			"productId" : productId,
+			"productName": productName,
+			"price": price
 		}
 		var entry = {
 			"product" : product,
@@ -62,7 +66,9 @@ function submit() {
 			window.location.href = "/order/submit_order";
 		},
 		error : function(e) {
-			alert("Error!"), console.log("ERROR: ", e);
+			alert(e.responseText), console.log("ERROR: ", e);
+			localStorage.products = JSON.stringify([]);
+			window.location.href = "/";
 		}
 	});
 	$('html, body').animate({
