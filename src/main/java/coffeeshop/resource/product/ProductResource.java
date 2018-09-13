@@ -10,4 +10,17 @@ public class ProductResource {
 	private ProductType productType;
 	private Integer price;
 	private String description;
+	
+	public boolean equals(Object o) {
+		if(o instanceof ProductResource) {
+			boolean result = ((ProductResource) o).getProductName().equals(this.productName)
+					&& ((ProductResource) o).getPrice().equals(this.price);
+			return result;
+		}
+		return false;
+	}
+	
+	public int hashCode() {
+		return this.productId;
+	}
 }

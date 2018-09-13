@@ -36,7 +36,7 @@ public class ProductService {
 	 * @param productId
 	 * @return
 	 */
-	public Product getProductDetail(Integer productId) {
+	public Product getProductById(Integer productId) {
 		return productRepository.getProductById(productId);
 	}
 

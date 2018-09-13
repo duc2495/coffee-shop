@@ -26,11 +26,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
 import coffeeshop.helper.OrderHelper;
 import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
+import coffeeshop.model.product.Product;
 import coffeeshop.resource.ListResource;
 import coffeeshop.resource.order.AdminOrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
@@ -69,6 +72,39 @@ public class OrderController {
 		return new OrderResource();
 	}
 
+	@PostMapping("")
+	public ResponseEntity<String> receiveOrder(
+			@ModelAttribute("orderResource") OrderResource orderResource,
+			@Valid @RequestBody ListResource<OrderProductResource> data, 
+			BindingResult result, 
+			Model model,
+			Locale locale) throws ParseException {
+		
+		// Serve checkout page
+		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
+		int total_check = 0;
+		for (OrderProductResource p : data.getProductList()) {
+			Product productModel = productService.getProductById(p.getProduct().getProductId());
+			if (productModel == null) {
+				return new ResponseEntity<String>(messageSource.getMessage("error.product.NotExist",
+						new Object[] { p.getProduct().getProductName() }, locale), HttpStatus.BAD_REQUEST);
+			}
+			if (!p.getProduct().equals(productHelper.createProductResource(productModel))) {
+				return new ResponseEntity<String>(messageSource.getMessage("error.product.Changed",
+						new Object[] { p.getProduct().getProductName() }, locale), HttpStatus.BAD_REQUEST);
+			}
+			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(productModel);
+			pd.setQuantity(p.getQuantity());
+			total_check += pd.getQuantity() * pd.getPrice();
+			productList.add(pd);
+		}
+		orderResource.setOrderProductList(data.getProductList());
+		model.addAttribute("orderResource", orderResource);
+		model.addAttribute("orderProductDetailList", productList);
+		model.addAttribute("total_check", total_check);
+		return new ResponseEntity<String>("Success!", HttpStatus.OK);
+	}
+
 	/**
 	 * クライアントからお客の情報がない発注を受ける方法
 	 * 
@@ -82,7 +118,7 @@ public class OrderController {
 		int total_check = 0;
 		for (OrderProductResource p : orderResource.getOrderProductList()) {
 			OrderProductDetailResource pd = productHelper
-					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
+					.createOrderProductDetailResource(productService.getProductById(p.getProduct().getProductId()));
 			pd.setQuantity(p.getQuantity());
 			total_check += pd.getQuantity() * pd.getPrice();
 			productList.add(pd);
@@ -94,6 +130,73 @@ public class OrderController {
 		return "big_store/checkout";
 	}
 
+	/**
+	 * クライアントから完成オーダーリクエストを受ける方法 Save order to db, if errors occur, display the
+	 * error to user.
+	 * 
+	 * @param orderResource
+	 * @param result
+	 * @param redirectAttributes
+	 * @param model
+	 * @param locale
+	 * @return もし入力したデータにミスがない場合、オーダー情報を表示うるページを送ります 逆に元の所に戻って、エラーを表示儀ます。
+	 * @throws ParseException
+	 */
+	@PostMapping("/submit_order")
+	public String receiveListOrderProduct(@Valid @ModelAttribute("orderResource") OrderResource orderResource,
+			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale)
+			throws ParseException {
+		// Serves at order detail page
+		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
+		// To save to DB
+		List<OrderProduct> orderProductList = new LinkedList<OrderProduct>();
+
+		int total_check = 0;
+		for (OrderProductResource p : orderResource.getOrderProductList()) {
+			Product productModel = productService.getProductById(p.getProduct().getProductId());
+			// check input data(OrderProductDetailResource) with database(Product)
+			if (productModel == null) {
+				model.addAttribute("message", messageSource.getMessage("error.product.NotExist",
+						new Object[] { p.getProduct().getProductName() }, locale));
+				return "big_store/popup";
+			}
+			if (!p.getProduct().equals(productHelper.createProductResource(productModel))) {
+				model.addAttribute("message", messageSource.getMessage("error.product.Changed",
+						new Object[] { p.getProduct().getProductName() }, locale));
+				return "big_store/popup";
+			}
+			OrderProductDetailResource pd = productHelper.createOrderProductDetailResource(productModel);
+			pd.setQuantity(p.getQuantity());
+			total_check += pd.getQuantity() * pd.getPrice();
+			productList.add(pd);
+			orderProductList.add(orderHelper.createOrderProductModel(pd));
+		}
+		model.addAttribute("orderResource", orderResource);
+		model.addAttribute("orderProductDetailList", productList);
+		model.addAttribute("total_check", total_check);
+		if (result.hasErrors()) {
+			return "big_store/checkout";
+		}
+
+		// 注文modelを作成
+		Order order = orderHelper.createOrderModel(orderResource);
+		order.setOrderProductList(orderProductList);
+		order.setStatus(OrderStatus.ORDERED);
+		order.setNetPrice(total_check);
+
+		// DBにインサート
+		int orderId = orderService.insertOrder(order);
+
+		// return order detail view
+		OrderRequestResource orderRequest = new OrderRequestResource();
+		orderRequest.setOrderId(orderId);
+		orderRequest.setCustomerPhone(order.getCustomerPhone());
+		redirectAttributes.addFlashAttribute("orderRequestResource", orderRequest);
+		redirectAttributes.addFlashAttribute("info",
+				messageSource.getMessage("info.order.success", new Object[] { order.getOrderId() }, locale));
+		return "redirect:/order/order_detail";
+	}
+	
 	/**
 	 * オーダーを探すフォームページを取る方法
 	 * 
@@ -155,81 +258,7 @@ public class OrderController {
 		return "big_store/order";
 	}
 
-	/**
-	 * クライアントから完成オーダーリクエストを受ける方法
-	 * 
-	 * @param orderResource
-	 * @param result
-	 * @param redirectAttributes
-	 * @param model
-	 * @param locale
-	 * @return もし入力したデータにミスがない場合、オーダー情報を表示うるページを送ります 逆に元の所に戻って、エラーを表示儀ます。
-	 * @throws ParseException
-	 */
-	@PostMapping("/submit_order")
-	public String receiveListOrderProduct(@Valid @ModelAttribute("orderResource") OrderResource orderResource,
-			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale)
-			throws ParseException {
-
-		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
-		List<OrderProduct> orderProductList = new LinkedList<OrderProduct>();
-		int total_check = 0;
-		for (OrderProductResource p : orderResource.getOrderProductList()) {
-			OrderProductDetailResource pd = productHelper
-					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
-			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getPrice();
-			// check input data(OrderProductDetailResource) with database(Product)
-			//TODO
-			productList.add(pd);
-			orderProductList.add(orderHelper.createOrderProductModel(pd));
-		}
-		model.addAttribute("orderResource", orderResource);
-		model.addAttribute("orderProductDetailList", productList);
-		model.addAttribute("total_check", total_check);
-		if (result.hasErrors()) {
-			return "big_store/checkout";
-		}
-		
-		// 注文modelを作成
-		Order order = orderHelper.createOrderModel(orderResource);
-		order.setOrderProductList(orderProductList);
-		order.setStatus(OrderStatus.ORDERED);
-		order.setNetPrice(total_check);
-		
-		// DBにインサート
-		int orderId = orderService.insertOrder(order);
-		
-		// return order detail view
-		OrderRequestResource orderRequest = new OrderRequestResource();
-		orderRequest.setOrderId(orderId);
-		orderRequest.setCustomerPhone(order.getCustomerPhone());
-		redirectAttributes.addFlashAttribute("orderRequestResource", orderRequest);
-		redirectAttributes.addFlashAttribute("info",
-				messageSource.getMessage("info.order.success", new Object[] { order.getOrderId() }, locale));
-		return "redirect:/order/order_detail";
-	}
-
-	@PostMapping("")
-	public String receiveOrder(@ModelAttribute("orderResource") OrderResource orderResource,
-			@Valid @RequestBody ListResource<coffeeshop.resource.order.OrderProductResource> data, BindingResult result,
-			Model model) throws ParseException {
-		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
-		int total_check = 0;
-		for (OrderProductResource p : data.getProductList()) {
-			OrderProductDetailResource pd = productHelper
-					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
-			pd.setQuantity(p.getQuantity());
-			total_check += pd.getQuantity() * pd.getPrice();
-			productList.add(pd);
-		}
-
-		orderResource.setOrderProductList(data.getProductList());
-		model.addAttribute("orderResource", orderResource);
-		model.addAttribute("orderProductDetailList", productList);
-		model.addAttribute("total_check", total_check);
-		return "big_store/checkout";
-	}
+	
 
 	@PatchMapping("/update_order")
 	public String udpateNote(@ModelAttribute("order") OrderDetailResource orderDetailResource, Model model,
@@ -269,7 +298,7 @@ public class OrderController {
 
 		// 注文modelを作成
 		Order order = orderService.findOrderById(resource.getOrderId());
-		if (resource.getNote().length()>500) {
+		if (resource.getNote().length() > 500) {
 			return new ResponseEntity<>("メモは500文字未満でなければなりません", HttpStatus.BAD_REQUEST);
 		}
 		order.setNote(resource.getNote());
@@ -291,11 +320,10 @@ public class OrderController {
 			// return 404 view
 			return "error";
 		}
-		
+
 		if (!order.getStatus().equals(OrderStatus.ORDERED)) {
 			model.addAttribute("error", messageSource.getMessage("error.order.cancel.failded", null, locale));
-		}
-		else {
+		} else {
 			// Order modelを作成
 			order.setStatus(OrderStatus.CANCELED);
 			// DBにを更新
