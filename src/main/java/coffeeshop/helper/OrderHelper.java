@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
+import coffeeshop.model.product.Product;
 import coffeeshop.resource.order.AdminOrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
 import coffeeshop.resource.order.OrderListResource;
@@ -44,6 +45,14 @@ public class OrderHelper {
 	public OrderProduct createOrderProductModel(OrderProductResource resource) {
 		// 商品情報をマッピング
 		return modelMapper.map(resource, OrderProduct.class);
+	}
+
+	public OrderProduct createOrderProductModel(OrderProductDetailResource resource) {
+		OrderProduct orderProduct = modelMapper.map(resource, OrderProduct.class);
+		Product product = new Product();
+		product.setProductId(resource.getProductId());
+		orderProduct.setProduct(product);
+		return orderProduct;
 	}
 
 	public OrderProductDetailResource createOrderProductDetailResource(OrderProduct model) {

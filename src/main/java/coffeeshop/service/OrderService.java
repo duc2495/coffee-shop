@@ -4,9 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import coffeeshop.model.order.Order;
-import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.product.Product;
-import coffeeshop.resource.order.OrderResource;
 
 /**
  * @author hoang
@@ -19,7 +17,7 @@ public interface OrderService {
 	 * @param orderResource　オーダーリソース
 	 * @return　新オーダーのID
 	 */
-	public int insertOrder(OrderResource orderResource);
+	public int insertOrder(Order order);
 	
 	/**
 	 * IDでオーダーを検索
@@ -33,8 +31,6 @@ public interface OrderService {
 	 * @return　すべてのオーダー
 	 */
 	public List<Order> getAllOrder();
-	
-	public List<OrderProduct> getAllOrderProduct(Order order);
 	
 	/**
 	 * オーダーを変更するサービス

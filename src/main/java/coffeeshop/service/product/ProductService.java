@@ -129,5 +129,8 @@ public class ProductService {
 	public List<Product> getNewProductInTimeInterval(Date dayFrom, Date dayTo) {
 		return productRepository.getNewProductInTimeInterval(dayFrom, dayTo);
 	}
-
+	
+	public int countProducts(List<Product> productList) {
+		return productRepository.countProducts(productList);
+	}
 }

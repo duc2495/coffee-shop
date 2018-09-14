@@ -29,7 +29,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import coffeeshop.helper.OrderHelper;
 import coffeeshop.helper.ProductHelper;
 import coffeeshop.model.order.Order;
+import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
+import coffeeshop.model.product.Product;
 import coffeeshop.resource.ListResource;
 import coffeeshop.resource.order.AdminOrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
@@ -77,18 +79,12 @@ public class OrderController {
 	 */
 	@GetMapping("/submit_order")
 	public String orderFormPage(@ModelAttribute("orderResource") OrderResource orderResource, Model model) {
-		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
 		int total_check = 0;
-		for (OrderProductResource p : orderResource.getOrderProductList()) {
-			OrderProductDetailResource pd = productHelper
-					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
-			pd.setQuantity(p.getQuantity());
+		for (OrderProductDetailResource pd : orderResource.getOrderProductList()) {
 			total_check += pd.getQuantity() * pd.getPrice();
-			productList.add(pd);
 		}
-
 		model.addAttribute("orderResource", orderResource);
-		model.addAttribute("orderProductDetailList", productList);
+		model.addAttribute("orderProductDetailList", orderResource.getOrderProductList());
 		model.addAttribute("total_check", total_check);
 		return "big_store/checkout";
 	}
@@ -170,29 +166,40 @@ public class OrderController {
 			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale)
 			throws ParseException {
 
-		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
+		List<OrderProduct> orderProductList = new LinkedList<OrderProduct>();
+		List<Product> productListModel = new LinkedList<Product>();
 		int total_check = 0;
-		for (OrderProductResource p : orderResource.getOrderProductList()) {
-			OrderProductDetailResource pd = productHelper
-					.createOrderProductDetailResource(productService.getProductDetail(p.getProduct().getProductId()));
-			pd.setQuantity(p.getQuantity());
+		for (OrderProductDetailResource pd : orderResource.getOrderProductList()) {
 			total_check += pd.getQuantity() * pd.getPrice();
-			productList.add(pd);
+			orderProductList.add(orderHelper.createOrderProductModel(pd));
+			productListModel.add(productHelper.createProductModel(pd));
 		}
+		// check input data(OrderProductDetailResource) with database(Product)
+		if(productService.countProducts(productListModel) != productListModel.size()) {
+			redirectAttributes.addFlashAttribute("error", messageSource.getMessage("error.product.not_match", null, locale));
+			return "redirect:/";
+		}
+		
 		model.addAttribute("orderResource", orderResource);
-		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);
 		if (result.hasErrors()) {
 			return "big_store/checkout";
 		}
-		// add order to db
-		System.out.println(orderResource.getOrderProductList().size());
-		int id = orderService.insertOrder(orderResource);
-		Order order = orderService.findOrderById(id);
-		OrderRequestResource orr = new OrderRequestResource();
-		orr.setCustomerPhone(order.getCustomerPhone());
-		orr.setOrderId(order.getOrderId());
-		redirectAttributes.addFlashAttribute("orderRequestResource", orr);
+		
+		// 注文modelを作成
+		Order order = orderHelper.createOrderModel(orderResource);
+		order.setOrderProductList(orderProductList);
+		order.setStatus(OrderStatus.ORDERED);
+		order.setNetPrice(total_check);
+		
+		// DBにインサート
+		int orderId = orderService.insertOrder(order);
+		
+		// return order detail view
+		OrderRequestResource orderRequest = new OrderRequestResource();
+		orderRequest.setOrderId(orderId);
+		orderRequest.setCustomerPhone(order.getCustomerPhone());
+		redirectAttributes.addFlashAttribute("orderRequestResource", orderRequest);
 		redirectAttributes.addFlashAttribute("info",
 				messageSource.getMessage("info.order.success", new Object[] { order.getOrderId() }, locale));
 		return "redirect:/order/order_detail";
@@ -212,9 +219,8 @@ public class OrderController {
 			productList.add(pd);
 		}
 
-		orderResource.setOrderProductList(data.getProductList());
+		orderResource.setOrderProductList(productList);
 		model.addAttribute("orderResource", orderResource);
-		model.addAttribute("orderProductDetailList", productList);
 		model.addAttribute("total_check", total_check);
 		return "big_store/checkout";
 	}
