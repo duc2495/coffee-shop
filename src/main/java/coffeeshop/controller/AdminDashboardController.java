@@ -21,7 +21,10 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import coffeeshop.helper.DashboardHelper;
+import coffeeshop.model.dashboard.Dashboard;
 import coffeeshop.resource.dashboard.DashboardResource;
+import coffeeshop.resource.product.BestProductResource;
 import coffeeshop.service.DashboardService;
 
 @Controller
@@ -33,11 +36,14 @@ public class AdminDashboardController {
 
 	@Autowired
 	private DashboardService dashboardService;
+	
+	@Autowired
+	private DashboardHelper dashboardHelper;
 
 	@GetMapping(path = { "", "/dashboard" })
 	public String getDashboard(Model model) {
-		model.addAttribute("latestOrders", dashboardService.getTopTenLastestOrder());
-		model.addAttribute("latestProducts", dashboardService.getTopTenLastestProduct());
+		model.addAttribute("latestOrders", dashboardService.getNewOrders());
+		model.addAttribute("latestProducts", dashboardService.getNewProducts());
 		return "admin/dashboard/dashboard";
 	}
 	
@@ -59,8 +65,13 @@ public class AdminDashboardController {
 			} else {
 				dayTo = df.parse(df.format(new Date()));
 			}
+			
+			Dashboard dashboard = dashboardService.getDashboard(dayFrom, dayTo);
 
-			DashboardResource resource = dashboardService.getDashboardResource(dayFrom, dayTo);
+			DashboardResource resource = dashboardHelper.createDashboardResource(dashboard);
+			if (resource.getBestProduct() == null) {
+				resource.setBestProduct(new BestProductResource());
+			}
 
 			String jsonString = gson.toJson(resource);
 			try {
@@ -80,9 +91,7 @@ public class AdminDashboardController {
 
 	@GetMapping("/latestOrder")
 	public String getLatestOrders(Model model) {
-		System.out.println("refresh");
-		model.addAttribute("latestOrders", dashboardService.getTopTenLastestOrder());
+		model.addAttribute("latestOrders", dashboardService.getNewOrders());
 		return "admin/dashboard/latestOrders::latestOrders";
-		
 	}
 }

@@ -30,5 +30,6 @@ public interface ProductRepository {
     public List<Product> searchByKeyWord(@Param("keyWord") String keyWord);
 
     public List<Product> getNewProductInTimeInterval(@Param("dayFrom") Date dayFrom, @Param("dayTo") Date dayTo);
-
+    
+    public List<Product> getNewProducts();
 }

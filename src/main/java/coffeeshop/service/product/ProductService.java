@@ -133,4 +133,8 @@ public class ProductService {
 	public int countProducts(List<Product> productList) {
 		return productRepository.countProducts(productList);
 	}
+	
+	public List<Product> getNewProducts() {
+		return productRepository.getNewProducts();
+	}
 }

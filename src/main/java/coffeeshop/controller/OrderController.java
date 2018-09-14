@@ -33,12 +33,12 @@ import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.model.product.Product;
 import coffeeshop.resource.ListResource;
-import coffeeshop.resource.order.AdminOrderUpdateResource;
+import coffeeshop.resource.order.OrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
 import coffeeshop.resource.order.OrderProductDetailResource;
 import coffeeshop.resource.order.OrderProductResource;
+import coffeeshop.resource.order.OrderProductRequestResource;
 import coffeeshop.resource.order.OrderRequestResource;
-import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
 import coffeeshop.service.product.ProductService;
 
@@ -66,8 +66,8 @@ public class OrderController {
 	 * @return セッションスコープのビーンのモデルアトリビュート
 	 */
 	@ModelAttribute("orderResource")
-	private OrderResource orderResource() {
-		return new OrderResource();
+	private OrderRequestResource orderResource() {
+		return new OrderRequestResource();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class OrderController {
 	 * @return お客情報フォームのビュー
 	 */
 	@GetMapping("/submit_order")
-	public String orderFormPage(@ModelAttribute("orderResource") OrderResource orderResource, Model model) {
+	public String orderFormPage(@ModelAttribute("orderResource") OrderRequestResource orderResource, Model model) {
 		int total_check = 0;
 		for (OrderProductDetailResource pd : orderResource.getOrderProductList()) {
 			total_check += pd.getQuantity() * pd.getPrice();
@@ -97,7 +97,7 @@ public class OrderController {
 	 * @return オーダーを探すフォームページ
 	 */
 	@GetMapping(value = "/find_order")
-	public String getFindOder(Model model, OrderRequestResource orderRequestResource) {
+	public String getFindOder(Model model, OrderProductRequestResource orderRequestResource) {
 		model.addAttribute("orderRequestResource", orderRequestResource);
 		return "big_store/find_order";
 	}
@@ -112,7 +112,7 @@ public class OrderController {
 	 */
 	@PostMapping("/find_order")
 	public String postFindOrder(
-			@Valid @ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource,
+			@Valid @ModelAttribute("orderRequestResource") OrderProductRequestResource orderRequestResource,
 			BindingResult result, RedirectAttributes redirectAttribute) {
 		redirectAttribute.addFlashAttribute("orderRequestResource", orderRequestResource);
 		return "redirect:/order/order_detail";
@@ -126,7 +126,7 @@ public class OrderController {
 	 * @return オーダーの詳しい情報を表示するページ
 	 */
 	@GetMapping("/order_detail")
-	public String orderDetail(@ModelAttribute("orderRequestResource") OrderRequestResource orderRequestResource,
+	public String orderDetail(@ModelAttribute("orderRequestResource") OrderProductRequestResource orderRequestResource,
 			Model model) {
 		if (orderRequestResource.getOrderId() == null) {
 			// return 404 view
@@ -162,7 +162,7 @@ public class OrderController {
 	 * @throws ParseException
 	 */
 	@PostMapping("/submit_order")
-	public String receiveListOrderProduct(@Valid @ModelAttribute("orderResource") OrderResource orderResource,
+	public String receiveListOrderProduct(@Valid @ModelAttribute("orderResource") OrderRequestResource orderResource,
 			BindingResult result, RedirectAttributes redirectAttributes, Model model, Locale locale)
 			throws ParseException {
 
@@ -196,7 +196,7 @@ public class OrderController {
 		int orderId = orderService.insertOrder(order);
 		
 		// return order detail view
-		OrderRequestResource orderRequest = new OrderRequestResource();
+		OrderProductRequestResource orderRequest = new OrderProductRequestResource();
 		orderRequest.setOrderId(orderId);
 		orderRequest.setCustomerPhone(order.getCustomerPhone());
 		redirectAttributes.addFlashAttribute("orderRequestResource", orderRequest);
@@ -206,7 +206,7 @@ public class OrderController {
 	}
 
 	@PostMapping("")
-	public String receiveOrder(@ModelAttribute("orderResource") OrderResource orderResource,
+	public String receiveOrder(@ModelAttribute("orderResource") OrderRequestResource orderResource,
 			@Valid @RequestBody ListResource<coffeeshop.resource.order.OrderProductResource> data, BindingResult result,
 			Model model) throws ParseException {
 		List<OrderProductDetailResource> productList = new LinkedList<OrderProductDetailResource>();
@@ -254,7 +254,7 @@ public class OrderController {
 	 */
 	@PatchMapping("/update")
 	@ResponseBody
-	public ResponseEntity<?> updateOrder(@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, Model model,
+	public ResponseEntity<?> updateOrder(@Valid @ModelAttribute("order") OrderUpdateResource resource, Model model,
 			Locale locale) {
 
 		if (!orderService.hasOrder(resource.getOrderId())) {

@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.product.Product;
-import coffeeshop.resource.order.AdminOrderUpdateResource;
+import coffeeshop.resource.order.OrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
-import coffeeshop.resource.order.OrderListResource;
+import coffeeshop.resource.order.OrderResource;
 import coffeeshop.resource.order.OrderProductDetailResource;
 import coffeeshop.resource.order.OrderProductResource;
-import coffeeshop.resource.order.OrderResource;
+import coffeeshop.resource.order.OrderRequestResource;
 
 @Component
 public class OrderHelper {
@@ -27,7 +27,7 @@ public class OrderHelper {
 	 * @param resource
 	 * @return
 	 */
-	public Order createOrderModel(OrderResource resource) {
+	public Order createOrderModel(OrderRequestResource resource) {
 		// 商品情報をマッピング
 		Order order = modelMapper.map(resource, Order.class);
 		order.setOrderProductList(resource.getOrderProductList().stream().map(e -> createOrderProductModel(e))
@@ -64,11 +64,11 @@ public class OrderHelper {
 
 	}
 
-	public OrderListResource createOrderListResource(Order model) {
-		return modelMapper.map(model, OrderListResource.class);
+	public OrderResource createOrderListResource(Order model) {
+		return modelMapper.map(model, OrderResource.class);
 	}
 
-	public Order createOrderModel(AdminOrderUpdateResource resource) {
+	public Order createOrderModel(OrderUpdateResource resource) {
 		return modelMapper.map(resource, Order.class);
 	}
 }

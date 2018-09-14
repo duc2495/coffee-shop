@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import coffeeshop.helper.OrderHelper;
 import coffeeshop.model.order.Order;
-import coffeeshop.resource.order.AdminOrderUpdateResource;
+import coffeeshop.resource.order.OrderUpdateResource;
 import coffeeshop.resource.order.OrderDetailResource;
-import coffeeshop.resource.order.OrderListResource;
+import coffeeshop.resource.order.OrderResource;
 import coffeeshop.service.OrderService;
 
 @Controller
@@ -47,13 +47,13 @@ public class AdminOrderController {
 		List<Order> orderList = orderService.getAllOrder();
 
 		// resourceに変換
-		List<OrderListResource> canceledList = new LinkedList<OrderListResource>();
-		List<OrderListResource> orderedList = new LinkedList<OrderListResource>();
-		List<OrderListResource> shippingList = new LinkedList<OrderListResource>();
-		List<OrderListResource> finishedList = new LinkedList<OrderListResource>();
-		List<OrderListResource> orderResourceList = new LinkedList<OrderListResource>();
+		List<OrderResource> canceledList = new LinkedList<OrderResource>();
+		List<OrderResource> orderedList = new LinkedList<OrderResource>();
+		List<OrderResource> shippingList = new LinkedList<OrderResource>();
+		List<OrderResource> finishedList = new LinkedList<OrderResource>();
+		List<OrderResource> orderResourceList = new LinkedList<OrderResource>();
 		for (Order order : orderList) {
-			OrderListResource orderResource = orderHelper.createOrderListResource(order);
+			OrderResource orderResource = orderHelper.createOrderListResource(order);
 			orderResourceList.add(orderResource);
 			switch (orderResource.getStatus().getValue()) {
 			case 0:
@@ -104,7 +104,7 @@ public class AdminOrderController {
 	@PatchMapping("/{orderId}")
 	@ResponseBody
 	public ResponseEntity<?> updateProduct(@PathVariable("orderId") Integer orderId,
-			@Valid @ModelAttribute("order") AdminOrderUpdateResource resource, Model model, Locale locale) {
+			@Valid @ModelAttribute("order") OrderUpdateResource resource, Model model, Locale locale) {
 
 		// 商品のアクセス権限をチェック
 		if (!orderService.hasOrder(orderId)) {

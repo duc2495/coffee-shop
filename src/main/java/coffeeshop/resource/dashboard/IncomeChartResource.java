@@ -7,21 +7,21 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class IncomeChart {
+public class IncomeChartResource {
 	private String date;
 	private int value;
 
-	public IncomeChart() {
+	public IncomeChartResource() {
 
 	}
 
-	public IncomeChart(Date date, int value) {
+	public IncomeChartResource(Date date, int value) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM");
 		this.date = df.format(date);
 		this.value = value;
 	}
 
-	public IncomeChart(String date, int value) {
+	public IncomeChartResource(String date, int value) {
 		this.date = date;
 		this.value = value;
 	}

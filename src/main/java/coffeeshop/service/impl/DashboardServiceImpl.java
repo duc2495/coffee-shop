@@ -10,19 +10,14 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import coffeeshop.helper.OrderHelper;
-import coffeeshop.helper.ProductHelper;
+import coffeeshop.model.dashboard.Dashboard;
+import coffeeshop.model.dashboard.IncomeChart;
+import coffeeshop.model.dashboard.ProductChart;
 import coffeeshop.model.order.Order;
 import coffeeshop.model.order.OrderProduct;
 import coffeeshop.model.order.OrderStatus;
 import coffeeshop.model.product.Product;
 import coffeeshop.model.product.ProductType;
-import coffeeshop.resource.dashboard.DashboardResource;
-import coffeeshop.resource.dashboard.IncomeChart;
-import coffeeshop.resource.dashboard.ProductChart;
-import coffeeshop.resource.order.OrderListResource;
-import coffeeshop.resource.product.BestProductResource;
-import coffeeshop.resource.product.ProductDetailResource;
 import coffeeshop.service.DashboardService;
 import coffeeshop.service.OrderService;
 import coffeeshop.service.product.ProductService;
@@ -34,20 +29,9 @@ public class DashboardServiceImpl implements DashboardService {
 	private OrderService orderService;
 	@Autowired
 	private ProductService productService;
-	@Autowired
-	private ProductHelper productHelper;
-	@Autowired
-	private OrderHelper orderHelper;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see coffeeshop.service.DashboardService#getDashboardResource(java.util.Date,
-	 * java.util.Date)
-	 */
-	@Override
-	public DashboardResource getDashboardResource(Date dayFrom, Date dayTo) {
-		DashboardResource resource = new DashboardResource();
+	public Dashboard getDashboard(Date dayFrom, Date dayTo) {
+		Dashboard dashboard = new Dashboard();
 		Calendar calFrom = Calendar.getInstance();
 		calFrom.setTime(dayFrom);
 		calFrom.set(Calendar.HOUR_OF_DAY, 0);
@@ -65,24 +49,24 @@ public class DashboardServiceImpl implements DashboardService {
 		ArrayList<ProductChart> productList = getProductNumberListSoldInType(dayTo);
 		ArrayList<IncomeChart> incomeList = getIncomeList(dayTo);
 
-		resource.setOrderedNumber(getNumberOfOrderInStatus(orderList, OrderStatus.ORDERED));
-		resource.setShippingNumber(getNumberOfOrderInStatus(orderList, OrderStatus.SHIPPING));
-		resource.setFinishedNumber(getNumberOfOrderInStatus(orderList, OrderStatus.FINISHED));
-		resource.setCanceledNumber(getNumberOfOrderInStatus(orderList, OrderStatus.CANCELED));
+		dashboard.setOrderedNumber(getNumberOfOrderInStatus(orderList, OrderStatus.ORDERED));
+		dashboard.setShippingNumber(getNumberOfOrderInStatus(orderList, OrderStatus.SHIPPING));
+		dashboard.setFinishedNumber(getNumberOfOrderInStatus(orderList, OrderStatus.FINISHED));
+		dashboard.setCanceledNumber(getNumberOfOrderInStatus(orderList, OrderStatus.CANCELED));
 
-		resource.setPureCoffee(getNumberOfProductInType(orderList, ProductType.PURE_COFFEE));
-		resource.setFromCoffee(getNumberOfProductInType(orderList, ProductType.FROM_COFFEE));
-		resource.setNoneCoffee(getNumberOfProductInType(orderList, ProductType.NON_COFFEE));
-		resource.setTotalProducts(resource.getPureCoffee() + resource.getFromCoffee() + resource.getNoneCoffee());
+		dashboard.setPureCoffee(getNumberOfProductInType(orderList, ProductType.PURE_COFFEE));
+		dashboard.setFromCoffee(getNumberOfProductInType(orderList, ProductType.FROM_COFFEE));
+		dashboard.setNoneCoffee(getNumberOfProductInType(orderList, ProductType.NON_COFFEE));
+		dashboard.setTotalProducts(dashboard.getPureCoffee() + dashboard.getFromCoffee() + dashboard.getNoneCoffee());
 
-		resource.setListIncome(incomeList);
-		resource.setListProduct(productList);
-		resource.setBestProduct(getBestSoldProduct(orderList));
-		resource.setIncome(getIncome(orderList, dayFrom, dayTo));
-		resource.setNewProductNumber(newProductList.size());
-		resource.setNewOrderNumber(orderList.size());
-		resource.setHighestPriceOrderId(getHighestPriceOrderId(orderList));
-		return resource;
+		dashboard.setListIncome(incomeList);
+		dashboard.setListProduct(productList);
+		dashboard.setBestProduct(getBestSoldProduct(orderList));
+		dashboard.setIncome(getIncome(orderList, dayFrom, dayTo));
+		dashboard.setNewProductNumber(newProductList.size());
+		dashboard.setNewOrderNumber(orderList.size());
+		dashboard.setHighestPriceOrderId(getHighestPriceOrderId(orderList));
+		return dashboard;
 	}
 
 	/**
@@ -192,38 +176,34 @@ public class DashboardServiceImpl implements DashboardService {
 		return productList;
 	}
 
-	private BestProductResource getBestSoldProduct(List<Order> orderList) {
+	private OrderProduct getBestSoldProduct(List<Order> orderList) {
 		HashMap<Integer, Integer> map = (HashMap<Integer, Integer>) orderList.stream()
 				.filter(od -> od.getStatus().equals(OrderStatus.FINISHED))
 				.flatMap(o -> o.getOrderProductList().stream()).collect(Collectors.toList()).stream()
 				.collect(Collectors.toMap(p -> p.getProduct().getProductId(), OrderProduct::getQuantity,
 						(oldVal, newVal) -> (oldVal + newVal)));
 		if (map.entrySet().isEmpty()) {
-			return new BestProductResource();
+			return new OrderProduct();
 		}
 
 		Integer bestProductId = map.entrySet().stream()
 				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
 		Product product = productService.getProductDetail(bestProductId);
-		BestProductResource bestProductResource = new BestProductResource();
-		bestProductResource.setProductId(product.getProductId());
-		bestProductResource.setProductName(product.getProductName());
-		bestProductResource.setQuantity(map.get(bestProductId));
-		return bestProductResource;
+		OrderProduct bestProduct = new OrderProduct();
+		bestProduct.setProduct(product);
+		bestProduct.setProductName(product.getProductName());
+		bestProduct.setQuantity(map.get(bestProductId));
+		return bestProduct;
 	}
 
-	public List<OrderListResource> getTopTenLastestOrder() {
-		List<Order> orderList = orderService.getAllOrder();
-		orderList.sort((order1, order2) -> order1.getCreatedAt().before(order2.getCreatedAt()) ? 1 : -1);
-		return orderList.subList(0, 10 > orderList.size() ? orderList.size() : 10).stream()
-				.map(e -> orderHelper.createOrderListResource(e)).collect(Collectors.toList());
+	public List<Order> getNewOrders() {
+		List<Order> orderList = orderService.getNewOrders();
+		return orderList;
 	}
 
-	public List<ProductDetailResource> getTopTenLastestProduct() {
-		List<Product> productList = productService.getProductList();
-		productList.sort((product1, product2) -> product1.getCreatedAt().before(product2.getCreatedAt()) ? 1 : -1);
-		return productList.subList(0, 6 > productList.size() ? productList.size() : 6).stream()
-				.map(e -> productHelper.createProductDetailResource(e)).collect(Collectors.toList());
+	public List<Product> getNewProducts() {
+		List<Product> productList = productService.getNewProducts();
+		return productList;
 	}
 
 	public Integer getHighestPriceOrderId(List<Order> orderList) {

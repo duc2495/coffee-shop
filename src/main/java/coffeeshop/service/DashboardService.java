@@ -3,12 +3,12 @@ package coffeeshop.service;
 import java.util.Date;
 import java.util.List;
 
-import coffeeshop.resource.dashboard.DashboardResource;
-import coffeeshop.resource.order.OrderListResource;
-import coffeeshop.resource.product.ProductDetailResource;
+import coffeeshop.model.dashboard.Dashboard;
+import coffeeshop.model.order.Order;
+import coffeeshop.model.product.Product;
 
 public interface DashboardService {
-	public DashboardResource getDashboardResource(Date dayFrom, Date dayTo);
-	public List<OrderListResource> getTopTenLastestOrder();
-	public List<ProductDetailResource> getTopTenLastestProduct();
+	public Dashboard getDashboard(Date dayFrom, Date dayTo);
+	public List<Order> getNewOrders();
+	public List<Product> getNewProducts();
 }

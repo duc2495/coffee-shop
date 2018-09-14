@@ -26,6 +26,13 @@
 		ORDER BY product.product_id
 	</select>
 	
+	<select id="getNewProducts" resultMap="ProductResult">
+		SELECT *
+		FROM product
+		ORDER BY updated_at DESC
+		LIMIT 6
+	</select>
+	
 	<insert id="insertProduct" parameterType="Product">
 		INSERT 
 		INTO product(

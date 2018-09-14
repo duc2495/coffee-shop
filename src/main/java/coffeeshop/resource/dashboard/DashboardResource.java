@@ -3,7 +3,7 @@ package coffeeshop.resource.dashboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import coffeeshop.resource.order.OrderListResource;
+import coffeeshop.resource.order.OrderResource;
 import coffeeshop.resource.product.BestProductResource;
 import coffeeshop.resource.product.ProductDetailResource;
 import lombok.Data;
@@ -25,9 +25,9 @@ public class DashboardResource {
 
 	private BestProductResource bestProduct;
 
-	private List<OrderListResource> latestOrders;
+	private List<OrderResource> latestOrders;
 	private List<ProductDetailResource> newProducts;
 
-	private ArrayList<IncomeChart> listIncome;
-	private ArrayList<ProductChart> listProduct;
+	private ArrayList<IncomeChartResource> listIncome;
+	private ArrayList<ProductChartResource> listProduct;
 }
